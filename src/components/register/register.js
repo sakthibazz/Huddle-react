@@ -132,11 +132,11 @@ class Register extends Component{
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-5 pl-0 text-right">Password:</label>
-                            <input className="col-sm-6 form-control" type="text" name="pwd" onChange ={(e) => this.handlePassword(e)} />
+                            <input className="col-sm-6 form-control" type="password" name="pwd" onChange ={(e) => this.handlePassword(e)} />
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-5 pl-0 text-right">Confirm Password:</label>
-                            <input className="col-sm-6 form-control" type="text" name="cpwd" onChange={(e) => this.handleCpassword(e)} />
+                            <input className="col-sm-6 form-control" type="password" name="cpwd" onChange={(e) => this.handleCpassword(e)} />
                         </div>
                        
                         

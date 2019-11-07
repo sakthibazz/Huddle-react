@@ -7,6 +7,7 @@ import {
     Link
   } from "react-router-dom"
 import axios from 'axios'
+import swal from 'sweetalert'
 
 
 
@@ -52,6 +53,11 @@ class Login extends Component{
             })
             .catch(err =>{
                 console.log(err)
+                // alert("Invalid credentials");
+                swal( "Invalid credentials",{
+                    icon: "warning",
+                    button: "OK",
+                  });
             })
         
 
@@ -71,7 +77,7 @@ class Login extends Component{
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-5 pl-0 text-right">Password:</label>
-                            <input className="col-sm-6 form-control" type="text" name="pwd" onChange={(e) =>this.handlePassword(e)} />
+                            <input className="col-sm-6 form-control" type="password" name="pwd" onChange={(e) =>this.handlePassword(e)} />
                         </div>
                         <button className="form-input p-1 m-3" onClick={(e) =>this.submit(e)}>Submit</button>
                         </form>
