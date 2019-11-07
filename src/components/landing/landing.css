@@ -1,0 +1,115 @@
+
+body{
+    overflow-x: hidden;
+}
+
+.landing .navbar{
+    /* background-color:white; */
+    background-color: transparent !important;
+}
+
+.navbar-brand{
+    color:white;
+    /* font-size:24px; */
+}
+
+
+.section-one{
+    /* margin-top:60px; */
+    height:550px;
+    position: relative;
+    /* top:60px; */
+    margin-right:0px !important;
+    background-color: white;
+    margin-bottom: 60px;;
+    
+    /* */
+}
+
+
+.section-one h2,
+.section-one p,
+.section-one i,
+.section-one h6{
+    color:black
+}
+
+.section-one h6{
+    font-size:1.4em;
+}
+
+
+
+.banner-section{
+    position: absolute;
+    width:100%;
+    height:100%;
+    background-image: url(../sl2.png);
+    opacity: 0.5;
+    background-size:cover;
+    /* background-position: bottom; */
+    
+    background-repeat: no-repeat;
+}
+
+.banner-content{
+    position: relative;
+    z-index: 1;
+}
+
+.banner-cont{
+    padding-top:120px;
+    width:600px;
+    
+
+}
+
+.line{
+    border-right:3px solid #fff;
+}
+
+
+.login-btn{
+    color:white;
+    background-color: #007bff;
+    height:40px;
+    width:150px;
+}
+
+.section-two h2{
+        text-transform: capitalize;
+        color:blue;
+}
+
+.section-two-1 {
+    /* background-image: url(../sec2.jpg); */
+    height:280px;
+    background-size: cover;
+}
+
+.section-two-2{
+    background-color: #e7d8d6;
+    height:280px;
+    /* background-size: cover; */
+}
+
+.section-three .card{
+    background-color: rgba(0,0,0,.03) !important;
+    border: none;
+    /* box-shadow: 0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19); */
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    min-height:400px;
+
+}
+
+.section-three .card-header{
+    height:80px;
+    width:25%;
+    background-color: white;
+}
+
+.section-three .card-header,
+.section-three .card-footer{
+    border:none;
+}
+

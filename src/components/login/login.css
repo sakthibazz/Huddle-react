@@ -1,0 +1,11 @@
+.login{
+    border:1px solid #000;
+   width:30%;
+   height:350px;
+   padding-top:30px !important;
+    margin:150px 430px;
+}
+
+.login .form-input{
+    margin-top:20px;
+}

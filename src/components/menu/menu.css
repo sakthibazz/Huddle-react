@@ -1,0 +1,19 @@
+nav{
+    background-color:black !important;
+}
+
+nav ul li a{
+    color:white;
+}
+
+nav ul li a:hover{
+    color:white;
+}
+
+.dropdown:hover>.dropdown-menu {
+    display: block;
+  }
+
+  .navbar-brand:hover{
+      color:white
+  }
