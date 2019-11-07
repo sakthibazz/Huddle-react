@@ -76,11 +76,11 @@ class History1 extends Component{
     }
 
     handleTaskSave = () =>{
-        const {desc,disabled} = this.state
+        const {desc,disabled,proj_id} = this.state
         const taskDetails = [{
             description:desc,
             user_id:"1",
-            project_department_id:proj_id
+            // project_department_id:proj_id
         }]
         axios.post(`http://api.huddle.aroha.co.in/api/createNewTask`,taskDetails,
         {
