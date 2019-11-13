@@ -6,6 +6,8 @@ import Menuone from '../menu/menu-1';
 import DatePicker from 'react-date-picker'
 import axios from 'axios';
 // import "react-datepicker/dist/react-datepicker.css"
+import { API_URL } from '../../utils/const';
+import swal from 'sweetalert';
 
 
 const options = [
@@ -15,30 +17,41 @@ const options = [
   ];
 class History1 extends Component{
     state={
-        addRows:[],
+        addRows:[
+            {
+                description:"",
+                project_department_id:""
+            }
+        ],
         selectedRow:-1,
         selectedOption: null,
         date: new Date(),
         projects:[],
-        desc:"",
+        
         display:false,
-        proj_id:"",
-        disabled:false
+        
+        disabled:false,
+        user_id:""
     }
 
     componentDidMount(){
-        axios.get(`http://api.huddle.aroha.co.in/api/projectsDepartments`,
+        axios.get(`${API_URL}/api/projectsDepartments`,
         {
             headers:{
                 Authorization : "Bearer " + localStorage.getItem('token')
             }
+           
         
         })
         .then(res=>{
             console.log(res)
+            const {proj_id,projects} = this.state
+            
             this.setState({
-                projects:res.data.success
+                projects:res.data.success,
+                proj_id:projects.id
             })
+            console.log(proj_id)
         })
         .catch(err=>{
             console.log(err)
@@ -68,20 +81,56 @@ class History1 extends Component{
         })
     }
 
-    newTaskDesc = (e) =>{
+    newTaskDesc = (e,index) =>{
         const {value} = e.target
+        const {addRows} = this.state
+        
+        addRows[index].description = value
+        console.log(addRows[index])
         this.setState({
-            desc:value
+            addRows
         })
     }
 
-    handleTaskSave = () =>{
-        const {desc,disabled,proj_id} = this.state
-        const taskDetails = [{
-            description:desc
-            // user_id:"1",
-            // project_department_id:proj_id
-        }]
+    handleProject =(e,index) =>{
+        const {value} = e.target
+        const {addRows} = this.state
+        // const {projects} = this.state
+        addRows[index].project_department_id = value
+
+         
+        
+        this.setState({
+            addRows
+        })
+        console.log(this.state.proj_id)
+    }
+
+    handleTaskSave = (id) =>{
+        const {desc,projects,proj_id,addRows} = this.state
+        console.log(projects);
+    //   const proj = projects.map(val =>{
+    //         return val.id;
+
+    //     })
+    //     console.log("printing proj")
+    //     console.log(proj)
+       
+        const taskDetails = addRows.map(item => {
+            item['user_id'] = localStorage.getItem('user_id')
+            return item
+        })
+       
+        swal( "Saved success",{
+            icon: "success",
+            button: "OK",
+          });
+        // const taskDetails = [{
+        //     description:desc,
+        //     user_id: localStorage.getItem('user_id'),
+        //     project_department_id:addRows[proj_id]
+        // }]
+        console.log(taskDetails)
         axios.post(`http://api.huddle.aroha.co.in/api/createNewTask`,taskDetails,
         {
             headers:{
@@ -91,6 +140,7 @@ class History1 extends Component{
         })
         .then(res =>{
             console.log(res);
+           
         })
     }
 
@@ -140,14 +190,14 @@ class History1 extends Component{
                             </tr>
                             </thead>
                             <tbody>
-                            <tr>
+                            {/* <tr>
                                         <td>
-                                        <select>
+                                        <select onChange={(e)=>this.handleProject(e)}>
 
                                                  {
                                                      this.state.projects.map(proj =>{
                                                          return(
-                                                             <option>{proj.name}</option>
+                                                             <option value={proj.id}>{proj.name}</option>
                                                          )
                                                      })
                                                  }
@@ -157,33 +207,40 @@ class History1 extends Component{
                                             <input type="text" name="desc" placeholder="Task Desc" onChange={(e)=>this.newTaskDesc(e)} />
                                         </td>
                                         <td>
-                                    <span onClick={()=>this.addRow()}><i className="fa fas fa-plus"></i></span>
+                                    <span onClick={()=>this.addRow()}><i className="fa fas fa-plus"></i></span> */}
                                     {/* <span onClick={()=>this.addRow()}><i className="fa fas fa-save"></i></span> */}
                                     {/* <button >Save</button>
                                     <button onClick={()=>this.addRow()}>Add</button> */}
-                                    </td>
-                                        </tr>
+                                    {/* </td>
+                                        </tr> */}
                             {
                                 
-                                this.state.addRows.map( (item,index) => <tr>
+                                this.state.addRows.map( (item,index) => <tr key={index}>
                                          <td>
-                                             <select>
+                                             <select onChange={(e)=>this.handleProject(e,index)}>
 
                                                  {
                                                      this.state.projects.map(proj =>{
                                                          return(
-                                                             <option>{proj.name}</option>
+                                                             <option value={proj.id}>{proj.name}</option>
                                                          )
                                                      })
                                                  }
                                              </select>
                                          </td>
                                          <td>
-                                             <input type="text" name="task" />
+                                             <input type="text" name="desc" placeholder="Task Desc" onChange={(e)=>this.newTaskDesc(e,index)}  />
                                          </td>
+                                         { this.state.addRows.length-1 === index
+                                          ?
+                                            <td>
+                                                <span onClick={()=>this.addRow(index)}><i className="fa fas fa-plus"></i></span>
+                                            </td>
+                                            :
                                          <td>
                                          <span onClick={()=>this.removeRow(index)}><i className="fa fas fa-times"></i></span>
                                </td>
+                                         }
                                  </tr>
                                 )
                                         
@@ -202,7 +259,7 @@ class History1 extends Component{
                    
                    <div className="row">
                         <div className="mt-3 col-sm-12">
-                            <label>Continued/Inprogress Tasks:</label>
+                            <label>Completed Tasks:</label>
                             <Select
                                 value={selectedOption}
                                 onChange={this.handleChange}
@@ -213,7 +270,7 @@ class History1 extends Component{
                     </div>
                     <div className="row">
                         <div className="mt-3 col-sm-12">
-                            <label>Completed Tasks:</label>
+                            <label>Continued/Inprogress Tasks:</label>
                             <Select
                                 value={selectedOption}
                                 onChange={this.handleChange}

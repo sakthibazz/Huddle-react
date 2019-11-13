@@ -14,6 +14,11 @@ import Department from './components/departments/department';
 import History from './components/history/history';
 // import Table from './components/history/histrory1';
 import History1 from './components/history/histrory1';
+import Tasks from './components/history/tasks';
+import CompletedTasks from './components/history/dummy';
+import ContinuedTasks from './components/history/continued';
+import PendingTasks from './components/history/pending';
+import OnHoldTasks from './components/history/onhold';
 // import { Table } from '@material-ui/core';
 
 function App() {
@@ -32,6 +37,11 @@ function App() {
           <Route path="/departments" component={Department} />
           <Route path="/history" component={History} />
           <Route path="/history1" component={History1} />
+          <Route path="/tasks" component={Tasks}></Route>
+          <Route path="/completedtasks" component={CompletedTasks}></Route>
+          <Route path="/continuedtasks" component={ContinuedTasks}></Route>
+          <Route path="/pendingtasks" component={PendingTasks}></Route>
+          <Route path="/onhold" component={OnHoldTasks}></Route>
         </Switch>
 
       </Router>

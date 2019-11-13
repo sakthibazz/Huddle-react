@@ -1,5 +1,14 @@
 .register{
-    border:1px solid #000;
    width:30%;
-    margin:2% 34%;
+    margin:0% 34%;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2)!important;
+    background-color: #ffffff96;
+}
+
+.section-register{
+    background-image: url('../register.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    height:580px;
+    opacity:1;
 }

@@ -8,6 +8,7 @@ import {
   } from "react-router-dom"
 import axios from 'axios'
 import swal from 'sweetalert'
+import { API_URL } from '../../utils/const'
 
 
 
@@ -40,21 +41,23 @@ class Login extends Component{
             password:this.state.pwd
         }
 
-        axios.post(`http://api.huddle.aroha.co.in/api/login`, user_details)
+        axios.post(`${API_URL}/api/login`, user_details)
             .then(res =>{
                 console.log(res);
-                const {token} = res.data.success
+                const {token,user_id} = res.data.success
                 localStorage.setItem('token' , token)
+                localStorage.setItem('userid' , user_id)
 
                 if(token){
-                    this.props.history.push('/history1')
+                    this.props.history.push('/tasks')
                 }
 
             })
             .catch(err =>{
                 console.log(err)
+                // const {msg} =err.response.error
                 // alert("Invalid credentials");
-                swal( "Invalid credentials",{
+                swal( "Invalid Credentials",{
                     icon: "warning",
                     button: "OK",
                   });
@@ -66,9 +69,10 @@ class Login extends Component{
     render(){
         return(
             <div>
-                <section className="">
-                <div className="container text-center register">
+                <section className="section-login">
                     <h2 className="text-center pt-5">Login</h2>
+                <div className="container text-center login">
+                    
                     <div className="row">
                     <form className="col-sm-12 text-center pt-5">
                         <div className="form-group row">
@@ -79,7 +83,7 @@ class Login extends Component{
                             <label className="col-sm-5 pl-0 text-right">Password:</label>
                             <input className="col-sm-6 form-control" type="password" name="pwd" onChange={(e) =>this.handlePassword(e)} />
                         </div>
-                        <button className="form-input p-1 m-3" onClick={(e) =>this.submit(e)}>Submit</button>
+                        <button className="btn btn-primary p-1 m-3" onClick={(e) =>this.submit(e)}>Submit</button>
                         </form>
                 </div>
                 <Link class="nav-link " to="/">Home</Link>

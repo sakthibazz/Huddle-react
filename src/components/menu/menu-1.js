@@ -5,10 +5,10 @@ import {  Link , NavLink } from 'react-router-dom';
 class Menuone extends Component{
 
   handleLogout = (e) =>{
-    localStorage.clear();
-    // this.props.history.push('/login')
-    
+    localStorage.clear()
+    this.props.history.push('/login')
   }
+  
     render(){
         return (
             <div>
@@ -25,7 +25,7 @@ class Menuone extends Component{
               <Link class="nav-link" to="/meetings">History </Link>
             </li>
             <li class="nav-item">
-              <Link class="nav-link" onClick={(e) => this.handleLogout(e)}>Logout </Link>
+              <Link class="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
             </li>
             
           </ul>

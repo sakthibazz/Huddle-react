@@ -4,6 +4,8 @@ nav{
 
 nav ul li a{
     color:white;
+    font-weight: bold;
+    font-size: 18px;;
 }
 
 nav ul li a:hover{
@@ -14,6 +16,8 @@ nav ul li a:hover{
     display: block;
   }
 
-  .navbar-brand:hover{
-      color:white
+  .navbar-brand{
+      color:white;
+      font-weight: bold;
+      font-size: 24px;;
   }

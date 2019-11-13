@@ -1,7 +1,8 @@
 import React,{Component} from 'react'
 import './register.css'
 import axios from 'axios';
-import swal from 'sweetalert';
+import swal from 'sweetalert'
+import { API_URL } from '../../utils/const';
 
 import Menu from '../menu/menu';
 import {
@@ -76,9 +77,9 @@ class Register extends Component{
             password:this.state.pwd,
             c_password:this.state.c_pwd
         }
+        console.log(API_URL)
+        axios.post(`${API_URL}/api/register` , user)
         
-        axios.post(`http://api.huddle.aroha.co.in/api/register` , user)
-           
             .then(res =>{
                 const {success} = res.data.success;
                 this.setState({
@@ -107,9 +108,11 @@ class Register extends Component{
             <div>
                 {/* <Menu /> */}
                
-                <section className="">
+               
+                <section className="section-register">
+                <h2 className="text-center pt-5">Register</h2>
                 <div className="container text-center register">
-                    <h2 className="text-center pt-5">Register</h2>
+                   
                     <div className="row">
                     <form className="col-sm-12 text-center pt-5">
                         <div className="form-group row">
@@ -140,7 +143,7 @@ class Register extends Component{
                         </div>
                        
                         
-                        <button className="form-input p-1 m-3" onClick={(e) => this.submit(e)}>Submit</button>
+                        <button className="btn btn-primary p-1 m-3" onClick={(e) => this.submit(e)}>Submit</button>
                         <div>{this.state.info}</div>
                         </form>
                 </div>
