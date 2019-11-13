@@ -227,7 +227,7 @@ class Tasks extends Component {
                 <div className="col-sm-4">
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)}>
                     {this.state.projects.map(proj => {
-                      return <option value={proj.id}>{proj.name}</option>;
+                      return <option value={proj.id}>{proj.name}</option>
                     })}
                   </select>
                 </div>
