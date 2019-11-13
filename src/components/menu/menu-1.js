@@ -5,7 +5,7 @@ import {  Link , NavLink,withRouter} from 'react-router-dom';
 class Menuone extends Component{
 
   handleLogout = (e) =>{
-    localStorage.clear()
+    localStorage.clear();
     this.props.history.push('/login')
   }
   
