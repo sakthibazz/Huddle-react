@@ -1,5 +1,5 @@
 import React,{ Component } from 'react'
-import {  Link , NavLink } from 'react-router-dom';
+import {  Link , NavLink,withRouter} from 'react-router-dom';
 
 
 class Menuone extends Component{
@@ -37,5 +37,5 @@ class Menuone extends Component{
     }
 }
 
-export default Menuone
+export default withRouter(Menuone)
 

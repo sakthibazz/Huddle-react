@@ -127,7 +127,7 @@ class Register extends Component{
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-5 pl-0 text-right">Phone:</label>
-                            <input className="col-sm-6 form-control" type="text" name="phone" onChange={(e) => this.handlePhone(e)}  />
+                            <input className="col-sm-6 form-control" type="text" name="phone" maxlength="10" onChange={(e) => this.handlePhone(e)}  />
                         </div>
                         <div className="form-group row">
                             <label className="col-sm-5 pl-0 text-right">Email:</label>
