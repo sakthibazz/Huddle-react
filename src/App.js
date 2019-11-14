@@ -4,7 +4,7 @@ import logo from './logo.svg';
 import './App.css';
 import Register from './components/register/register';
 import Login from './components/login/login';
-import Landing from './components/landing/landing';
+import Landing from './HomeTwo';
 import Dashboard from './components/dashboard/dashboard';
 import Admin from './components/admin/admin';
 import Manager from './components/managers/managers';

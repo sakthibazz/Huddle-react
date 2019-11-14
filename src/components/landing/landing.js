@@ -1,5 +1,5 @@
 import React,{ Component } from 'react'
-import './landing.css'
+// import './landing.css'
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,6 +7,22 @@ import {
   Link
 } from "react-router-dom"
 import Login from '../login/login';
+import Navbar from './components/landingnewpage/Navbar';
+import Services from './components/landingnewpage/Services';
+import Features from './components/landingnewpage/Features';
+import Descriptions from './components/landingnewpage/Descriptions';
+import Pricing from './components/landingnewpage/Pricing';
+import Team from './components/landingnewpage/Team';
+import Process from './components/landingnewpage/Process';
+import Testi from './components/landingnewpage/Testi';
+import Started from './../components/landingnewpage/Started';
+import Blog from '../components/landingnewpage/Blog';
+import Contact from './components/landingnewpage/Contact';
+import SocialMedia from './components/landingnewpage/SocialMedia';
+import Footer from './components/landingnewpage/Footer';
+import FooterLinks from './components/landingnewpage/FooterLinks';
+import Switcher from './components/landingnewpage/Switcher';
+import Aux from './hoc/Aux_';
 
 
 class Landing extends Component{
