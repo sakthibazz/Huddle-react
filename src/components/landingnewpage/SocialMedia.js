@@ -9,7 +9,7 @@ class SocialMedia extends React.Component {
                 <div className="row">
                     <div className="col-lg-6">
                         <ul className="list-inline social margin-t-20">
-                            <li className="list-inline-item"> <Link to="JavaScript:Void(0);" className="social-icon"><i className="mdi mdi-linkedin"></i></Link></li>
+                            <li className="list-inline-item"> <Link to="" className="social-icon"><i className="mdi mdi-linkedin"></i></Link></li>
                             
                         </ul>
                     </div>
