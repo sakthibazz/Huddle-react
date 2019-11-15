@@ -61,7 +61,7 @@ class Tasks extends Component {
         console.log(err);
       });
 
-      axios.get(`${API_URL}/api/status`, {
+      axios.get(`${API_URL}/api/conStatus`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -310,7 +310,7 @@ class Tasks extends Component {
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?
                           <select className="form-control" value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
-                            <option>Select Project</option>
+                            <option>Select Status</option>
                             {
                               this.state.status.map((sts,index)=>{
                                   return (
