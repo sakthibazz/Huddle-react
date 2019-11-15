@@ -30,11 +30,7 @@ class AllUsers extends Component{
         const userdetails ={
             user_id: localStorage.getItem("userid")
           }
-        axios.post(`${API_URL}/api/displyAllData`, userdetails,{
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token")
-            }
-          })
+        axios.post(`${API_URL}/api/displyAllData`, userdetails)
         .then(res=>{
             const {success} = res.data
             this.setState({
