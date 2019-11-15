@@ -77,16 +77,16 @@ class Login extends React.Component {
                                             <h3 className="font-weight-bold"><Link to="home-one"  className="text-dark text-uppercase account-pages-logo">Huddle Meeting</Link></h3>
                                             <p className="text-muted">Sign in to continue to Huddle Meeting.</p>
                                         </div>
-                                        <div className="p-3">
+                                        <div className="py-3 px-0">
                                             <form>
-                                                <div className="form-group">
-                                                    <label for="username">Email</label>
-                                                    <input type="text" className="form-control" id="email" placeholder="Enter Email" name="email" onChange={(e)=>this.handleEmail(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="username " className="col-sm-3 mt-2 text-right">Email</label>
+                                                    <input type="text" className="form-control col-sm-8" id="email" placeholder="Enter Email" name="email" onChange={(e)=>this.handleEmail(e)}/>
                                                 </div>
 
-                                                <div className="form-group">
-                                                    <label for="userpassword">Password</label>
-                                                    <input type="password" className="form-control" id="pwd" placeholder="Enter password" name="pwd" onChange={(e) =>this.handlePassword(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
+                                                    <input type="password" className="form-control  col-sm-8" id="pwd" placeholder="Enter password" name="pwd" onChange={(e) =>this.handlePassword(e)}/>
                                                 </div>
 
                                                 <div className="custom-control custom-checkbox">

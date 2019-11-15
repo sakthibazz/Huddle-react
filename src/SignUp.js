@@ -107,32 +107,32 @@ class SignUp extends React.Component {
                                             <h3 className="font-weight-bold"> <Link to="home-one" className="text-dark text-uppercase account-pages-logo">Huddle Meeting</Link></h3>
                                             <p className="text-muted">Sign up for a new Account</p>
                                         </div>
-                                        <div className="p-3">
+                                        <div className="py-3">
                                             <form>
-                                                <div className="form-group">
-                                                    <label for="firstname">First Name</label>
-                                                    <input type="text" className="form-control" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleFname(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right ">First Name</label>
+                                                    <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleFname(e)}/>
                                                 </div>
                                                 
 
-                                                <div className="form-group">
-                                                    <label for="email">Email</label>
-                                                    <input type="text" className="form-control" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleEmail(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="email" className="col-sm-3 mt-2 text-right">Email</label>
+                                                    <input type="text" className="form-control col-sm-8" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleEmail(e)}/>
                                                 </div>
 
-                                                <div className="form-group">
-                                                    <label for="email">Mobile</label>
-                                                    <input type="text" className="form-control" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handlePhone(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="email" className="col-sm-3 mt-2 text-right">Mobile</label>
+                                                    <input type="text" className="form-control col-sm-8" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handlePhone(e)}/>
                                                 </div>
 
-                                                <div className="form-group">
-                                                    <label for="userpassword">Password</label>
-                                                    <input type="password" className="form-control" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handlePassword(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
+                                                    <input type="password" className="form-control col-sm-8" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handlePassword(e)}/>
                                                 </div>
 
-                                                <div className="form-group">
-                                                    <label for="userpassword">Password</label>
-                                                    <input type="password" className="form-control" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleCpassword(e)}/>
+                                                <div className="form-group row mb-0">
+                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Confirm Password</label>
+                                                    <input type="password" className="form-control col-sm-8" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleCpassword(e)}/>
                                                 </div>
 
                                                 <div className="custom-control custom-checkbox">
@@ -141,7 +141,7 @@ class SignUp extends React.Component {
                                                 </div>
 
                                                 <div className="mt-3">
-                                                    <button type="submit" className="btn btn-custom btn-block" onClick={(e) => this.submit(e)}>Sign in</button>
+                                                    <button type="submit" className="btn btn-custom btn-block" onClick={(e) => this.submit(e)}>Sign Up</button>
                                                 </div>
 
                                                 <div className="mt-4 mb-0 text-center">

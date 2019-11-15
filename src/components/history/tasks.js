@@ -9,6 +9,7 @@ import CompletedTasks from "./dummy";
 import ContinuedTasks from "./continued";
 import PendingTasks from "./pending";
 import OnHoldTasks from "./onhold";
+import './tasks.css'
 
 class Tasks extends Component {
   state = {
@@ -223,26 +224,28 @@ class Tasks extends Component {
           </TabList>
           <TabPanel>
             <div className="container">
-              <div className="row">
-                <div className="col-sm-4">
-                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)}>
+              <div className="row mt-4">
+                <div className="col-sm-4 text-left">
+                  <label className="font-weight-bold">Select Project: </label>
+                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
+                  <option value="select">Select Project</option>
                     {this.state.projects.map(proj => {
-                      return <option value={proj.id}>{proj.name}</option>
+                      return <option value={proj.id} >{proj.name}</option>
                     })}
                   </select>
                 </div>
-                <div className="col-sm-4">
-                  <label>Task Description:</label>
-                  <input
+                <div className="col-sm-7 text-left">
+                  <label className="font-weight-bold">Task Description:</label>
+                  <input  
                     type="text"
-                    name="desc"
+                    name="desc" className="form-control"
                     placeholder="Task Desc"
                     onChange={e => this.newTaskDesc(e)}
                   />
                 </div>
-                <div className="col-sm-4">
+                <div className="col-sm-1">
                   <button
-                    className="btn btn-primary btn-sm"
+                    className="btn btn-primary btn-sm btn-add"
                     onClick={e => this.saveTask(e)}
                   >
                     Add
@@ -269,7 +272,9 @@ class Tasks extends Component {
                             this.state.editedERow === true && this.state.selectedRow === index
                             ?
                             <select value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
+                                
                                 {
+                                  
                                 this.state.projects.map((val,index) =>{
                                     return(
                                         <option value={val.id}>{val.name}</option>
