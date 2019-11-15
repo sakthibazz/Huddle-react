@@ -199,6 +199,7 @@ class ContinuedTasks extends Component{
                         this.state.editedERow === true && this.state.selectedRow === index
                         ?
                         <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
+                           <option>Select Project</option>
                           {
                             this.state.status.map((sts,index)=>{
                                 return (
