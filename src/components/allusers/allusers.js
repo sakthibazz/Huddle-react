@@ -61,7 +61,7 @@ class AllUsers extends Component{
                                    this.state.allusers.map(val=>{
                                        return(
                                            
-                                           <option value={val.id}>{val.first_name} + " " + {val.last_name}</option>
+                                           <option value={val.id}>{val.first_name} {val.last_name}</option>
                                        )
                                    })
                                }
