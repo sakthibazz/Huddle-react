@@ -253,7 +253,7 @@ class Tasks extends Component {
                 </div>
               </div>
             </div>
-
+            <div className="container">
             <table className="table table-bordered mt-5">
               <thead>
                 <tr>
@@ -269,41 +269,47 @@ class Tasks extends Component {
                   return (
                     <tr>
                       <td>{
-                            this.state.editedERow === true && this.state.selectedRow === index
-                            ?
-                            <select value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
+                            // this.state.editedERow === true && this.state.selectedRow === index
+                            // ?
+                            // <select className="form-control" value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
                                 
-                                {
+                            //     {
                                   
-                                this.state.projects.map((val,index) =>{
-                                    return(
-                                        <option value={val.id}>{val.name}</option>
-                                    )
-                                })
-                            }
-                            </select>
-                            :
+                            //     this.state.projects.map((val,index) =>{
+                            //         return(
+                            //             <option value={val.id}>{val.name}</option>
+                            //         )
+                            //     })
+                            // }
+                            // </select>
+                            // :
                             item.project_name
 
                           }
                           
                       </td>
                       <td>
-                          { this.state.editedERow === true  && this.state.selectedRow === index
-                          ?
-                          <input type="text" value={this.state.desc}  disabled/>
-                          :
-                          item.description
+                      <div className="">
+                          { 
+                          // this.state.editedERow === true  && this.state.selectedRow === index
+                          // ?
+                          // <input  className="form-control" type="text" value={this.state.desc}  disabled/>
+                          
+                          // :
+                          
+                            item.description
+                          
+                          
                 }
                           
-                        
+                          </div>
                           
                       </td>
                       <td>{
                           
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?
-                          <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
+                          <select className="form-control" value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
                             {
                               this.state.status.map((sts,index)=>{
                                   return (
@@ -334,6 +340,7 @@ class Tasks extends Component {
                 })}
               </tbody>
             </table>
+            </div>
           </TabPanel>
           <TabPanel>
           <ContinuedTasks />

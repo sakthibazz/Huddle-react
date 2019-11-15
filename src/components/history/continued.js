@@ -165,28 +165,29 @@ class ContinuedTasks extends Component{
                  return(
                     <tr>
                     <td>{
-                          this.state.editedERow === true && this.state.selectedRow === index
-                          ?
-                          <select value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
-                              {
-                              this.state.projects.map((val,index) =>{
-                                  return(
-                                      <option value={val.id}>{val.name}</option>
-                                  )
-                              })
-                          }
-                          </select>
-                          :
+                          // this.state.editedERow === true && this.state.selectedRow === index
+                          // ?
+                          // <select value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
+                          //     {
+                          //     this.state.projects.map((val,index) =>{
+                          //         return(
+                          //             <option value={val.id}>{val.name}</option>
+                          //         )
+                          //     })
+                          // }
+                          // </select>
+                          // :
                           item.project_name
 
                         }
                         
                     </td>
                     <td>
-                        { this.state.editedERow === true  && this.state.selectedRow === index
-                        ?
-                        <input type="text" value={this.state.desc}  disabled/>
-                        :
+                        { 
+                        // this.state.editedERow === true  && this.state.selectedRow === index
+                        // ?
+                        // <input type="text" value={this.state.desc}  disabled/>
+                        // :
                         item.description
               }
                         

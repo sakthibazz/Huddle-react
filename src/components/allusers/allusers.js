@@ -55,6 +55,7 @@ class AllUsers extends Component{
                         <div className="col-sm-8">
                             <label>Select User:</label>
                             <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
+                                <option>Select user</option>
                                {
                                    this.state.allusers.map(val=>{
                                        return(
