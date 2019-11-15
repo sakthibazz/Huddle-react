@@ -27,8 +27,9 @@ class AllUsers extends Component{
 
     handleUsers = (e, index) => {
         const { value } = e.target;
+        const {user_id} = this.state
         const userdetails ={
-            user_id: localStorage.getItem("userid")
+            user_id: value
           }
         axios.post(`${API_URL}/api/displyAllData`, userdetails)
         .then(res=>{
@@ -40,7 +41,8 @@ class AllUsers extends Component{
 
         
         this.setState({
-          userId: value
+          userId: value,
+          user_id
         });
       };
 
