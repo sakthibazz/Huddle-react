@@ -151,6 +151,7 @@ class PendingTasks extends Component{
             <div>
                 <table className="table table-bordered mt-5">
               <tr>
+                <th>Date</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -160,6 +161,13 @@ class PendingTasks extends Component{
                this.state.pendTasks.map((item,index)=>{
                  return(
                     <tr>
+                    <td>{
+                          
+                          item.updated_at.slice(0,10)
+
+                        }
+                        
+                    </td>
                     <td>{
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?

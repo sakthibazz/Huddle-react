@@ -73,6 +73,7 @@ class AllUsers extends Component{
                         <table className="table table-bordered mt-5">
                             <thead>
                                 <tr>
+                                    <th>Date</th>
                                     <th>Project Name</th>
                                     <th>Description</th>
                                     <th>Status</th>
@@ -83,6 +84,7 @@ class AllUsers extends Component{
                                     this.state.tasks.map((item,index)=>{
                                         return(
                                             <tr key={index}>
+                                                <td>{item.updated_at.slice(0,10)}</td>
                                                 <td>{item.project_name}</td>
                                                 <td>{item.description}</td>
                                                 <td>{item.status_name}</td>

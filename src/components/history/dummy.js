@@ -31,6 +31,7 @@ class CompletedTasks extends Component{
             <div>
                 <table className="table table-bordered mt-5">
               <tr>
+                <th>Date</th>
                 <th>Name</th>
                 <th>Desc</th>
               </tr>
@@ -38,6 +39,7 @@ class CompletedTasks extends Component{
                this.state.contTasks.map(val=>{
                  return(
                    <tr>
+                     <td>{val.updated_at.slice(0,10)}</td>
                      <td>{val.project_name}</td>
                      <td>{val.description}</td>
                    </tr>

@@ -152,6 +152,7 @@ class ContinuedTasks extends Component{
                 <table className="table table-bordered mt-5">
                   <thead>
                   <tr>
+                <th>Date</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Status</th>
@@ -164,6 +165,13 @@ class ContinuedTasks extends Component{
                this.state.contTasks.map((item,index)=>{
                  return(
                     <tr>
+                      <td>{
+                            
+                            item.updated_at.slice(0,10)
+
+                          }
+                          
+                      </td>
                     <td>{
                           // this.state.editedERow === true && this.state.selectedRow === index
                           // ?

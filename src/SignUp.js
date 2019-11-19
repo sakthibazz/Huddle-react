@@ -8,60 +8,88 @@ import { API_URL } from './utils/const';
 
 class SignUp extends React.Component {
     state={
-        fname:"",
+        firstname:"",
         email:"",
         pwd:"",
-        c_pwd:"",
+        cpwd:"",
         phone:"",
-        info:""
+        info:"",
+        firstNameError:'',
+        emailError:'',
+        phoneError:'',
+        pwdError:'',
+        cpwdError:'',
+        lname: ''
     }
 
-    handleFname = (e) =>{
-        const fname = e.target.value
+    handleChange = (e) => {
         this.setState({
-            fname:fname
+            [e.target.name]: e.target.value,
+            firstNameError:'',
+            emailError:'',
+            phoneError:'',
+            pwdError:'',
+            cpwdError:''
         })
     }
 
-    handlePhone = (e) =>{
-        const {value} = e.target
-        this.setState({
-            phone:value
-        })
+    phoneValidation = e => {
+        const num = String.fromCharCode(e.which);
+
+        if(!(/[0-9]/.test(num))) {
+            e.preventDefault();
+            this.setState({
+                phoneError : 'Enter only numbers'
+            })
+        }
     }
 
-    handleEmail = (e) =>{
-        const {value} = e.target
-        this.setState({
-            email:value
-        })
-    }
+    // handleFname = (e) =>{
+    //     const fname = e.target.value
+    //     this.setState({
+    //         fname:fname
+    //     })
+    // }
 
-    handlePassword = (e) =>{
-        const {value} = e.target
-        this.setState({
-            pwd:value
-        })
-    }
+    // handlePhone = (e) =>{
+    //     const {value} = e.target
+    //     this.setState({
+    //         phone:value
+    //     })
+    // }
 
-    handleCpassword = (e) =>{
-        const {value} = e.target
-        this.setState({
-            c_pwd:value
-        })
+    // handleEmail = (e) =>{
+    //     const {value} = e.target
+    //     this.setState({
+    //         email:value
+    //     })
+    // }
 
-    }
+    // handlePassword = (e) =>{
+    //     const {value} = e.target
+    //     this.setState({
+    //         pwd:value
+    //     })
+    // }
+
+    // handleCpassword = (e) =>{
+    //     const {value} = e.target
+    //     this.setState({
+    //         c_pwd:value
+    //     })
+
+    // }
 
     submit = (e) =>{
         e.preventDefault()
         
         const user ={
-            first_name:this.state.fname,
+            first_name:this.state.firstname,
             last_name:this.state.lname,
             email:this.state.email,
             phone:this.state.phone,
             password:this.state.pwd,
-            c_password:this.state.c_pwd
+            confirm_password:this.state.cpwd
         }
         console.log(API_URL)
         axios.post(`${API_URL}/api/register` , user)
@@ -85,7 +113,16 @@ class SignUp extends React.Component {
               
             })
             .catch(err =>{
-                console.log(err) ;            
+                const errors = err.response.data.error
+                this.setState({
+                        firstNameError:errors.first_name,
+                        emailError:errors.email,
+                        phoneError:errors.phone,
+                        pwdError:errors.password,
+                        cpwdError:errors.confirm_password
+                })
+               
+                console.log(err.response.data.error) ;            
             })
     }   
   render() {
@@ -110,29 +147,48 @@ class SignUp extends React.Component {
                                         <div className="py-3">
                                             <form>
                                                 <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                    <div className="text-danger col-sm-8">{this.state.firstNameError}</div>
+                                                </div>
+                                                <div className="form-group row mb-0">
                                                     <label for="firstname" className="col-sm-3 mt-2 text-right ">First Name</label>
-                                                    <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleFname(e)}/>
+                                                    <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleChange(e)}/>
                                                 </div>
                                                 
-
+                                                <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                    <div className="text-danger col-sm-8">{this.state.emailError}</div>
+                                                </div>
                                                 <div className="form-group row mb-0">
                                                     <label for="email" className="col-sm-3 mt-2 text-right">Email</label>
-                                                    <input type="text" className="form-control col-sm-8" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleEmail(e)}/>
+                                                    <input type="text" className="form-control col-sm-8" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleChange(e)}/>
                                                 </div>
 
+                                                <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                    <div className="text-danger col-sm-8">{this.state.phoneError}</div>
+                                                </div>
                                                 <div className="form-group row mb-0">
                                                     <label for="email" className="col-sm-3 mt-2 text-right">Mobile</label>
-                                                    <input type="text" className="form-control col-sm-8" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handlePhone(e)}/>
+                                                    <input type="text" className="form-control col-sm-8" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handleChange(e)} onKeyPress={e => this.phoneValidation(e)}/>
                                                 </div>
 
+                                                <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                    <div className="text-danger col-sm-8">{this.state.pwdError}</div>
+                                                </div>
                                                 <div className="form-group row mb-0">
                                                     <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
-                                                    <input type="password" className="form-control col-sm-8" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handlePassword(e)}/>
+                                                    <input type="password" className="form-control col-sm-8" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handleChange(e)}/>
                                                 </div>
 
                                                 <div className="form-group row mb-0">
+                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                    <div className="text-danger col-sm-8">{this.state.cpwdError}</div>
+                                                </div>
+                                                <div className="form-group row mb-0">
                                                     <label for="userpassword" className="col-sm-3 mt-2 text-right">Confirm Password</label>
-                                                    <input type="password" className="form-control col-sm-8" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleCpassword(e)}/>
+                                                    <input type="password" className="form-control col-sm-8" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleChange(e)}/>
                                                 </div>
 
                                                 <div className="custom-control custom-checkbox">

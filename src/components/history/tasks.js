@@ -10,6 +10,7 @@ import ContinuedTasks from "./continued";
 import PendingTasks from "./pending";
 import OnHoldTasks from "./onhold";
 import './tasks.css'
+import swal from 'sweetalert'
 
 class Tasks extends Component {
   state = {
@@ -35,7 +36,9 @@ class Tasks extends Component {
     projId:"",
     status:[],
     statusName:"",
-    statusId: ''
+    statusId: '',
+    saveTaskButton : false,
+    editTaskButton : false
   };
 
   componentDidMount() {
@@ -99,7 +102,8 @@ class Tasks extends Component {
     const { value } = e.target;
     const { desc } = this.state;
     this.setState({
-      desc: value
+      desc: value,
+      saveTaskButton : true
     });
     console.log(desc);
   };
@@ -123,6 +127,18 @@ class Tasks extends Component {
 
   saveTask = () => {
     let { addRows, proj_id, desc, projects } = this.state;
+    if(this.state.proj_id === ""){
+      swal( "Select Project",{
+        icon: "warning",
+        button: "OK",
+      });
+    }
+    if(this.state.desc === ""){
+      swal( "Add Description",{
+        icon: "warning",
+        button: "OK",
+      });
+    }
     const taskDetails = [
       {
         description: desc,
@@ -146,16 +162,19 @@ class Tasks extends Component {
         addRows.push(success[0]);
         this.setState({
           addRows,
-          
+          saveTaskButton: false,
+          desc:''
           
         });
       });
   };
 
+
   handleStatus = e => {
     const { value } = e.target
     this.setState({
-      statusId: value
+      statusId: value,
+      editTaskButton : true
     })
   }
 
@@ -203,6 +222,8 @@ class Tasks extends Component {
     
   }
 
+  
+
   handleCancel = (e) =>{
     this.setState({
       editedERow:false
@@ -238,14 +259,16 @@ class Tasks extends Component {
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
-                    name="desc" className="form-control"
+                    name="desc" className="form-control" value={this.state.desc}
                     placeholder="Task Desc"
+                    value={this.state.desc}
                     onChange={e => this.newTaskDesc(e)}
                   />
                 </div>
                 <div className="col-sm-1">
                   <button
                     className="btn btn-primary btn-sm btn-add"
+                    disabled={this.state.saveTaskButton !== true}
                     onClick={e => this.saveTask(e)}
                   >
                     Add
@@ -257,6 +280,7 @@ class Tasks extends Component {
             <table className="table table-bordered mt-5">
               <thead>
                 <tr>
+                  <th>Date</th>
                   <th>Name</th>
                   <th>Desc</th>
                   <th>Status</th>
@@ -268,6 +292,13 @@ class Tasks extends Component {
                 {this.state.addRows.map((item, index) => {
                   return (
                     <tr>
+                      <td>{
+                            
+                            item.created_at.slice(0,10)
+
+                          }
+                          
+                      </td>
                       <td>{
                             // this.state.editedERow === true && this.state.selectedRow === index
                             // ?
@@ -328,11 +359,14 @@ class Tasks extends Component {
                             this.state.editedERow === true && this.state.selectedRow === index
                             ?
                             <div>
-                            <button className="btn btn-primary" onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
+                            <button className="btn btn-primary" disabled={this.state.editTaskButton !== true} onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
                             <button className="btn btn-danger" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
                             </div>
                             :
+                            <div>
                             <button className="btn btn-success" onClick={(e)=>this.handleEdit(e,index,item)}><i className="fa fa-edit"></i></button>
+                            {/* <button className="btn btn-danger" onClick={(e)=>this.handleDelete(e,index,item)}><i className="fa fa-trash"></i></button> */}
+                            </div>
                           }
                           
                       </td>

@@ -10,6 +10,7 @@ class Menuone extends Component{
   }
   
     render(){
+      const username = localStorage.getItem('username')
         return (
             <div>
                 <nav class="navbar navbar-expand-lg fixed-top">
@@ -21,13 +22,16 @@ class Menuone extends Component{
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="nav">
             
-                                <li class="nav-item">
+                                {/* <li class="nav-item">
               <Link class="nav-link" to="/meetings">History </Link>
-            </li>
+            </li> */}
             <li class="nav-item">
               <Link class="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
             </li>
-            
+            <li class="nav-item">
+            <Link class="nav-link" to="" >{username} </Link>
+              
+            </li>
           </ul>
         </div>
     </div>
