@@ -203,7 +203,7 @@ class Tasks extends Component {
     const taskStatus = 
       {
         status_id:statusId,
-        task_id:row.id,
+        task_id:row.task_id,
         user_id: localStorage.getItem("userid")
       }
   
