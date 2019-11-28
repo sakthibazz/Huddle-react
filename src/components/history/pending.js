@@ -21,7 +21,8 @@ class PendingTasks extends Component{
     projId:"",
     status:[],
     statusName:"",
-    statusId: ''
+    statusId: '',
+    editTaskButton : false
     }
 
     componentDidMount(){
@@ -143,7 +144,8 @@ class PendingTasks extends Component{
   handleStatus = e => {
     const { value } = e.target
     this.setState({
-      statusId: value
+      statusId: value,
+      editTaskButton : true,
     })
   }
     render(){
@@ -161,7 +163,7 @@ class PendingTasks extends Component{
                this.state.pendTasks.map((item,index)=>{
                  return(
                     <tr>
-                    <td>{
+                    <td width="140">{
                           
                           item.updated_at.slice(0,10)
 
@@ -212,7 +214,7 @@ class PendingTasks extends Component{
                           }
                         </select>
                         :
-                        item.statusName || "Open"
+                        item.statusName || "Pending"
                         }
                           
                     </td>
@@ -220,7 +222,7 @@ class PendingTasks extends Component{
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?
                           <div>
-                          <button className="btn btn-primary" onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
+                          <button className="btn btn-primary" disabled={this.state.editTaskButton !== true} onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
                           <button className="btn btn-danger" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
                           </div>
                           :

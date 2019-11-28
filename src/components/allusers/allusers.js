@@ -70,13 +70,14 @@ class AllUsers extends Component{
 
                     </div>
                     <div className="row">
-                        <table className="table table-bordered mt-5">
+                        <table className="table table-bordered mt-5 text-left">
                             <thead>
                                 <tr>
-                                    <th>Date</th>
+                                    <th>Task Created</th>
                                     <th>Project Name</th>
                                     <th>Description</th>
                                     <th>Status</th>
+                                    <th>Task Updated</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,10 +85,11 @@ class AllUsers extends Component{
                                     this.state.tasks.map((item,index)=>{
                                         return(
                                             <tr key={index}>
-                                                <td>{item.updated_at.slice(0,10)}</td>
-                                                <td>{item.project_name}</td>
+                                                <td width="140">{item.created_at.slice(0,10)}</td>
+                                                <td width="140">{item.project_name}</td>
                                                 <td>{item.description}</td>
                                                 <td>{item.status_name}</td>
+                                                <td width="140">{item.updated_at.slice(0,10)}</td>
                                             </tr>
                                         )
                                     })

@@ -37,6 +37,7 @@ class Tasks extends Component {
     status:[],
     statusName:"",
     statusId: '',
+    fdesc: '',
     saveTaskButton : false,
     editTaskButton : false
   };
@@ -103,6 +104,7 @@ class Tasks extends Component {
     const { desc } = this.state;
     this.setState({
       desc: value,
+      fdesc:value,
       saveTaskButton : true
     });
     console.log(desc);
@@ -163,7 +165,8 @@ class Tasks extends Component {
         this.setState({
           addRows,
           saveTaskButton: false,
-          desc:''
+          desc:'',
+          fdesc:''
           
         });
       });
@@ -174,7 +177,8 @@ class Tasks extends Component {
     const { value } = e.target
     this.setState({
       statusId: value,
-      editTaskButton : true
+      editTaskButton : true,
+      desc:''
     })
   }
 
@@ -188,7 +192,8 @@ class Tasks extends Component {
           editedERow:true,
           selectedRow:index,
           desc:item.description,
-          projId:item.project_department_id
+          projId:item.project_department_id,
+          fdesc:''
       })
   }
 
@@ -215,7 +220,8 @@ class Tasks extends Component {
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
-        addRows
+        addRows,
+        fdesc: ''
     })
       
     })
@@ -283,9 +289,8 @@ class Tasks extends Component {
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
-                    name="desc" className="form-control" value={this.state.desc}
+                    name="desc" className="form-control" value={this.state.fdesc}
                     placeholder="Task Desc"
-                    value={this.state.desc}
                     onChange={e => this.newTaskDesc(e)}
                   />
                 </div>
@@ -316,7 +321,7 @@ class Tasks extends Component {
                 {this.state.addRows.map((item, index) => {
                   return (
                     <tr>
-                      <td>{
+                      <td width="140">{
                             
                             item.created_at.slice(0,10)
 

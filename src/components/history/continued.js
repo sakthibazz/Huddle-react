@@ -22,7 +22,8 @@ class ContinuedTasks extends Component{
     projId:"",
     status:[],
     statusName:"",
-    statusId: ''
+    statusId: '',
+    editTaskButton : false
     }
 
     componentDidMount(){
@@ -143,7 +144,8 @@ class ContinuedTasks extends Component{
   handleStatus = e => {
     const { value } = e.target
     this.setState({
-      statusId: value
+      statusId: value,
+      editTaskButton : true,
     })
   }
     render(){
@@ -165,7 +167,7 @@ class ContinuedTasks extends Component{
                this.state.contTasks.map((item,index)=>{
                  return(
                     <tr>
-                      <td>{
+                      <td width="140">{
                             
                             item.updated_at.slice(0,10)
 
@@ -217,15 +219,15 @@ class ContinuedTasks extends Component{
                           }
                         </select>
                         :
-                        item.statusName || "Open"
+                        item.statusName || "Continued"
                         }
                           
                     </td>
                     <td>{
-                          this.state.editedERow === true
+                          this.state.editedERow === true && this.state.selectedRow === index
                           ?
                           <div>
-                          <button className="btn btn-primary" onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
+                          <button className="btn btn-primary" disabled={this.state.editTaskButton !== true}  onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
                           <button className="btn btn-danger" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
                           </div>
                           :

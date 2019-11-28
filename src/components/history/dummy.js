@@ -39,7 +39,7 @@ class CompletedTasks extends Component{
                this.state.contTasks.map(val=>{
                  return(
                    <tr>
-                     <td>{val.updated_at.slice(0,10)}</td>
+                     <td width="140">{val.updated_at.slice(0,10)}</td>
                      <td>{val.project_name}</td>
                      <td>{val.description}</td>
                    </tr>
