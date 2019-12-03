@@ -52,7 +52,8 @@ class AllUsers extends Component{
 
     render(){
         return(
-            <div>
+            <div> {
+                (localStorage.getItem('userid')) ?
                 <div className="container">
                         <div>
                             <Loader
@@ -114,6 +115,9 @@ class AllUsers extends Component{
                         </table>
                     </div>
                 </div>
+                :
+                this.props.history.push('/login')
+        }
             </div>
         )
     }
