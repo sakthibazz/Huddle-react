@@ -10,7 +10,8 @@ import ContinuedTasks from "./continued";
 import PendingTasks from "./pending";
 import OnHoldTasks from "./onhold";
 import './tasks.css'
-import swal from 'sweetalert'
+import swal from 'sweetalert';
+import Loader from 'react-loader-spinner';
 
 class Tasks extends Component {
   state = {
@@ -92,7 +93,8 @@ class Tasks extends Component {
       console.log(res);
       const {success} = res.data;
       this.setState({
-        addRows:success
+        addRows:success,
+        display : true
       })
     });
 
@@ -263,6 +265,9 @@ class Tasks extends Component {
   render() {
     return (
       <div>
+        {
+            (localStorage.getItem('userid')) ?
+            <div>
         <Menuone />
         <Tabs className="mt-5 pt-5">
           <TabList>
@@ -317,7 +322,7 @@ class Tasks extends Component {
                 </tr>
               </thead>
               <tbody>
-                
+              
                 {this.state.addRows.map((item, index) => {
                   return (
                     <tr>
@@ -404,6 +409,14 @@ class Tasks extends Component {
                 })}
               </tbody>
             </table>
+            {/* <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height={100}
+                    width={100}
+                    timeout={3000}
+                    visible = {this.state.display}
+                  /> */}
             </div>
           </TabPanel>
           <TabPanel>
@@ -420,6 +433,11 @@ class Tasks extends Component {
           </TabPanel>
         </Tabs>
       </div>
+      :
+      this.props.history.push('/login')
+        }
+      </div>
+      
     );
   }
 }

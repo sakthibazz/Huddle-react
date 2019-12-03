@@ -17,7 +17,6 @@ class Contact extends React.Component {
                     <div className="mt-4 pt-4">
                         <p className="mt-4"><span className="h5">Corporate Office: <br/>Aroha Technologies,</span>  <br /> <span className="text-muted d-block mt-2">14, 5th Main, 38th Cross Rd, <br/> 5th Block, Jayanagar, <br />Bengaluru - 560041</span></p>
                         <p className="mt-4"><span className="h5">Digital Services: <br/>Aroha Technologies,</span><br /> <span className="text-muted d-block mt-2">#70, 2nd Floor, 45th Cross, <br/>8th Block, Jayanagar, <br/> Bengaluru - 560082</span></p>
-                        <p className="mt-4"><span className="h5">Working Hours:</span><br /> <span className="text-muted d-block mt-2">9:00AM To 10:00PM</span></p>
                     </div>
                 </div>
                 <div className="col-lg-8">

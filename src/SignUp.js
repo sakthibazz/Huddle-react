@@ -127,84 +127,87 @@ class SignUp extends React.Component {
     }   
   render() {
   	return (
-        <Aux>
-         <div className="account-home-btn d-none d-sm-block">
-          <Link to="/" className="text-white"><i className="mdi mdi-home h1"></i></Link>
-         </div>
-        
-        <section className="bg-account-pages height-100vh">
-            <div className="display-table">
-                <div className="display-table-cell">
-                    <div className="container">
-                        <div className="row justify-content-center">
-                            <div className="col-lg-5">
-                                <div className="card account-card">
-                                    <div className="card-body">
-                                        <div className="text-center mt-3">
-                                            <h3 className="font-weight-bold"> <Link to="home-one" className="text-dark text-uppercase account-pages-logo">Huddle Meeting</Link></h3>
-                                            <p className="text-muted">Sign up for a new Account</p>
-                                        </div>
-                                        <div className="py-3">
-                                            <form>
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
-                                                    <div className="text-danger col-sm-8">{this.state.firstNameError}</div>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right ">First Name</label>
-                                                    <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleChange(e)}/>
-                                                </div>
-                                                
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
-                                                    <div className="text-danger col-sm-8">{this.state.emailError}</div>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label for="email" className="col-sm-3 mt-2 text-right">Email</label>
-                                                    <input type="text" className="form-control col-sm-8" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleChange(e)}/>
-                                                </div>
+        <div>{
+            (!localStorage.getItem('userid')) ?
+            <div>
+            <div className="account-home-btn d-none d-sm-block">
+      <Link to="/" className="text-white"><i className="mdi mdi-home h1"></i></Link>
+     </div>
+    
+    <section className="bg-account-pages height-100vh">
+        <div className="display-table">
+            <div className="display-table-cell">
+                <div className="container">
+                    <div className="row justify-content-center">
+                        <div className="col-lg-5">
+                            <div className="card account-card">
+                                <div className="card-body">
+                                    <div className="text-center mt-3">
+                                        <h3 className="font-weight-bold"> <Link to="home-one" className="text-dark text-uppercase account-pages-logo">Huddle Meeting</Link></h3>
+                                        <p className="text-muted">Sign up for a new Account</p>
+                                    </div>
+                                    <div className="py-3">
+                                        <form>
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                <div className="text-danger col-sm-8">{this.state.firstNameError}</div>
+                                            </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right ">First Name</label>
+                                                <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleChange(e)}/>
+                                            </div>
+                                            
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                <div className="text-danger col-sm-8">{this.state.emailError}</div>
+                                            </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="email" className="col-sm-3 mt-2 text-right">Email</label>
+                                                <input type="text" className="form-control col-sm-8" id="email" name="email" placeholder="Enter Email" onChange={(e) => this.handleChange(e)}/>
+                                            </div>
 
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
-                                                    <div className="text-danger col-sm-8">{this.state.phoneError}</div>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label for="email" className="col-sm-3 mt-2 text-right">Mobile</label>
-                                                    <input type="text" className="form-control col-sm-8" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handleChange(e)} onKeyPress={e => this.phoneValidation(e)}/>
-                                                </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                <div className="text-danger col-sm-8">{this.state.phoneError}</div>
+                                            </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="email" className="col-sm-3 mt-2 text-right">Mobile</label>
+                                                <input type="text" className="form-control col-sm-8" id="phone" name="phone" placeholder="10 Digit Mobile Number" onChange={(e) => this.handleChange(e)} onKeyPress={e => this.phoneValidation(e)}/>
+                                            </div>
 
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
-                                                    <div className="text-danger col-sm-8">{this.state.pwdError}</div>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
-                                                    <input type="password" className="form-control col-sm-8" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handleChange(e)}/>
-                                                </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                <div className="text-danger col-sm-8">{this.state.pwdError}</div>
+                                            </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
+                                                <input type="password" className="form-control col-sm-8" id="pwd" name="pwd" placeholder="Enter password" onChange ={(e) => this.handleChange(e)}/>
+                                            </div>
 
-                                                <div className="form-group row mb-0">
-                                                    <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
-                                                    <div className="text-danger col-sm-8">{this.state.cpwdError}</div>
-                                                </div>
-                                                <div className="form-group row mb-0">
-                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Confirm Password</label>
-                                                    <input type="password" className="form-control col-sm-8" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleChange(e)}/>
-                                                </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="firstname" className="col-sm-3 mt-2 text-right "></label>
+                                                <div className="text-danger col-sm-8">{this.state.cpwdError}</div>
+                                            </div>
+                                            <div className="form-group row mb-0">
+                                                <label for="userpassword" className="col-sm-3 mt-2 text-right">Confirm Password</label>
+                                                <input type="password" className="form-control col-sm-8" id="cpwd" name="cpwd" placeholder="Confirm password" onChange={(e) => this.handleChange(e)}/>
+                                            </div>
 
-                                                <div className="custom-control custom-checkbox">
-                                                    <input type="checkbox" className="custom-control-input" id="customControlInline" />
-                                                    <label className="custom-control-label" for="customControlInline">Remember me</label>
-                                                </div>
+                                            <div className="custom-control custom-checkbox">
+                                                <input type="checkbox" className="custom-control-input" id="customControlInline" />
+                                                <label className="custom-control-label" for="customControlInline">Remember me</label>
+                                            </div>
 
-                                                <div className="mt-3">
-                                                    <button type="submit" className="btn btn-custom btn-block" onClick={(e) => this.submit(e)}>Sign Up</button>
-                                                </div>
+                                            <div className="mt-3">
+                                                <button type="submit" className="btn btn-custom btn-block" onClick={(e) => this.submit(e)}>Sign Up</button>
+                                            </div>
 
-                                                <div className="mt-4 mb-0 text-center">
-                                                    <p className="mb-0">Don't have an account ?
-                                                     <Link to="login" className="text-danger">Sign in</Link></p>
-                                                </div>
+                                            <div className="mt-4 mb-0 text-center">
+                                                <p className="mb-0">Don't have an account ?
+                                                 <Link to="login" className="text-danger">Sign in</Link></p>
+                                            </div>
                                             </form>
+                                        </div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,11 +215,12 @@ class SignUp extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-       
-       
-        </Aux>
+            </section>
+                </div> 
+        :
+        this.props.history.push('/tasks')
+            }
+        </div>
   	);
   }
 }

@@ -1,6 +1,7 @@
 import React,{Component  } from 'react'
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
+import Loader from 'react-loader-spinner';
 
 class ContinuedTasks extends Component{
     state={
@@ -14,7 +15,7 @@ class ContinuedTasks extends Component{
     editedERow:false,
     contTasks:[],
 
-    display: false,
+    display: true,
 
     disabled: false,
     proj_id: "",
@@ -76,7 +77,8 @@ class ContinuedTasks extends Component{
             console.log(res);
             const {success} = res.data
             this.setState({
-              contTasks:success
+              contTasks:success,
+              display: false
             })
         })
     }
@@ -151,22 +153,33 @@ class ContinuedTasks extends Component{
     render(){
         return(
             <div>
+              <div>
+              <Loader
+                      type="Puff"
+                      color="#00BFFF"
+                      height={100}
+                      width={100}
+                      // timeout={3000}
+                      visible={this.state.display}
+                    />
+              </div>
                 <table className="table table-bordered mt-5">
-                  <thead>
-                  <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
+                  <thead>{!this.state.display &&
+                              <tr>
+                            <th>Date</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                          </tr>
+                    }
                   </thead>
                   <tbody>
               
              {
                this.state.contTasks.map((item,index)=>{
                  return(
-                    <tr>
+                    <tr key={index}>
                       <td width="140">{
                             
                             item.updated_at.slice(0,10)

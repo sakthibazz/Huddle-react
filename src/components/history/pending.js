@@ -1,6 +1,7 @@
 import React,{Component  } from 'react'
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
+import Loader from 'react-loader-spinner';
 
 class PendingTasks extends Component{
     state={
@@ -13,7 +14,7 @@ class PendingTasks extends Component{
     editedERow:false,
     pendTasks:[],
 
-    display: false,
+    display: true,
 
     disabled: false,
     proj_id: "",
@@ -75,7 +76,8 @@ class PendingTasks extends Component{
             console.log(res);
             const {success} = res.data
             this.setState({
-              pendTasks:success
+              pendTasks:success,
+              display : false
             })
         })
     }
@@ -151,18 +153,32 @@ class PendingTasks extends Component{
     render(){
         return(
             <div>
+              <div>
+              <Loader
+                      type="Puff"
+                      color="#00BFFF"
+                      height={100}
+                      width={100}
+                      // timeout={3000}
+                      visible={this.state.display}
+                    />
+              </div>
                 <table className="table table-bordered mt-5">
-              <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
+                <thead>{
+                !this.state.display &&
+                  <tr>
+                    <th>Date</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+              }
+                  </thead>
              {
                this.state.pendTasks.map((item,index)=>{
                  return(
-                    <tr>
+                    <tr key={index}>
                     <td width="140">{
                           
                           item.updated_at.slice(0,10)

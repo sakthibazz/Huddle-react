@@ -1,6 +1,7 @@
 import React,{Component  } from 'react'
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
+import Loader from 'react-loader-spinner';
 
 class OnHoldTasks extends Component{
     state={
@@ -11,7 +12,8 @@ class OnHoldTasks extends Component{
       statusName:"",
       statusId: '',
       editTaskButton : false,
-        onhold:[]
+        onhold:[],
+      display : true
     }
 
     componentDidMount(){
@@ -28,7 +30,8 @@ class OnHoldTasks extends Component{
             console.log(res);
             const {success} = res.data
             this.setState({
-                onhold:success
+                onhold:success,
+                display : false
             })
         })
 
@@ -117,15 +120,27 @@ class OnHoldTasks extends Component{
     render(){
         return(
             <div>
+              <div>
+              <Loader
+                      type="Puff"
+                      color="#00BFFF"
+                      height={100}
+                      width={100}
+                      // timeout={3000}
+                      visible={this.state.display}
+                    />
+              </div>
                 <table className="table table-bordered mt-5">
-                    <thead>
+                    <thead>{
+                !this.state.display &&
                     <tr>
-                <th>Date</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Status</th>
-                <th>Action</th>
-              </tr>
+                      <th>Date</th>
+                      <th>Name</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                    }
                     </thead>
                     <tbody>
               

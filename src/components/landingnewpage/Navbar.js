@@ -2,7 +2,12 @@ import React from 'react';
 
 
 class Navbar extends React.Component {
+    handleLogout = (e) =>{
+        localStorage.clear();
+        this.props.history.push('/login')
+      }
   render() {
+      const name = localStorage.getItem('username')
   	return (
         <nav className="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark">
             <div className="container">
@@ -13,7 +18,9 @@ class Navbar extends React.Component {
                     <i className="mdi mdi-menu"></i>
                 </button>
                 <div className="collapse navbar-collapse" id="navbarCollapse">
-                    <ul className="navbar-nav navbar-center" id="mySidenav">
+                    {
+                        (!localStorage.getItem('userid')) ?
+                        <ul className="navbar-nav navbar-center" id="mySidenav">
                         <li className="nav-item active">
                             <a href="#home" className="nav-link">Home</a>
                         </li>
@@ -36,6 +43,20 @@ class Navbar extends React.Component {
                             <a href="/login" className="nav-link">Login</a>
                         </li>
                     </ul>
+                    :
+                    <ul className="navbar-nav navbar-center" id="mySidenav">
+                        <li className="nav-item">
+                            <a href="/tasks" className="nav-link">Dashboard</a>
+                        </li>
+                        <li className="nav-item">
+                        <a href="/tasks" className="nav-link">{name}</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/login" onClick={(e) => this.handleLogout(e)}>Logout </a>
+                        </li>
+                    </ul>
+                    }
+                    
                 </div>
             </div>
         </nav>

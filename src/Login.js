@@ -60,8 +60,11 @@ class Login extends React.Component {
     }
   render() {
   
-  	return (
-     <Aux>
+  	return ( 
+        <div>
+          {
+            (!localStorage.getItem('userid')) ?
+            <div>
          <div className="account-home-btn d-none d-sm-block">
              <Link to="/" className="text-white"><i className="mdi mdi-home h1"></i></Link>
          </div>
@@ -112,10 +115,11 @@ class Login extends React.Component {
                 </div>
             </div>
         </section>
-       
-       
-        
-     </Aux>
+        </div>
+            :
+            this.props.history.push('/tasks')
+          } 
+          </div>
   	);
   }
 }

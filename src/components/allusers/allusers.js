@@ -1,13 +1,15 @@
 import React,{Component  } from 'react';
 import axios from 'axios';
 import { API_URL } from "../../utils/const";
+import Loader from 'react-loader-spinner';
 
 class AllUsers extends Component{
     state={
         user_id:"",
         allusers:[],
         userId:"",
-        tasks:[]
+        tasks:[],
+        display : true
     }
     componentDidMount(){
         axios.get(`${API_URL}/api/allusers`,{
@@ -19,7 +21,8 @@ class AllUsers extends Component{
                 console.log(res)
                 const {success} = res.data
                 this.setState({
-                    allusers:success
+                    allusers:success,
+                    display : false
                 })
           })
 
@@ -51,7 +54,18 @@ class AllUsers extends Component{
         return(
             <div>
                 <div className="container">
-                    <div className="row">
+                        <div>
+                            <Loader
+                                    type="Puff"
+                                    color="#00BFFF"
+                                    height={100}
+                                    width={100}
+                                    // timeout={3000}
+                                    visible={this.state.display}
+                                    />
+                    </div>
+                    <div className="row">{
+                                !this.state.display &&
                         <div className="col-sm-8">
                             <label>Select User:</label>
                             <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
@@ -67,18 +81,20 @@ class AllUsers extends Component{
                             </select>
                             
                         </div>
-
+                        }
                     </div>
                     <div className="row">
                         <table className="table table-bordered mt-5 text-left">
-                            <thead>
-                                <tr>
-                                    <th>Task Created</th>
-                                    <th>Project Name</th>
-                                    <th>Description</th>
-                                    <th>Status</th>
-                                    <th>Task Updated</th>
-                                </tr>
+                            <thead>{
+                                !this.state.display &&
+                                        <tr>
+                                            <th>Task Created</th>
+                                            <th>Project Name</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Task Updated</th>
+                                        </tr>
+                                }
                             </thead>
                             <tbody>
                                 {
