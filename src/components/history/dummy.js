@@ -49,9 +49,10 @@ class CompletedTasks extends Component{
                 <thead>{
                 !this.state.display &&
                   <tr>
-                    <th>Date</th>
+                    <th>Task Created</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Task Completed</th>
                   </tr>
                 }
                 </thead>
@@ -59,9 +60,10 @@ class CompletedTasks extends Component{
                this.state.contTasks.map((val, index)=>{
                  return(
                    <tr key={index}>
-                     <td width="140">{val.updated_at.slice(0,10)}</td>
+                     <td width="140">{val.created_at.slice(0,10)}</td>
                      <td>{val.project_name}</td>
                      <td>{val.description}</td>
+                     <td width="140">{val.updated_at.slice(0,10)}</td>
                    </tr>
                  )
                })
