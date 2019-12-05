@@ -35,11 +35,11 @@ class Login extends React.Component {
         axios.post(`${API_URL}/api/login`, user_details)
             .then(res =>{
                 console.log(res);
-                const {token,user_id,first_name} = res.data.success
+                const {token,user_id,first_name, group_id} = res.data.success
                 localStorage.setItem('token' , token)
                 localStorage.setItem('userid' , user_id)
                 localStorage.setItem('username', first_name)
-
+                localStorage.setItem('groupid', group_id)
                 if(token){
                     this.props.history.push('/tasks')
                 }

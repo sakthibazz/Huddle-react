@@ -163,6 +163,7 @@ class ContinuedTasks extends Component{
                       visible={this.state.display}
                     />
               </div>
+              <div className="container">
                 <table className="table table-bordered mt-5">
                   <thead>{!this.state.display &&
                               <tr>
@@ -255,6 +256,7 @@ class ContinuedTasks extends Component{
              }
              </tbody>
             </table>
+            </div>  
             </div>
         )
     }
