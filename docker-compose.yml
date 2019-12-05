@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+
+  sample:
+    container_name: huddle
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '3001:3000'
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://api.huddle.aroha.co.in
