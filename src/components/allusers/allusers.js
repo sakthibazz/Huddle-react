@@ -2,6 +2,7 @@ import React,{Component  } from 'react';
 import axios from 'axios';
 import { API_URL } from "../../utils/const";
 import Loader from 'react-loader-spinner';
+import Menuone from "../menu/menu-1";
 
 class AllUsers extends Component{
     state={
@@ -53,8 +54,11 @@ class AllUsers extends Component{
     render(){
         return(
             <div> {
+                
                 (localStorage.getItem('userid')) ?
-                <div className="container">
+                <div>
+                <Menuone />
+                <div className="container mt-5">
                         <div>
                             <Loader
                                     type="Puff"
@@ -65,7 +69,7 @@ class AllUsers extends Component{
                                     visible={this.state.display}
                                     />
                     </div>
-                    <div className="row">{
+                    <div className="row pt-5" >{
                                 !this.state.display &&
                         <div className="col-sm-8">
                             <label>Select User:</label>
@@ -114,6 +118,7 @@ class AllUsers extends Component{
                             </tbody>
                         </table>
                     </div>
+                </div>
                 </div>
                 :
                 this.props.history.push('/login')

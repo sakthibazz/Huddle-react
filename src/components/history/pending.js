@@ -163,6 +163,7 @@ class PendingTasks extends Component{
                       visible={this.state.display}
                     />
               </div>
+              <div className="container">
                 <table className="table table-bordered mt-5">
                 <thead>{
                 !this.state.display &&
@@ -252,6 +253,7 @@ class PendingTasks extends Component{
                })
              }
             </table>
+            </div>  
             </div>
         )
     }
