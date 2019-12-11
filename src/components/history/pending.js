@@ -164,6 +164,11 @@ class PendingTasks extends Component{
                     />
               </div>
               <div className="container">
+              {
+               this.state.pendTasks == ""
+               ?
+                 <h1 className="pt-5">No Data Available</h1>
+                   :
                 <table className="table table-bordered mt-5">
                 <thead>{
                 !this.state.display &&
@@ -253,7 +258,10 @@ class PendingTasks extends Component{
                })
              }
             </table>
-            </div>  
+            
+    }
+    </div>  
+
             </div>
         )
     }

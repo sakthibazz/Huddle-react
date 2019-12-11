@@ -27,12 +27,12 @@ class Menuone extends Component{
                 parseInt(groupId) !== 3
                 ?
                 <ul className="nav">
-                  <li class="dropdown pt-2">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="/">MasterData</a>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="/status">Status</a></li>
-                      <li><a class="dropdown-item" href="/projects">Projects</a></li>
-                      <li><a class="dropdown-item" href="/users">Users</a></li>
+                  <li className="dropdown pt-2">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="/">MasterData</a>
+                    <ul className="dropdown-menu">
+                      <li><a className="dropdown-item" href="/status">Status</a></li>
+                      <li><a className="dropdown-item" href="/projects">Projects</a></li>
+                      <li><a className="dropdown-item" href="/users">Users</a></li>
                       </ul>
                   </li>
                   <li className="nav-item">

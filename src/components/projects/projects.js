@@ -3,15 +3,15 @@ import Menuone from "../menu/menu-1";
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
 
-class Status extends Component{
+class projects extends Component{
     state = {
-        status:[],
+        projects:[],
         editedERow:false,
         selectedRow:-1,
         sts:"",
-        addstatus:false,
+        addprojects:false,
         sname:"",
-        statusValue:0,
+        projectsValue:0,
         add: {
             description: ''
         }
@@ -19,7 +19,7 @@ class Status extends Component{
     }
 
     componentDidMount(){
-        axios.get(`${API_URL}/api/allStatus`, {
+        axios.get(`${API_URL}/api/allProjectsDepartments`, {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -28,54 +28,54 @@ class Status extends Component{
             console.log(res);
             const {success} = res.data;
             this.setState({
-              status:success,
+                projects:success,
               
             })
           });
     }
 
     handleName= (e,index) =>{
-        let {status,sname} = this.state
-        sname = status[index].name
+        let {projects,sname} = this.state
+        sname = projects[index].name
         this.setState({
-            status
+            projects
         })
     }
 
-    handleStatusChange = (e,item,index) =>{
-        let {status,statusValue} = this.state
-       statusValue = statusValue === 0 ? 1 : 0
-    //    status[index].is_active = status[index].is_active === 0 ? 1 : 0
+    handleprojectsChange = (e,item,index) =>{
+        let {projects,projectsValue} = this.state
+       projectsValue = projectsValue === 0 ? 1 : 0
+    //    projects[index].is_active = projects[index].is_active === 0 ? 1 : 0
         this.setState({
-            status,
-            statusValue
+            projects,
+            projectsValue
         })
     }
 
    
 
 
-  handleEditStatus = (e,index,item) =>{
-    let {sname,status, statusValue} = this.state
+  handleEditprojects = (e,index,item) =>{
+    let {sname,projects, projectsValue} = this.state
     sname=item.name
-    statusValue = item.is_active
+    projectsValue = item.is_active
     this.setState({
         editedERow:true,
         selectedRow:index,
         sname,
-        statusValue
+        projectsValue
     })
   
 }
 
-handleAddStatus = (e) =>{
+handleAddprojects = (e) =>{
     
     this.setState({
-        addstatus:true
+        addprojects:true
     })
 }
 
-handleAsts = (e) =>{
+handleAprojects = (e) =>{
     const {value}=e.target
     const {add} = this.state
     add.description = value
@@ -84,19 +84,19 @@ handleAsts = (e) =>{
     })
 }
 
-handleAddStatusChange = e => {
+handleAddprojectsChange = e => {
     const { value } = e.target;
     const { add } = this.state
-    add.status = value === "on" ? 1 : 0;
+    add.projects = value === "on" ? 1 : 0;
     this.setState({
         add
     })
 }
 
 
-savedata = (e) =>{
-     const {add,status} = this.state
-    axios.post(`${API_URL}/api/newstatus`, {name: add.description} ,{
+saveProjectdata = (e) =>{
+     const {add,projects} = this.state
+    axios.post(`${API_URL}/api/newProjectsDepartments`, {name: add.description} ,{
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
@@ -104,10 +104,10 @@ savedata = (e) =>{
     .then(res =>{
         console.log(res);
         const {success} = res.data
-        status.push(success)
+        projects.push(success)
         this.setState({
-            addstatus:false,
-            status
+            addprojects:false,
+            projects
         })
         
     })
@@ -116,37 +116,37 @@ savedata = (e) =>{
 
 canceldata = (e) =>{
     this.setState({
-        addstatus:false
+        addprojects:false
     })
 }
 
 cancelEdata = (e,index) =>{
-    // const {status,statusValue} = this.state
-    // status[index].is_active=statusValue
+    // const {projects,projectsValue} = this.state
+    // projects[index].is_active=projectsValue
     this.setState({
         editedERow:false,
-        // status
+        // projects
     })
 }
 
 handleEditSave = (e,index) =>{
-    const {status, statusValue} = this.state
+    const {projects, projectsValue} = this.state
     const data = {
-        status_id:status[index].id,
-        status:statusValue
+        projects_id:projects[index].id,
+        projects:projectsValue
     }
     axios
-    .post(`${API_URL}/api/taskStatusUpdate` , data ,{
+    .post(`${API_URL}/api/projectUpdate` , data ,{
         headers :{
             Authorization : "Bearer " + localStorage.getItem('token')
         }
     })
     .then(res =>{
         console.log(res)
-        status[index].is_active = statusValue
+        projects[index].is_active = projectsValue
         this.setState({
             editedERow:false,
-            status
+            projects
         })
     })
     
@@ -160,31 +160,31 @@ handleEditSave = (e,index) =>{
                 <div>
                     <Menuone />
                     <div className="container pt-5">
-                    <button className="mt-4 btn btn-primary" onClick = {(e) => this.handleAddStatus(e)}>Add status</button>
+                    <button className="mt-4 btn btn-primary" onClick = {(e) => this.handleAddprojects(e)}>Add Project</button>
                         <table className="mt-2 table table-bordered">
                             <thead>
                                 <tr>
-                                    <th>Status Name</th>
-                                    <th>Status</th>
+                                    <th>Project Name</th>
+                                    <th>projects</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                             {
-                                this.state.addstatus && 
+                                this.state.addprojects && 
                                 <tr>
                                     <td>
-                                        <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAsts(e)} />
+                                        <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAprojects(e)} />
                                     </td>
                                     <td>
                                     <button className="btn btn-danger btn-small" disabled>InActive</button>     
-                                        {/* <input type="checkbox" checked={this.state.s} data-toggle="toggle" onChange={(e)=> this.handleAddStatusChange(e)} /> */}
+                                        {/* <input type="checkbox" checked={this.state.s} data-toggle="toggle" onChange={(e)=> this.handleAddprojectsChange(e)} /> */}
                                     </td>
                                     
                                     
                                     <td>
                                     <div>
-                          <button className="btn btn-primary"  onClick={(e) => this.savedata(e)}><i className="fa fa-save" ></i></button>
+                          <button className="btn btn-primary"  onClick={(e) => this.saveProjectdata(e)}><i className="fa fa-save" ></i></button>
                           <button className="btn btn-danger" onClick={(e) => this.canceldata(e)}><i className="fa fa-times"></i></button>
                           </div>
                                     </td>
@@ -192,7 +192,7 @@ handleEditSave = (e,index) =>{
                             }
                                     
                                     {
-                            this.state.status.map((item,index)=>{
+                            this.state.projects.map((item,index)=>{
                                 return (
                                     <tr>
                                     <td >
@@ -210,7 +210,7 @@ handleEditSave = (e,index) =>{
                                     {
                                                     this.state.editedERow === true && this.state.selectedRow === index
                                                     ?
-                                                    <input type="checkbox"   checked={this.state.statusValue === 1} data-toggle="toggle" onChange={(e)=> this.handleStatusChange(e,item,index)} />
+                                                    <input type="checkbox"   checked={this.state.projectsValue === 1} data-toggle="toggle" onChange={(e)=> this.handleprojectsChange(e,item,index)} />
                                                     :
                                                         
                                                     item.is_active === 1
@@ -232,7 +232,7 @@ handleEditSave = (e,index) =>{
                           <button className="btn btn-danger" onClick={(e)=>this.cancelEdata(e,index)}><i className="fa fa-times"></i></button>
                           </div>
                           :
-                          <button className="btn btn-success" onClick={(e)=>this.handleEditStatus(e,index,item)}><i className="fa fa-edit"></i></button>
+                          <button className="btn btn-success" onClick={(e)=>this.handleEditprojects(e,index,item)}><i className="fa fa-edit"></i></button>
                         }
                                     </td>
                                     </tr>
@@ -251,4 +251,4 @@ handleEditSave = (e,index) =>{
     }
 }
 
-export default Status
+export default projects

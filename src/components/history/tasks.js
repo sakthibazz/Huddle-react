@@ -285,8 +285,8 @@ class Tasks extends Component {
                   <label className="font-weight-bold">Select Project: </label>
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
                   <option value="select">Select Project</option>
-                    {this.state.projects.map(proj => {
-                      return <option value={proj.id} >{proj.name}</option>
+                    {this.state.projects.map((proj,index) => {
+                      return <option value={proj.id} key={index}>{proj.name}</option>
                     })}
                   </select>
                 </div>
@@ -311,6 +311,13 @@ class Tasks extends Component {
               </div>
             </div>
             <div className="container">
+             {
+               this.state.addRows == ""
+               ?
+                 <h1 className="pt-5">You Still Not Have Added Any Tasks....</h1>
+                   :
+             
+              
             <table className="table table-bordered mt-5">
               <thead>
                 <tr>
@@ -409,6 +416,8 @@ class Tasks extends Component {
                 })}
               </tbody>
             </table>
+  }
+  
             {/* <Loader
                     type="Puff"
                     color="#00BFFF"

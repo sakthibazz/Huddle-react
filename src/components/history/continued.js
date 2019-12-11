@@ -164,6 +164,12 @@ class ContinuedTasks extends Component{
                     />
               </div>
               <div className="container">
+                {
+                   this.state.contTasks == ""
+                   ?
+                 <h1 className="pt-5">No Data Available</h1>
+                   :
+                
                 <table className="table table-bordered mt-5">
                   <thead>{!this.state.display &&
                               <tr>
@@ -256,6 +262,7 @@ class ContinuedTasks extends Component{
              }
              </tbody>
             </table>
+            }
             </div>  
             </div>
         )

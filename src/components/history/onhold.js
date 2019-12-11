@@ -120,7 +120,8 @@ class OnHoldTasks extends Component{
     render(){
         return(
             <div>
-              <div>
+              
+              <div className="">
               <Loader
                       type="Puff"
                       color="#00BFFF"
@@ -130,6 +131,12 @@ class OnHoldTasks extends Component{
                       visible={this.state.display}
                     />
               </div>
+              <div className="container">
+              {
+                   this.state.onhold.length === 0
+                   ?
+                 <h1 className="pt-5">No Data Available</h1>
+                   :
                 <table className="table table-bordered mt-5">
                     <thead>{
                 !this.state.display &&
@@ -188,6 +195,8 @@ class OnHoldTasks extends Component{
              }
              </tbody>
             </table>
+    }
+            </div>
             </div>
         )
     }

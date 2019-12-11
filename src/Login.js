@@ -35,13 +35,22 @@ class Login extends React.Component {
         axios.post(`${API_URL}/api/login`, user_details)
             .then(res =>{
                 console.log(res);
+                const {success} = res.data;
                 const {token,user_id,first_name, group_id} = res.data.success
                 localStorage.setItem('token' , token)
                 localStorage.setItem('userid' , user_id)
                 localStorage.setItem('username', first_name)
                 localStorage.setItem('groupid', group_id)
+                // alert(token)
                 if(token){
                     this.props.history.push('/tasks')
+                }
+                else{
+                    // alert(success.message)
+                    swal( success.message,{
+                        icon: "warning",
+                        button: "OK",
+                      });
                 }
 
             })
@@ -84,18 +93,18 @@ class Login extends React.Component {
                                         <div className="py-3 px-0">
                                             <form>
                                                 <div className="form-group row mb-0">
-                                                    <label for="username " className="col-sm-3 mt-2 text-right">Email</label>
+                                                    <label htmlFor="username " className="col-sm-3 mt-2 text-right">Email</label>
                                                     <input type="text" className="form-control col-sm-8" id="email" placeholder="Enter Email" name="email" onChange={(e)=>this.handleEmail(e)}/>
                                                 </div>
 
                                                 <div className="form-group row mb-0">
-                                                    <label for="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
+                                                    <label htmlFor="userpassword" className="col-sm-3 mt-2 text-right">Password</label>
                                                     <input type="password" className="form-control  col-sm-8" id="pwd" placeholder="Enter password" name="pwd" onChange={(e) =>this.handlePassword(e)}/>
                                                 </div>
 
                                                 <div className="custom-control custom-checkbox">
                                                     <input type="checkbox" className="custom-control-input" id="customControlInline" />
-                                                    <label className="custom-control-label" for="customControlInline">Remember me</label>
+                                                    <label className="custom-control-label" htmlFor="customControlInline">Remember me</label>
                                                 </div>
 
                                                 <div className="mt-3">

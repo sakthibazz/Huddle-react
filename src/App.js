@@ -22,6 +22,8 @@ import OnHoldTasks from './components/history/onhold';
 import  AllUsers  from './components/allusers/allusers';
 import PrivateRoute from './private'
 import Status from './components/status/status';
+import Projects from './components/projects/projects';
+import Users from './components/users/users';
 // import { Table } from '@material-ui/core';
 
 function App() {
@@ -46,6 +48,8 @@ function App() {
           <Route path="/pendingtasks" component={PendingTasks}></Route>
           <Route path="/onhold" component={OnHoldTasks}></Route>
           <Route path="/status" component={Status}></Route>
+          <Route path="/projects" component={Projects}></Route>
+          <Route path="/users" component={Users}></Route>
           <PrivateRoute path='/allusers' component={AllUsers} />
         </Switch>
 
