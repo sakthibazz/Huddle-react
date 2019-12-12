@@ -1,5 +1,6 @@
 import React,{ Component } from 'react'
 import {  Link , NavLink,withRouter} from 'react-router-dom';
+import './menu.css'
 
 
 class Menuone extends Component{
@@ -61,6 +62,7 @@ class Menuone extends Component{
         </div>
     </div>
   </nav>
+            
             </div>
         )
     }
