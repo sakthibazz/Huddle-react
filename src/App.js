@@ -24,6 +24,7 @@ import PrivateRoute from './private'
 import Status from './components/status/status';
 import Projects from './components/projects/projects';
 import Users from './components/users/users';
+import AssignedTasks from './components/history/assignedTasks';
 // import { Table } from '@material-ui/core';
 
 function App() {
@@ -31,7 +32,7 @@ function App() {
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/" component={Landing} exact/>
+          <Route path="/" component={Landing} exact />
           <Route path="/register" component={Register} />
           <Route path="/login" component={Login} />
           <Route path="/dashboard" component={Dashboard} />
@@ -50,6 +51,7 @@ function App() {
           <Route path="/status" component={Status}></Route>
           <Route path="/projects" component={Projects}></Route>
           <Route path="/users" component={Users}></Route>
+          <Route path="/assignedtasks" component={AssignedTasks} />
           <PrivateRoute path='/allusers' component={AllUsers} />
         </Switch>
 

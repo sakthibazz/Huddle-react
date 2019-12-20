@@ -145,7 +145,7 @@ class Users extends Component{
         const userDetails ={
             user_id:users[index].id,
             departmentIds: users[index].project_department_id,
-            status:users[index].is_active
+            status:statusValue
         }
         axios.post(`${API_URL}/api/userStatusUpdate`, userDetails ,{
             headers: {
@@ -251,6 +251,7 @@ class Users extends Component{
                                                {
                                                     this.state.editedRow === true && this.state.selectedRow === index
                                                     ?
+                                                    
                                                     <input type="checkbox" checked={this.state.statusValue === 1} data-toggle="toggle" onChange={(e)=> this.handleStatusChange(e,val,index)} />
                                                     :
                                                         

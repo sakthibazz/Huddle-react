@@ -154,14 +154,7 @@ class ContinuedTasks extends Component{
         return(
             <div>
               <div>
-              <Loader
-                      type="Puff"
-                      color="#00BFFF"
-                      height={100}
-                      width={100}
-                      // timeout={3000}
-                      visible={this.state.display}
-                    />
+              
               </div>
               <div className="container">
                 {
@@ -262,8 +255,17 @@ class ContinuedTasks extends Component{
              }
              </tbody>
             </table>
+            
             }
             </div>  
+            <Loader
+            type="Circles"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            // timeout={3000}
+            visible={this.state.display}
+          />
             </div>
         )
     }

@@ -58,20 +58,14 @@ class AllUsers extends Component{
                 (localStorage.getItem('userid')) ?
                 <div>
                 <Menuone />
-                <div className="container mt-5">
+                <h1 className="mt-5 pt-5">Assigning projects to user</h1>
+                <div className="container ">
                         <div>
-                            <Loader
-                                    type="Puff"
-                                    color="#00BFFF"
-                                    height={100}
-                                    width={100}
-                                    // timeout={3000}
-                                    visible={this.state.display}
-                                    />
+                            
                     </div>
                     <div className="row pt-5" >{
                                 !this.state.display &&
-                        <div className="col-sm-8">
+                        <div className="col-sm-12">
                             <label>Select User:</label>
                             <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
                                 <option>Select user</option>
@@ -84,9 +78,11 @@ class AllUsers extends Component{
                                    })
                                }
                             </select>
-                            
+                           
                         </div>
+
                         }
+                        
                     </div>
                     <div className="row">
                         <table className="table table-bordered mt-5 text-left">
@@ -123,6 +119,14 @@ class AllUsers extends Component{
                 :
                 this.props.history.push('/login')
         }
+        <Loader
+            type="Circles"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            // timeout={3000}
+            visible={this.state.display}
+          />
             </div>
         )
     }

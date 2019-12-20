@@ -19,11 +19,11 @@ class Menuone extends Component{
             <div>
                 <nav className="navbar navbar-expand-lg fixed-top">
     <div className="container">
-        <Link className="navbar-brand" to="/">Aroha Technologies</Link>
+        <Link className="navbar-brand" to="/tasks">Aroha Technologies</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
+        <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
         {
                 parseInt(groupId) !== 3
                 ?
@@ -34,6 +34,7 @@ class Menuone extends Component{
                       <li><a className="dropdown-item" href="/status">Status</a></li>
                       <li><a className="dropdown-item" href="/projects">Projects</a></li>
                       <li><a className="dropdown-item" href="/users">Users</a></li>
+                      <li><a className="dropdown-item" href="/assignedtasks">Asssign Tasks</a></li>
                       </ul>
                   </li>
                   <li className="nav-item">
@@ -50,7 +51,7 @@ class Menuone extends Component{
                 :
                 <ul className="nav">
                   <li className="nav-item">
-                  <Link className="nav-link" to="" >{username} </Link>
+                  <Link className="nav-link" to="">{username}</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>

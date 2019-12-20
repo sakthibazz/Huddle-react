@@ -12,8 +12,9 @@ import OnHoldTasks from "./onhold";
 import './tasks.css'
 import swal from 'sweetalert';
 import Loader from 'react-loader-spinner';
+import DisplayAssignedTasks from "./displaytasks";
 
-class Tasks extends Component {
+class AssignedTasks extends Component {
   state = {
     addRows: [
       // {
@@ -28,6 +29,7 @@ class Tasks extends Component {
     desc: "",
     editedERow:false,
     contTasks:[],
+    users:[],
 
     display: false,
 
@@ -35,6 +37,7 @@ class Tasks extends Component {
     proj_id: "",
     user_id: "",
     projId:"",
+    users_id:"",
     status:[],
     statusName:"",
     statusId: '',
@@ -44,28 +47,23 @@ class Tasks extends Component {
   };
 
   componentDidMount() {
-    const Pdetails ={
-      user_id: localStorage.getItem("userid")
-    }
-    axios
-      .post(`${API_URL}/api/projectsDepartments`, Pdetails,{
+    
+
+    axios.get(`${API_URL}/api/allusers`,{
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
       })
-      .then(res => {
-        console.log(res);
-        const { proj_id, projects } = this.state;
-
-        this.setState({
-          projects: res.data.success
-        });
-        console.log(proj_id);
+      .then(res=>{
+            console.log(res)
+            const {success} = res.data
+            this.setState({
+                users:success,
+                display : false
+            })
       })
-      .catch(err => {
-        console.log(err);
-      });
-
+    
+    
       axios.get(`${API_URL}/api/conStatus`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
@@ -112,6 +110,39 @@ class Tasks extends Component {
     console.log(desc);
   };
 
+  handleUser = (e, index) => {
+    const { value } = e.target;
+    const { proj_id } = this.state;
+    
+    console.log(this.state.users_id);
+    const Pdetails ={
+        user_id: value
+       
+      }
+      
+      axios
+        .post(`${API_URL}/api/projectsDepartments`, Pdetails,{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
+        .then(res => {
+          console.log(res);
+          const { proj_id, projects } = this.state;
+
+          this.setState({
+            projects: res.data.success,
+            users_id: value
+          });
+          console.log(proj_id);
+          console.log(projects)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+  
+  };
+
   handleProject = (e, index) => {
     const { value } = e.target;
     const { proj_id } = this.state;
@@ -130,7 +161,7 @@ class Tasks extends Component {
   };
 
   saveTask = () => {
-    let { addRows, proj_id, desc, projects } = this.state;
+    let { addRows, proj_id, desc, projects,users_id,users } = this.state;
     if(this.state.proj_id === ""){
       swal( "Select Project",{
         icon: "warning",
@@ -146,8 +177,10 @@ class Tasks extends Component {
     const taskDetails = [
       {
         description: desc,
-        user_id: localStorage.getItem("userid"),
-        project_department_id: proj_id
+        user_id: users_id,
+        project_department_id: proj_id,
+        assigned_by:localStorage.getItem("userid")
+
       }
     ];
     axios
@@ -157,7 +190,7 @@ class Tasks extends Component {
         }
       })
       .then(res => {
-        console.log("this si success save");
+        console.log("this is success save");
         console.log(res);
         const { success } = res.data;
         // addRows.push({
@@ -169,6 +202,7 @@ class Tasks extends Component {
           saveTaskButton: false,
           desc:'',
           fdesc:'',
+          users_id:"",
           proj_id:""
           
         });
@@ -264,7 +298,7 @@ class Tasks extends Component {
   }
 
   render() {
-    const username=localStorage.getItem("username")
+    const username = localStorage.getItem('username')
     return (
       <div>
         {
@@ -273,26 +307,43 @@ class Tasks extends Component {
         <Menuone />
         <Tabs className="mt-5 pt-5">
           <TabList>
-            <Tab>New Tasks</Tab>
-            <Tab>Continued Tasks</Tab>
-            <Tab>Pending Tasks</Tab>
-            <Tab>On-Hold Tasks</Tab>
-            
-            <Tab>Completed Tasks</Tab>
+            <Tab>Tasks</Tab>
+            <Tab>Assigned Tasks</Tab>
           </TabList>
           <TabPanel>
             <div className="container">
               <div className="row mt-4">
-                <div className="col-sm-4 text-left">
+              <div className="col-sm-3 text-left">
+                  <label className="font-weight-bold">Select User: </label>
+                  <select value={this.state.users_id} onChange={e => this.handleUser(e)} className="form-control">
+                  <option value="select">Select User</option>
+                    {this.state.users.map((user,index) => {
+                      return  <option value={user.id} key={index}>{user.first_name}</option>
+                    })}
+                  </select>
+                </div>
+                <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select Project: </label>
+                  { 
+                    this.state.users_id
+                    ?
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
                   <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
                       return <option value={proj.id} key={index}>{proj.name}</option>
                     })}
                   </select>
+                  :
+                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control" disabled>
+                  <option value="select">Select Project</option>
+                    {this.state.projects.map((proj,index) => {
+                      return <option value={proj.id} key={index}>{proj.name}</option>
+                    })}
+                  </select>
+
+                    }
                 </div>
-                <div className="col-sm-7 text-left">
+                <div className="col-sm-5 text-left">
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
@@ -381,6 +432,7 @@ class Tasks extends Component {
                           </div>
                           
                       </td>
+                      
                       <td>{
                           
                           this.state.editedERow === true && this.state.selectedRow === index
@@ -401,9 +453,9 @@ class Tasks extends Component {
                             
                       </td>
                       <td>
-                        {
-                         item.task_assigned_by || username
-                        }
+                          {
+                              username
+                          }
                       </td>
                       <td>{
                             this.state.editedERow === true && this.state.selectedRow === index
@@ -438,17 +490,9 @@ class Tasks extends Component {
             </div>
           </TabPanel>
           <TabPanel>
-          <ContinuedTasks />
+                <DisplayAssignedTasks />
           </TabPanel>
-          <TabPanel>
-            <PendingTasks />
-          </TabPanel>
-          <TabPanel>
-            <OnHoldTasks />
-          </TabPanel>
-          <TabPanel>
-            <CompletedTasks />
-          </TabPanel>
+          
         </Tabs>
       </div>
       :
@@ -460,4 +504,4 @@ class Tasks extends Component {
   }
 }
 
-export default Tasks;
+export default AssignedTasks;

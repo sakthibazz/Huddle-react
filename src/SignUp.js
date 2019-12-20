@@ -116,10 +116,11 @@ class SignUp extends React.Component {
                 const errors = err.response.data.error
                 this.setState({
                         firstNameError:errors.first_name,
-                        emailError:errors.email,
+                        emailError:errors.email || errors.aroha_email_error,
                         phoneError:errors.phone,
                         pwdError:errors.password,
-                        cpwdError:errors.confirm_password
+                        cpwdError:errors.confirm_password,
+                        
                 })
                
                 console.log(err.response.data.error) ;            

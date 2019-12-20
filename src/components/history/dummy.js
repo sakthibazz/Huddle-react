@@ -36,14 +36,7 @@ class CompletedTasks extends Component{
             (localStorage.getItem('userid')) ?
             <div>
               <div>
-                <Loader
-                        type="Puff"
-                        color="#00BFFF"
-                        height={100}
-                        width={100}
-                        // timeout={3000}
-                        visible={this.state.display}
-                      />
+                
               </div>
               <div className="container">
               {
@@ -81,6 +74,15 @@ class CompletedTasks extends Component{
             :
             this.props.history.push('/login')
     }
+    <Loader
+            type="Circles"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            // timeout={3000}
+            visible={this.state.display}
+            color={"tomato"}
+          />
          </div>
          
         )

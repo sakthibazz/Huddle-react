@@ -11,7 +11,7 @@ class projects extends Component{
         sts:"",
         addprojects:false,
         sname:"",
-        projectsValue:0,
+        statusValue:0,
         add: {
             description: ''
         }
@@ -43,12 +43,12 @@ class projects extends Component{
     }
 
     handleprojectsChange = (e,item,index) =>{
-        let {projects,projectsValue} = this.state
-       projectsValue = projectsValue === 0 ? 1 : 0
+        let { value } = e.target
+        let {statusValue} = this.state
+       statusValue = value === "on" ? 1 : 0
     //    projects[index].is_active = projects[index].is_active === 0 ? 1 : 0
         this.setState({
-            projects,
-            projectsValue
+            statusValue
         })
     }
 
@@ -56,14 +56,14 @@ class projects extends Component{
 
 
   handleEditprojects = (e,index,item) =>{
-    let {sname,projects, projectsValue} = this.state
+    let {sname,projects, statusValue} = this.state
     sname=item.name
-    projectsValue = item.is_active
+    statusValue = item.is_active
     this.setState({
         editedERow:true,
         selectedRow:index,
         sname,
-        projectsValue
+        statusValue
     })
   
 }
@@ -121,8 +121,8 @@ canceldata = (e) =>{
 }
 
 cancelEdata = (e,index) =>{
-    // const {projects,projectsValue} = this.state
-    // projects[index].is_active=projectsValue
+    // const {projects,statusValue} = this.state
+    // projects[index].is_active=statusValue
     this.setState({
         editedERow:false,
         // projects
@@ -130,10 +130,10 @@ cancelEdata = (e,index) =>{
 }
 
 handleEditSave = (e,index) =>{
-    const {projects, projectsValue} = this.state
+    const {projects, statusValue} = this.state
     const data = {
         projects_id:projects[index].id,
-        projects:projectsValue
+        status:statusValue
     }
     axios
     .post(`${API_URL}/api/projectUpdate` , data ,{
@@ -143,7 +143,7 @@ handleEditSave = (e,index) =>{
     })
     .then(res =>{
         console.log(res)
-        projects[index].is_active = projectsValue
+        projects[index].is_active = statusValue
         this.setState({
             editedERow:false,
             projects
@@ -210,7 +210,7 @@ handleEditSave = (e,index) =>{
                                     {
                                                     this.state.editedERow === true && this.state.selectedRow === index
                                                     ?
-                                                    <input type="checkbox"   checked={this.state.projectsValue === 1} data-toggle="toggle" onChange={(e)=> this.handleprojectsChange(e,item,index)} />
+                                                    <input type="checkbox"   checked={this.state.statusValue === 1} data-toggle="toggle" onChange={(e)=> this.handleprojectsChange(e,item,index)} />
                                                     :
                                                         
                                                     item.is_active === 1
