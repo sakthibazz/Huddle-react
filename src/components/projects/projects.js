@@ -130,9 +130,10 @@ cancelEdata = (e,index) =>{
 }
 
 handleEditSave = (e,index) =>{
+    e.preventDefault()
     const {projects, statusValue} = this.state
     const data = {
-        projects_id:projects[index].id,
+        project_id:projects[index].id,
         status:statusValue
     }
     axios

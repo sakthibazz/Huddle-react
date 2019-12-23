@@ -20,7 +20,7 @@ class Users extends Component{
         sts:"",
         addstatus:false,
         projDept:[],
-        statusValue:-1,
+        statusValue:0,
         selectedOption: null,
 
     }
@@ -75,7 +75,7 @@ class Users extends Component{
     handleUserEdit =(e,index,val) =>{
         // alert("calling")
         console.log(val)
-        let {selectedOption, statusValue} = this.state
+        let {selectedOption, statusValue,users} = this.state
         selectedOption=val.projects_final
         statusValue = val.is_active
         // selectedOption = //take it from state
@@ -102,9 +102,10 @@ class Users extends Component{
     }
 
     handleStatusChange = (e,val,index) =>{
-        const { value } = e.target;
+        // const { value } = e.target;
         let {users,statusValue } = this.state;
-        statusValue= value === "on" ? 0 : 1 //0
+        statusValue = statusValue === 0 ? 1 : 0
+        // statusValue= value === "on" ? 0 : 1 //0
         // users[index].is_active = users[index].is_active === 0 ? 1 : 0 //1
         // if(users[index].status === 0){
         //     users[index].status = 1
@@ -118,7 +119,8 @@ class Users extends Component{
         //     users[index].status = 0
         // }
         this.setState({
-            statusValue //0
+            statusValue, //0
+            users
         })
     }
 
@@ -142,8 +144,10 @@ class Users extends Component{
         })
         // console.log(project_department_id)
         users[index].project_department_id=users[index].project_department_id.join(",")
+        users[index].is_active = statusValue
         const userDetails ={
             user_id:users[index].id,
+            email:users[index].email,
             departmentIds: users[index].project_department_id,
             status:statusValue
         }
@@ -158,6 +162,7 @@ class Users extends Component{
             this.setState({
                 editedRow:false,
                 selectedRow:index,
+                statusValue,
                 users
             })
             // const {success} = res.data
