@@ -25,7 +25,7 @@ class Menuone extends Component{
         </button>
         <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
         {
-                parseInt(groupId) !== 3
+                parseInt(groupId) === 1
                 ?
                 <ul className="nav">
                   <li className="dropdown pt-2">
@@ -49,6 +49,29 @@ class Menuone extends Component{
                   </li> */}
                 </ul>
                 :
+                ""
+    }
+    {
+      parseInt(groupId) === 2
+      ?
+      <ul className="nav">
+        <li className="nav-item">
+        <Link className="nav-link" to="">My Team</Link>
+        </li>
+        <li className="nav-item">
+        <Link className="nav-link" to="">{username}</Link>
+        </li>
+        <li className="nav-item">
+          <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
+        </li>
+        
+      </ul>
+      :
+      ""
+    }
+    {
+                parseInt(groupId) === 3
+                ?
                 <ul className="nav">
                   <li className="nav-item">
                   <Link className="nav-link" to="">{username}</Link>
@@ -58,6 +81,8 @@ class Menuone extends Component{
                   </li>
                   
                 </ul>
+                :
+                ""
               }
          
         </div>

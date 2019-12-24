@@ -160,7 +160,11 @@ class OnHoldTasks extends Component{
                           {
                             this.state.status.map((sts,index)=>{
                                 return (
+                                  sts.is_active === 1
+                                  ?
                                   <option value={sts.id}>{sts.name}</option>
+                                  :
+                                  ""
                                 )
                             })
                           }

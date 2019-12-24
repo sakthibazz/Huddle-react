@@ -43,12 +43,15 @@ class projects extends Component{
     }
 
     handleprojectsChange = (e,item,index) =>{
-        let { value } = e.target
-        let {statusValue} = this.state
-       statusValue = value === "on" ? 1 : 0
+    //     let { value } = e.target
+    //     let {statusValue} = this.state
+    //    statusValue = value === "on" ? 1 : 0
+    let {projects,statusValue} = this.state
+    statusValue = statusValue === 0 ? 1 : 0
     //    projects[index].is_active = projects[index].is_active === 0 ? 1 : 0
         this.setState({
-            statusValue
+            statusValue,
+            projects
         })
     }
 
@@ -59,10 +62,10 @@ class projects extends Component{
     let {sname,projects, statusValue} = this.state
     sname=item.name
     statusValue = item.is_active
+    // statusValue = statusValue === 0 ? 1 : 0
     this.setState({
         editedERow:true,
         selectedRow:index,
-        sname,
         statusValue
     })
   
@@ -95,7 +98,8 @@ handleAddprojectsChange = e => {
 
 
 saveProjectdata = (e) =>{
-     const {add,projects} = this.state
+     const {add,projects,statusValue} = this.state
+     statusValue = statusValue === 0 ? 1 : 0
     axios.post(`${API_URL}/api/newProjectsDepartments`, {name: add.description} ,{
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
@@ -107,7 +111,8 @@ saveProjectdata = (e) =>{
         projects.push(success)
         this.setState({
             addprojects:false,
-            projects
+            projects,
+            statusValue
         })
         
     })
@@ -130,8 +135,9 @@ cancelEdata = (e,index) =>{
 }
 
 handleEditSave = (e,index) =>{
-    e.preventDefault()
+    e.preventDefault();
     const {projects, statusValue} = this.state
+    // projects[index].is_active = statusValue
     const data = {
         project_id:projects[index].id,
         status:statusValue
