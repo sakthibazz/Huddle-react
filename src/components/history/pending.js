@@ -218,7 +218,7 @@ class PendingTasks extends Component{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
                         ?
-                        <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
+                        <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)} className="form-control">
                            <option value={null}>Select Status</option>
                           {
                             this.state.status.map((sts,index)=>{

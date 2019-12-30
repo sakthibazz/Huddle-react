@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import Menuone from "../menu/menu-1";
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
+import swal from 'sweetalert';
 
 class projects extends Component{
     state = {
@@ -99,7 +100,20 @@ handleAddprojectsChange = e => {
 
 saveProjectdata = (e) =>{
      const {add,projects,statusValue} = this.state
-     statusValue = statusValue === 0 ? 1 : 0
+
+    //  statusValue = statusValue === 0 ? 1 : 0
+     const x = projects.find((val)=>{
+        return val.name.toLowerCase() == this.state.add.description.toLowerCase().trim();
+       
+        
+    })
+    if (x){
+       swal( "Project Already Exists",{
+           icon: "warning",
+           button: "OK",
+         });
+        return
+    }
     axios.post(`${API_URL}/api/newProjectsDepartments`, {name: add.description} ,{
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
@@ -109,6 +123,10 @@ saveProjectdata = (e) =>{
         console.log(res);
         const {success} = res.data
         projects.push(success)
+        swal( "Project Added Successfully",{
+            icon: "success",
+            button: "OK",
+          });
         this.setState({
             addprojects:false,
             projects,

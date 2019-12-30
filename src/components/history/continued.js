@@ -221,7 +221,7 @@ class ContinuedTasks extends Component{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
                         ?
-                        <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)}>
+                        <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)} className="form-control">
                            <option>Select status</option>
                           {
                             this.state.status.map((sts,index)=>{

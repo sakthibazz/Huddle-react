@@ -2,6 +2,7 @@ import React,{Component} from 'react'
 import Menuone from "../menu/menu-1";
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
+import swal from 'sweetalert';
 
 class Status extends Component{
     state = {
@@ -71,7 +72,8 @@ class Status extends Component{
 handleAddStatus = (e) =>{
     
     this.setState({
-        addstatus:true
+        addstatus:true,
+        
     })
 }
 
@@ -94,20 +96,43 @@ handleAddStatusChange = e => {
 }
 
 
-savedata = (e) =>{
-     const {add,status} = this.state
+savedata = (e,index,item) =>{
+     const {add,status} = this.state;
+     const x = status.find((val)=>{
+         return val.name.toLowerCase() == this.state.add.description.toLowerCase().trim();
+        
+         
+     })
+     if (x){
+        swal( "Status Already Exists",{
+            icon: "warning",
+            button: "OK",
+          });
+         return
+     }
+
+     
+     
     axios.post(`${API_URL}/api/newstatus`, {name: add.description} ,{
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
     })
+    
     .then(res =>{
         console.log(res);
+       
         const {success} = res.data
-        status.push(success)
+        
+        status.push(success);
+        swal( "Status Added Successfully",{
+            icon: "successa",
+            button: "OK",
+          });
         this.setState({
             addstatus:false,
-            status
+            status,
+            add:{}
         })
         
     })
