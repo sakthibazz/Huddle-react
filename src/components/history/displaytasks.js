@@ -1,7 +1,6 @@
 import React,{Component} from 'react'
 import axios from "axios";
 import { API_URL } from "../../utils/const";
-import Pagination from "react-js-pagination";
 
 class DisplayAssignedTasks extends Component{
     state={
@@ -63,13 +62,7 @@ class DisplayAssignedTasks extends Component{
                         }
                     </tbody>
                 </table>
-                {/* <Pagination
-              activePage={this.state.activePage}
-              itemsCountPerPage={10}
-                        
-              pageRangeDisplayed={5}
-              onChange={this.handlePageChange}
-        /> */}
+                
                 </div>
 
             </div>
