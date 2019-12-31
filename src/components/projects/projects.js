@@ -130,7 +130,9 @@ saveProjectdata = (e) =>{
         this.setState({
             addprojects:false,
             projects,
-            statusValue
+            statusValue,
+            
+            add:""
         })
         
     })
@@ -154,7 +156,7 @@ cancelEdata = (e,index) =>{
 
 handleEditSave = (e,index) =>{
     e.preventDefault();
-    const {projects, statusValue} = this.state
+    const {projects, statusValue,add} = this.state
     // projects[index].is_active = statusValue
     const data = {
         project_id:projects[index].id,

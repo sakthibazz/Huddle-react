@@ -81,7 +81,7 @@ class CompletedTasks extends Component{
             width={100}
             // timeout={3000}
             visible={this.state.display}
-            color={"tomato"}
+            // color={"tomato"}
           />
          </div>
          

@@ -330,14 +330,27 @@ class AssignedTasks extends Component {
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
                   <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
-                      return <option value={proj.id} key={index}>{proj.name}</option>
+                      
+                      return (
+                        proj.is_active === 1
+                        ?
+                        <option value={proj.id} key={index}>{proj.name}</option>
+                        :
+                        ""
+                      )
                     })}
                   </select>
                   :
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control" disabled>
                   <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
-                      return <option value={proj.id} key={index}>{proj.name}</option>
+                      return (
+                        proj.is_active === 1
+                        ?
+                        <option value={proj.id} key={index}>{proj.name}</option>
+                        :
+                        ""
+                      )
                     })}
                   </select>
 
