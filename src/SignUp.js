@@ -19,7 +19,8 @@ class SignUp extends React.Component {
         phoneError:'',
         pwdError:'',
         cpwdError:'',
-        lname: ''
+        lname: '',
+        isLoading:false
     }
 
     handleChange = (e) => {
@@ -82,6 +83,9 @@ class SignUp extends React.Component {
 
     submit = (e) =>{
         e.preventDefault()
+        this.setState({
+            isLoading:true
+        })
         
         const user ={
             first_name:this.state.firstname,
@@ -97,8 +101,7 @@ class SignUp extends React.Component {
             .then(res =>{
                 const {success} = res.data.success;
                 this.setState({
-                    
-                //    info:success
+                    isLoading:false
                 })
                 console.log(success)
                 console.log(res);
@@ -120,13 +123,16 @@ class SignUp extends React.Component {
                         phoneError:errors.phone,
                         pwdError:errors.password,
                         cpwdError:errors.confirm_password,
+                        isLoading:false
                         
                 })
                
                 console.log(err.response.data.error) ;            
             })
-    }   
+    }  
+     
   render() {
+      const {isLoading} = this.state
   	return (
         <div>{
             (!localStorage.getItem('userid')) ?
@@ -200,7 +206,10 @@ class SignUp extends React.Component {
                                             </div>
 
                                             <div className="mt-3">
-                                                <button type="submit" className="btn btn-custom btn-block" onClick={(e) => this.submit(e)}>Sign Up</button>
+                                                
+                                                <button type="submit" className="btn btn-custom btn-block" disabled={isLoading} onClick={(e) => this.submit(e)}>Sign Up&nbsp;
+                                                {isLoading &&<i className="fa fa-spinner fa-spin"></i>}
+                                                </button>
                                             </div>
 
                                             <div className="mt-4 mb-0 text-center">

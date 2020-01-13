@@ -8,7 +8,8 @@ import { API_URL } from './utils/const'
 class Login extends React.Component {
     state = {
         email:"",
-        pwd:""
+        pwd:"",
+        isLoading:false
     }
 
     handleEmail = (e) =>{
@@ -31,10 +32,16 @@ class Login extends React.Component {
             email:this.state.email,
             password:this.state.pwd
         }
+        this.setState({
+            isLoading:true
+        })
 
         axios.post(`${API_URL}/api/login`, user_details)
             .then(res =>{
                 console.log(res);
+                this.setState({
+                    isLoading:false
+                })
                 const {success} = res.data;
                 const {token,user_id,first_name, group_id} = res.data.success
                 localStorage.setItem('token' , token)
@@ -56,6 +63,9 @@ class Login extends React.Component {
             })
             .catch(err =>{
                 console.log(err)
+                this.setState({
+                    isLoading:false
+                })
                 // const {msg} =err.response.error
                 // alert("Invalid credentials");
                 swal( "Invalid Credentials",{
@@ -68,7 +78,7 @@ class Login extends React.Component {
         
     }
   render() {
-  
+    const {isLoading} = this.state
   	return ( 
         <div>
           {
@@ -108,10 +118,16 @@ class Login extends React.Component {
                                                 </div>
 
                                                 <div className="mt-3">
-                                                    <button type="submit" className="btn btn-custom btn-block" onClick={(e) =>this.submit(e)}>Log In</button>
+                                                    <button type="submit" className="btn btn-custom btn-block" disabled={isLoading} onClick={(e) =>this.submit(e)}>Log In&nbsp;
+                                                     {
+                                                         isLoading &&
+                                                         <i class="fa fa-spinner fa-spin" style={{fontSize:"16px"}}></i>
+                                                     }
+                                                         </button>
+                                                
                                                 </div>
 
-                                                <div className="mt-4 mb-0 text-center">
+                                                <div className="mt-4 mb-0 text-center"> 
                                                 <Link to=""  className="text-dark"><i className="mdi mdi-lock"></i> Forgot your password?</Link>
                                                 </div>
                                             </form>

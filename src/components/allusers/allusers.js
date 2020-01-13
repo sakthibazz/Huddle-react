@@ -3,6 +3,8 @@ import axios from 'axios';
 import { API_URL } from "../../utils/const";
 import Loader from 'react-loader-spinner';
 import Menuone from "../menu/menu-1";
+import "react-widgets/dist/css/react-widgets.css";
+import DropdownList from "react-widgets/lib/DropdownList";
 
 class AllUsers extends Component{
     state={
@@ -29,12 +31,12 @@ class AllUsers extends Component{
 
     }
 
-    handleUsers = (e, index) => {
-        const { value } = e.target;
-        const {user_id} = this.state
+    onSelectedUser = (user) => {
+
         const userdetails ={
-            user_id: value
+            user_id: user.id
           }
+        const user_id = user.id
         axios.post(`${API_URL}/api/displyAllData`, userdetails)
         .then(res=>{
             const {success} = res.data
@@ -45,29 +47,42 @@ class AllUsers extends Component{
 
         
         this.setState({
-          userId: value,
+          userId: user.id,
           user_id
         });
       };
 
 
     render(){
+        let widget = (
+            <DropdownList filter
+            onSelect={this.onSelectedUser}
+              data={this.state.allusers}
+              valueField="id"
+              textField="first_name"
+              defaultValue={1}
+            />
+          );
         return(
             <div> {
                 
                 (localStorage.getItem('userid')) ?
                 <div>
                 <Menuone />
-                <h1 className="mt-5 pt-5">Assigning projects to user</h1>
+                <h1 className="mt-5 pt-5">Users Tasks</h1>
                 <div className="container ">
                         <div>
                             
                     </div>
-                    <div className="row pt-5" >{
+                    <div className="row " >{
                                 !this.state.display &&
                         <div className="col-sm-12">
-                            <label>Select User:</label>
-                            <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
+                            <label className="pr-5">Select User:</label>
+                            
+                                {/* this.state.allusers && this.state.allusers.length>0 */}
+                                <p>{widget}</p>
+                            
+                            {/* <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
                                 <option>Select user</option>
                                {
                                    this.state.allusers.map(val=>{
@@ -77,7 +92,7 @@ class AllUsers extends Component{
                                        )
                                    })
                                }
-                            </select>
+                            </select> */}
                            
                         </div>
 
