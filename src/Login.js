@@ -128,7 +128,7 @@ class Login extends React.Component {
                                                 </div>
 
                                                 <div className="mt-4 mb-0 text-center"> 
-                                                <Link to=""  className="text-dark"><i className="mdi mdi-lock"></i> Forgot your password?</Link>
+                                                <Link to="/forgotpassword"  className="text-dark"><i className="mdi mdi-lock"></i> Forgot your password?</Link>
                                                 </div>
                                             </form>
                                         </div>

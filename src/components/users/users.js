@@ -5,11 +5,6 @@ import Select from 'react-select';
 import Menuone from "../menu/menu-1";
 
 
-// const options = [
-//     { value: 'chocolate', label: 'Chocolate' },
-//     { value: 'strawberry', label: 'Strawberry' },
-//     { value: 'vanilla', label: 'Vanilla' },
-//   ];
 
 
 class Users extends Component{
@@ -22,18 +17,23 @@ class Users extends Component{
         projDept:[],
         statusValue:0,
         selectedOption: null,
+        oData:[]
 
     }
 
     componentDidMount(){
-        axios.get(`${API_URL}/api/allusers`,{
+       
+
+        axios.get(`${API_URL}/api/allusers`,
+        {
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token")
             }
           })
           .then(res=>{
                 console.log(res)
-                const {success} = res.data
+                const {success} = res.data;
+                
                 // const users = success.map((val,index)=>{
                 //      val.status=0;
                 //     return val;
@@ -44,7 +44,7 @@ class Users extends Component{
                 })
           })
 
-          axios.get(`${API_URL}/api/allProjectsDepartments`, {
+          axios.get(`${API_URL}/api/allProjectsDepartments`,{
             headers: {
               Authorization: "Bearer " + localStorage.getItem("token")
             }
@@ -176,6 +176,39 @@ class Users extends Component{
 
        
     }
+
+    handleSearch = (e) => {
+        let {users} = this.state
+        // oData= this.state.users
+        let {value} = e.target;
+        if(value !== ""){
+            
+         let newData = this.state.users.filter(item=>{
+           return item.first_name.toLowerCase().indexOf(value.toLowerCase()) !== -1 || 
+           item.email.toLowerCase().indexOf(value.toLowerCase()) !== -1 
+            })
+            this.setState({
+                users:newData
+            })
+        }
+        else{
+            axios.get(`${API_URL}/api/allusers`,{
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token")
+                }
+              })
+            .then(res=>{
+                  console.log(res)
+                  const {success} = res.data
+                  
+                  this.setState({
+                      users:success
+                  })
+            })
+            
+        }
+
+    }
    
 
     render(){
@@ -183,8 +216,12 @@ class Users extends Component{
         return(
             <div>
                 <Menuone />
-                <div className="container ">
-                    
+                <div className="container pt-5">
+                      <div className="row">
+                      <div className="col-sm-12">
+                      <input  class="form-control mt-5" type="search" placeholder="Search: Users/Email" onChange={(e)=>this.handleSearch(e)} /> 
+                      </div>
+                      </div>
                     { 
                      this.state.users.length == 0
                      ?
@@ -192,7 +229,7 @@ class Users extends Component{
                      :
                      <div>
                     {/* <button className="btn btn-primary mt-4">Add Users</button> */}
-                   <table className="table table-bordered mt-5 pt-4">
+                   <table className="table table-bordered  pt-4">
                        <thead>
                            <tr>
                                <th>UserName</th>
