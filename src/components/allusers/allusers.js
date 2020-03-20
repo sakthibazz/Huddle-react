@@ -17,7 +17,11 @@ class AllUsers extends Component{
         sname:""
     }
     componentDidMount(){
-        axios.get(`${API_URL}/api/allusers`)
+        axios.get(`${API_URL}/api/allusers`,{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
           .then(res=>{
                 console.log(res)
                 const {success} = res.data
@@ -27,7 +31,11 @@ class AllUsers extends Component{
                 })
           })
 
-          axios.get(`${API_URL}/api/allStatus`)
+          axios.get(`${API_URL}/api/allStatus`,{
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token")
+            }
+          })
           .then(res=>{
             console.log(res);
             const {success} = res.data;
