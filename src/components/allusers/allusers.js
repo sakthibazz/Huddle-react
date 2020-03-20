@@ -12,24 +12,35 @@ class AllUsers extends Component{
         allusers:[],
         userId:"",
         tasks:[],
-        display : true
+        display : true,
+        status:[],
+        sname:""
     }
     componentDidMount(){
-        axios.get(`${API_URL}/api/allusers`,{
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token")
-            }
-          })
+        axios.get(`${API_URL}/api/allusers`)
           .then(res=>{
                 console.log(res)
                 const {success} = res.data
                 this.setState({
                     allusers:success,
-                    display : false
+                    display:false
                 })
           })
 
+          axios.get(`${API_URL}/api/allStatus`)
+          .then(res=>{
+            console.log(res);
+            const {success} = res.data;
+            this.setState({
+              status:success,
+              display:false
+              
+            })
+          });
+
     }
+
+   
 
     onSelectedUser = (user) => {
 
@@ -41,8 +52,10 @@ class AllUsers extends Component{
         .then(res=>{
             const {success} = res.data
             this.setState({
-                tasks:success
+                tasks:success,
+                display:false
             })
+
         })
 
         
@@ -50,6 +63,25 @@ class AllUsers extends Component{
           userId: user.id,
           user_id
         });
+      };
+
+      onSelectedStatus = (status) => {
+        const {userId} = this.state
+        const details ={
+            user_id: userId,
+            status_id:status.id
+          }
+        axios.post(`${API_URL}/api/displyAllDataBasedStatus`, details)
+        .then(res=>{
+            const {success} = res.data
+            this.setState({
+                tasks:success,
+                display:false
+            })
+
+        })
+
+       
       };
 
 
@@ -60,7 +92,17 @@ class AllUsers extends Component{
               data={this.state.allusers}
               valueField="id"
               textField="first_name"
-              defaultValue={1}
+              defaultValue={"Select User"}
+            />
+          );
+
+          let widget1 = (
+            <DropdownList filter
+            onSelect={this.onSelectedStatus}
+              data={this.state.status}
+              valueField="id"
+              textField="name"
+              defaultValue={"select Ststus"}
             />
           );
         return(
@@ -74,32 +116,48 @@ class AllUsers extends Component{
                         <div>
                             
                     </div>
-                    <div className="row " >{
-                                !this.state.display &&
-                        <div className="col-sm-12">
+                    <div className="row " >
+                        <div className="col-sm-6">
                             <label className="pr-5">Select User:</label>
                             
                                 {/* this.state.allusers && this.state.allusers.length>0 */}
                                 <p>{widget}</p>
                             
-                            {/* <select value={this.state.userId.id} onChange={(e)=>this.handleUsers(e)}>
-                                <option>Select user</option>
-                               {
-                                   this.state.allusers.map(val=>{
-                                       return(
-                                           
-                                           <option value={val.id}>{val.first_name} {val.last_name}</option>
-                                       )
-                                   })
-                               }
-                            </select> */}
+                           
                            
                         </div>
+                        <div className="col-sm-6">
+                            <label className="pr-5">Select Status:</label>
+                            
+                                {/* this.state.allusers && this.state.allusers.length>0 */}
+                                <p>{widget1}</p>
+                            
+                           
+                           
+                        </div>
+                         {/* <div className="col-sm-6 text-left">
+                         <label className="font-weight-bold">Select Status: </label>
+                         <select value={this.state.sname} onChange={e => this.handleStatus(e)} className="form-control">
+                             <option value="select">All Task</option>
+                           {this.state.status.map((sts,index) => {
+                             return (
+                              
+                                 <option value={sts.name} key={index}>{sts.name}</option>
+                               
+                             )
+                           })}
+                         </select>
+                       </div> */}
 
-                        }
+                        
                         
                     </div>
                     <div className="row">
+                     {
+                       this.state.tasks.length == 0
+                       ?
+                       <h1 className="text-center p-5">No Data Available,Please Select User to view tasks</h1>
+                       :
                         <table className="table table-bordered mt-5 text-left">
                             <thead>{
                                 !this.state.display &&
@@ -128,6 +186,7 @@ class AllUsers extends Component{
                                 }
                             </tbody>
                         </table>
+    }
                     </div>
                 </div>
                 </div>
