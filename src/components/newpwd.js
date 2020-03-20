@@ -1,5 +1,4 @@
 import React,{Component} from 'react'
-import { Button,FormGroup,Label,Input,Container,Span } from 'reactstrap';
 import axios from 'axios';
 import { API_URL } from "../utils/const";
 import { Link } from "react-router-dom";

@@ -1,15 +1,6 @@
 import React, { Component } from "react";
-import "./form.css";
-import {
-  Container,
-  Button,
-  FormGroup,
-  Label,
-  Input,
-  Span,
-  Card
-} from "reactstrap";
-import swal from 'sweetalert'
+
+// import swal from 'sweetalert'
 
 import { Link } from "react-router-dom";
 import axios from "axios";
