@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import "react-tabs/style/react-tabs.css";
-import { Menu } from "@material-ui/core";
-import Menuone from "../menu/menu-1";
-import axios from "axios";
-import { API_URL } from "../../utils/const";
-import CompletedTasks from "./dummy";
-import ContinuedTasks from "./continued";
-import PendingTasks from "./pending";
-import OnHoldTasks from "./onhold";
+import React, { Component } from "react"
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs"
+import "react-tabs/style/react-tabs.css"
+import { Menu } from "@material-ui/core"
+import Menuone from "../menu/menu-1"
+import axios from "axios"
+import { API_URL } from "../../utils/const"
+import CompletedTasks from "./dummy"
+import ContinuedTasks from "./continued"
+import PendingTasks from "./pending"
+import OnHoldTasks from "./onhold"
 import './tasks.css'
-import swal from 'sweetalert';
-import Loader from 'react-loader-spinner';
+import swal from 'sweetalert'
+import Loader from 'react-loader-spinner'
 
 class Tasks extends Component {
   state = {
@@ -37,10 +37,14 @@ class Tasks extends Component {
     projId:"",
     status:[],
     statusName:"",
+    description:"",
     statusId: '',
     fdesc: '',
     saveTaskButton : false,
-    editTaskButton : false
+    editTaskButton : false,
+    type_id:"",
+    types:[],
+    ca:""
   };
 
   componentDidMount() {
@@ -66,11 +70,11 @@ class Tasks extends Component {
         console.log(err);
       });
 
-      axios.get(`${API_URL}/api/conStatus`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
+      axios.get(`${API_URL}/api/conStatus`,{
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
     .then(res=>{
       console.log(res);
       const {success} = res.data;
@@ -79,12 +83,25 @@ class Tasks extends Component {
       })
     });
 
+    axios.get(`${API_URL}/api/TaskTypes`,{
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+    .then(res=>{
+      console.log(res);
+      const {success} = res.data;
+      this.setState({
+        types:success
+      })
+    });
+
     const Details ={
       user_id: localStorage.getItem("userid")
     }
 
     axios
-    .post(`${API_URL}/api/allNewTasks`, Details ,{
+    .post(`${API_URL}/api/allNewTasks`, Details,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -121,6 +138,16 @@ class Tasks extends Component {
     console.log(this.state.proj_id);
   };
 
+  handleType = (e, index) => {
+    const { value } = e.target;
+    const { type_id } = this.state;
+    this.setState({
+      type_id: value
+    });
+    console.log(this.state.type_id);
+  };
+
+
   handleTableProject = (e, index) => {
     const { value } = e.target;
     const { projId } = this.state;
@@ -130,7 +157,7 @@ class Tasks extends Component {
   };
 
   saveTask = () => {
-    let { addRows, proj_id, desc, projects } = this.state;
+    let { addRows, proj_id, desc, projects,type_id } = this.state;
     if(this.state.proj_id === ""){
       swal( "Select Project",{
         icon: "warning",
@@ -143,15 +170,20 @@ class Tasks extends Component {
         button: "OK",
       });
     }
+    var x=new Date()
+   
     const taskDetails = [
       {
         description: desc,
         user_id: localStorage.getItem("userid"),
-        project_department_id: proj_id
+        project_department_id: proj_id,
+        task_type_id:type_id,
+        // created_at:h +':'+x.getMinutes() 
+       created_at:x.toLocaleTimeString()
       }
     ];
     axios
-      .post(`${API_URL}/api/createNewTask`, taskDetails, {
+      .post(`${API_URL}/api/createNewTask`, taskDetails,{
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
@@ -169,19 +201,27 @@ class Tasks extends Component {
           saveTaskButton: false,
           desc:'',
           fdesc:'',
-          proj_id:""
+          proj_id:"",
+          type_id:""
           
         });
       });
   };
+
+  handleDesc = (e) =>{
+    const {value} = e.target
+    this.setState({
+      desc:value
+    })
+  }
 
 
   handleStatus = e => {
     const { value } = e.target
     this.setState({
       statusId: value,
-      editTaskButton : true,
-      desc:''
+      editTaskButton : true
+      
     })
   }
 
@@ -202,29 +242,34 @@ class Tasks extends Component {
 
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows} = this.state
+    const {projId, statusId, addRows,desc} = this.state
     const taskStatus = 
       {
         status_id:statusId,
         task_id:row.task_id,
-        user_id: localStorage.getItem("userid")
+        description:desc
+        // user_id: localStorage.getItem("userid")
       }
   
     axios
-    .post(`${API_URL}/api/statusUpdate` , taskStatus ,{
+    .post(`${API_URL}/api/TodayTaskUpdate` , taskStatus,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    })
+    } )
     .then(res =>{
       console.log(res);
       const {success} = res.data
+      console.log(success);
+    
       addRows[idx]['statusName'] = success[0].status_name
+      addRows[idx]['description'] = success[0].description
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
         addRows,
-        fdesc: ''
+        fdesc: '',
+        desc
     })
       
     })
@@ -241,7 +286,7 @@ class Tasks extends Component {
       }
   console.log(idx)
     axios
-    .post(`${API_URL}/api/deleteTask` , taskStatus ,{
+    .post(`${API_URL}/api/deleteTask` , taskStatus,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -283,7 +328,7 @@ class Tasks extends Component {
           <TabPanel>
             <div className="container">
               <div className="row mt-4">
-                <div className="col-sm-4 text-left">
+                <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select Project: </label>
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
                       <option value="select">Select Project</option>
@@ -298,7 +343,30 @@ class Tasks extends Component {
                     })}
                   </select>
                 </div>
-                <div className="col-sm-7 text-left">
+                <div className="col-sm-3 text-left">
+                  
+                  <label className="font-weight-bold">Task Type:</label>
+                <select value={this.state.type_id} onChange={(e)=>this.handleType(e)} className="form-control">
+                    <option value="select">Select Type</option>
+                  {this.state.types.length > 0 &&
+                  this.state.types.map((type,index) => {
+                    return (
+                     
+                        <option value={type.id} key={index}>{type.type_name}</option>
+                        
+                      
+                    )
+                    
+                  }
+                  )
+                  }
+                  
+                
+                </select>
+
+                
+              </div>
+                <div className="col-sm-5 text-left">
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
@@ -306,6 +374,7 @@ class Tasks extends Component {
                     placeholder="Task Desc"
                     onChange={e => this.newTaskDesc(e)}
                     autoComplete="off"
+                    spellcheck="true"
                   />
                 </div>
                 <div className="col-sm-1">
@@ -332,6 +401,7 @@ class Tasks extends Component {
                 <tr>
                   <th>Date</th>
                   <th>Name</th>
+                  <th>Task Type</th>
                   <th>Desc</th>
                   <th>Status</th>
                   <th>Assigned By</th>
@@ -351,33 +421,21 @@ class Tasks extends Component {
                           
                       </td>
                       <td>{
-                            // this.state.editedERow === true && this.state.selectedRow === index
-                            // ?
-                            // <select className="form-control" value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
-                                
-                            //     {
-                                  
-                            //     this.state.projects.map((val,index) =>{
-                            //         return(
-                            //             <option value={val.id}>{val.name}</option>
-                            //         )
-                            //     })
-                            // }
-                            // </select>
-                            // :
+                            
                             item.project_name
 
                           }
                           
                       </td>
+                      <td>{item.type_name}</td>
                       <td>
                       <div className="">
                           { 
-                          // this.state.editedERow === true  && this.state.selectedRow === index
-                          // ?
-                          // <input  className="form-control" type="text" value={this.state.desc}  disabled/>
+                          this.state.editedERow === true  && this.state.selectedRow === index
+                          ?
+                          <input className="form-control" type="text" value={this.state.desc} onChange={(e) => this.handleDesc(e)} />
                           
-                          // :
+                          :
                           
                             item.description
                           
