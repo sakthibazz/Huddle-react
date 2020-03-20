@@ -9,6 +9,7 @@ import {
   Span,
   Card
 } from "reactstrap";
+import swal from 'sweetalert'
 
 import { Link } from "react-router-dom";
 import axios from "axios";
@@ -17,42 +18,40 @@ import { API_URL } from "../utils/const";
 class ForgotPwd extends Component {
   state = {
     phoneNumber: "",
-    otp: ""
+    email: ""
   };
 
-  generateOtp = e => {
-    e.preventDefault();
-    const data = {
-      phone: this.state.phoneNumber
-    };
-    axios
-      .post(`${API_URL}/api/sendOtp`, data)
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
+ 
 
-  saveOtp = e => {
+  saveDetails = e => {
     e.preventDefault();
-    const { phoneNumber } = this.state;
+    const { phoneNumber,email } = this.state;
     const details = {
       phone: this.state.phoneNumber,
-      otp: this.state.otp
+      email: this.state.email
     };
     axios
-      .post(`${API_URL}/api/verifyOtp`, details)
+      .post(`${API_URL}/api/validateCred`, details)
       .then(res => {
         console.log(res);
+        const {success} = res.data
+        swal( success,{
+          icon: "success",
+          button: "OK",
+        });
         this.props.history.push("/newpwd");
       })
-
-      .catch(err => {
-        console.log(err);
-      });
+      .catch(err =>{
+        console.log(err)
+        // const {error} = err.response.data
+       
+        swal( "Enter credentials",{
+            icon: "warning",
+            button: "OK",
+          });
+    })
     localStorage.setItem("phone", phoneNumber);
+    localStorage.setItem("email", email);
   };
 
   handlePhone = e => {
@@ -64,7 +63,7 @@ class ForgotPwd extends Component {
 
   handleEmail = e => {
     this.setState({
-      otp: e.target.value
+      email: e.target.value
     });
   };
 
@@ -114,15 +113,7 @@ class ForgotPwd extends Component {
                                 onChange={e => this.handlePhone(e)}
                               />
                             </div>
-                            {/* <div className="mt-1">
-                              <button
-                                type="submit"
-                                className="btn btn-primary"
-                                onClick={e => this.generateOtp(e)}
-                              >
-                                Generate Otp&nbsp;
-                              </button>
-                            </div> */}
+                           
 
                             <div className="form-group row mb-0 mt-3">
                               <label
@@ -145,7 +136,7 @@ class ForgotPwd extends Component {
                               <button
                                 type="submit"
                                 className="btn btn-custom btn-block"
-                                onClick={e => this.saveOtp(e)}
+                                onClick={e => this.saveDetails(e)}
                               >
                                 Save
                               </button>

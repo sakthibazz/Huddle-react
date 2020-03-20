@@ -14,6 +14,7 @@ class NewPwd extends Component{
         e.preventDefault()
         const data = {
             phone:localStorage.getItem('phone'),
+            email:localStorage.getItem('email'),
             new_password:this.state.password,
             confirm_password:this.state.newpassword
         }
@@ -61,10 +62,10 @@ class NewPwd extends Component{
                               to="home-one"
                               className="text-dark text-uppercase account-pages-logo"
                             >
-                              Huddle Meeting
+                              RESET PASSWORD
                             </Link>
                           </h3>
-                          <p className="text-muted">Enter New Password.</p>
+                          {/* <p className="text-muted">Enter New Password.</p> */}
                         </div>
                         <div className="py-3 px-0">
                           <form>
