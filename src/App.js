@@ -25,7 +25,11 @@ import Status from './components/status/status';
 import Projects from './components/projects/projects';
 import Users from './components/users/users';
 import AssignedTasks from './components/history/assignedTasks';
+import ForgotPwd from "./components/forgotpassword";
+import NewPwd from "./components/newpwd";
 // import { Table } from '@material-ui/core';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   return (
@@ -52,6 +56,8 @@ function App() {
           <Route path="/projects" component={Projects}></Route>
           <Route path="/users" component={Users}></Route>
           <Route path="/assignedtasks" component={AssignedTasks} />
+          <Route path="/forgotpassword" component={ForgotPwd} />
+          <Route path="/newpwd" component={NewPwd} />
           <PrivateRoute path='/allusers' component={AllUsers} />
         </Switch>
 
