@@ -14,7 +14,8 @@ class Status extends Component{
         sname:"",
         statusValue:0,
         add: {
-            description: ''
+            description: '',
+            color:''
         }
 
     }
@@ -84,6 +85,16 @@ handleAsts = (e) =>{
     this.setState({
         add
     })
+} 
+
+handleColor = (e) =>{
+    const {value} =e.target
+    const {add} =this.state
+    add.color=value
+    this.setState({
+        add
+    })
+    console.log(add)
 }
 
 handleAddStatusChange = e => {
@@ -99,8 +110,7 @@ handleAddStatusChange = e => {
 savedata = (e,index,item) =>{
      const {add,status} = this.state;
      const x = status.find((val)=>{
-         return val.name.toLowerCase() == this.state.add.description.toLowerCase().trim();
-        
+         return val.name.toLowerCase() == this.state.add.description.toLowerCase();
          
      })
      if (x){
@@ -113,7 +123,8 @@ savedata = (e,index,item) =>{
 
      
      
-    axios.post(`${API_URL}/api/newstatus`, {name: add.description} ,{
+    axios.post(`${API_URL}/api/newstatus`, {name: add.description,
+    color:add.color} ,{
         headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
@@ -155,10 +166,11 @@ cancelEdata = (e,index) =>{
 }
 
 handleEditSave = (e,index) =>{
-    const {status, statusValue} = this.state
+    const {status, statusValue,add} = this.state
     const data = {
         status_id:status[index].id,
-        status:statusValue
+        status:statusValue,
+        color:add.color
     }
     axios
     .post(`${API_URL}/api/taskStatusUpdate` , data ,{
@@ -190,6 +202,7 @@ handleEditSave = (e,index) =>{
                             <thead>
                                 <tr>
                                     <th>Status Name</th>
+                                    <th>Color Code</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -200,6 +213,9 @@ handleEditSave = (e,index) =>{
                                 <tr>
                                     <td>
                                         <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAsts(e)} />
+                                    </td>
+                                    <td>
+                                        <input type="color" className="form-control" value={this.state.add.color} onChange={(e)=>this.handleColor(e)}  />
                                     </td>
                                     <td>
                                     <button className="btn btn-danger btn-small" disabled>InActive</button>     
@@ -230,6 +246,15 @@ handleEditSave = (e,index) =>{
                                         item.name
               } */}
                  
+                                    </td>
+                                    <td>
+                                        {
+                                            this.state.editedERow === true && this.state.selectedRow === index
+                                            ?
+                                            <input type="color" className="form-control" value={this.state.add.color} onChange={(e)=>this.handleColor(e)}  />
+                                            :
+                                            item.color
+                                        }
                                     </td>
                                     <td>
                                     {

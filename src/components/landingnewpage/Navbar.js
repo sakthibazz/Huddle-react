@@ -1,13 +1,15 @@
 import React from 'react';
 // import './navbar.css'
-import {Collapse,
+import {
+    Collapse,
     Navbar,
     NavbarToggler,
     NavbarBrand,
     Nav,
     NavItem,
     NavLink,
-    Container} from "reactstrap";
+    Container
+  } from "reactstrap";
 
 
 

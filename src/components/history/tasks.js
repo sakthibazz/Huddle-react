@@ -44,7 +44,8 @@ class Tasks extends Component {
     editTaskButton : false,
     type_id:"",
     types:[],
-    ca:""
+    hours:"",
+    comments:""
   };
 
   componentDidMount() {
@@ -128,6 +129,20 @@ class Tasks extends Component {
     });
     console.log(desc);
   };
+   
+  handleHours = (e) =>{
+    const {value} =e.target
+    this.setState({
+      hours:value
+    })
+  }
+
+  handleComment= (e) =>{
+    const {value} =e.target
+    this.setState({
+      comments:value
+    })
+  }
 
   handleProject = (e, index) => {
     const { value } = e.target;
@@ -227,7 +242,7 @@ class Tasks extends Component {
 
   handleEdit = (e,index,item) =>{
 
-    
+    const {hours,comments} =this.state
       console.log("printing edit")
       console.log(index)
       console.log(item)
@@ -236,18 +251,22 @@ class Tasks extends Component {
           selectedRow:index,
           desc:item.description,
           projId:item.project_department_id,
-          fdesc:''
+          fdesc:'',
+          hours:item.hours,
+          comments:item.comments
       })
   }
 
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows,desc} = this.state
+    const {projId, statusId, addRows,desc,hours,comments} = this.state
     const taskStatus = 
       {
         status_id:statusId,
         task_id:row.task_id,
-        description:desc
+        description:desc,
+        no_of_hours:hours,
+        comments:comments
         // user_id: localStorage.getItem("userid")
       }
   
@@ -264,12 +283,16 @@ class Tasks extends Component {
     
       addRows[idx]['statusName'] = success[0].status_name
       addRows[idx]['description'] = success[0].description
+      addRows[idx]['hours'] = this.state.hours
+      addRows[idx]['comments']=this.state.comments
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
         addRows,
         fdesc: '',
-        desc
+        desc,
+        hours,
+        comments
     })
       
     })
@@ -388,7 +411,7 @@ class Tasks extends Component {
                 </div>
               </div>
             </div>
-            <div className="container">
+            <div className="container-fluid">
              {
                this.state.addRows == ""
                ?
@@ -404,6 +427,8 @@ class Tasks extends Component {
                   <th>Task Type</th>
                   <th>Desc</th>
                   <th>Status</th>
+                  <th>No of hours</th>
+                  <th>Comment</th>
                   <th>Assigned By</th>
                   <th>Actions</th>
                 </tr>
@@ -464,10 +489,30 @@ class Tasks extends Component {
                               })
                             }
                           </select>
+                        
                           :
                           item.statusName || "Open"
                           }
                             
+                      </td>
+                      <td>
+                        {
+                           this.state.editedERow === true && this.state.selectedRow === index
+                           ?
+                         <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                         :
+                        item.hours  || "0 Hours"
+                  
+                        }
+                      </td>
+                      <td>
+                        {
+                           this.state.editedERow === true && this.state.selectedRow === index
+                           ?
+                         <input type="text" value={this.state.comments} onChange={(e)=>this.handleComment(e)}/>
+                         :
+                         item.comments || "-"
+                        }
                       </td>
                       <td>
                         {

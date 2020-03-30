@@ -1,0 +1,25 @@
+#partitioned {
+    padding-left: 10px;
+    letter-spacing: 38px;
+    border: 0;
+    background-image: linear-gradient(to left, black 70%, rgba(255, 255, 255, 0) 0%);
+    background-position: bottom;
+    background-size: 50px 1px;
+    background-repeat: repeat-x;
+    background-position-x: 35px;
+    width: 200px !important;
+  }
+
+#design {
+    /* border:1px solid black; */
+    margin:0 auto;
+    width:600px;
+    margin-top:150px;
+    box-shadow: 1px 1px 8px #8888888c;
+}
+
+input{
+    width:60% !important;
+    display:inline-block;
+    padding:10px;
+}

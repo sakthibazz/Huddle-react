@@ -24,7 +24,8 @@ class ContinuedTasks extends Component{
     status:[],
     statusName:"",
     statusId: '',
-    editTaskButton : false
+    editTaskButton : false,
+    hours:""
     }
 
     componentDidMount(){
@@ -83,15 +84,22 @@ class ContinuedTasks extends Component{
         })
     }
 
+    handleHours = (e) =>{
+      const {value} =e.target
+      this.setState({
+        hours:value
+      })
+    }
     
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows,contTasks} = this.state
+    const {projId, statusId, addRows,contTasks,hours} = this.state
     const taskStatus = 
       {
         status_id:statusId,
-        task_id:row.id,
-        user_id: localStorage.getItem("userid")
+        task_id:row.task_id,
+        user_id: localStorage.getItem("userid"),
+        no_of_hours:hours
       }
   
     axios
@@ -104,10 +112,12 @@ class ContinuedTasks extends Component{
       console.log(res);
       const {success} = res.data
       contTasks[idx]['statusName'] = success[0].status_name
+      contTasks[idx]['hours'] = success[0].no_of_hours
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
-        contTasks
+        contTasks,
+        hours
     })
       
     })
@@ -124,7 +134,8 @@ class ContinuedTasks extends Component{
         editedERow:true,
         selectedRow:index,
         desc:item.description,
-        projId:item.project_department_id
+        projId:item.project_department_id,
+        hours:item.no_of_hours
     })
 }
 
@@ -153,15 +164,25 @@ class ContinuedTasks extends Component{
     render(){
         return(
             <div>
-              <div>
-              
-              </div>
+          
               <div className="container">
+                <Loader
+                 type="Circles"
+                 color="#00BFFF"
+                 height={100}
+                 width={100}
+                 // timeout={3000}
+                 visible={this.state.display}
+               />
                 {
-                   this.state.contTasks == ""
+                   this.state.contTasks.length == 0 && !this.state.display
                    ?
                  <h1 className="pt-5">No Data Available</h1>
                    :
+
+                   <div>
+                   
+                 {!this.state.display &&
                 
                 <table className="table table-bordered mt-5">
                   <thead>{!this.state.display &&
@@ -169,6 +190,7 @@ class ContinuedTasks extends Component{
                             <th>Date</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>No Of Hours</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
@@ -217,6 +239,15 @@ class ContinuedTasks extends Component{
                       
                         
                     </td>
+                    <td>
+                      {
+                        this.state.editedERow === true && this.state.selectedRow === index
+                        ?
+                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                        :
+                        item.hours || item.no_of_hours
+                      }
+                    </td>
                     <td>{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
@@ -236,8 +267,14 @@ class ContinuedTasks extends Component{
                           }
                         </select>
                         :
-                        item.statusName || "Continued"
-                        }
+                        
+                           
+                              <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "Continued"}
+                          </button>
+                           
+                            
+                         
+                      }
                           
                     </td>
                     <td>{
@@ -259,17 +296,12 @@ class ContinuedTasks extends Component{
              }
              </tbody>
             </table>
-            
+    }
+            </div> 
             }
-            </div>  
-            <Loader
-            type="Circles"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            // timeout={3000}
-            visible={this.state.display}
-          />
+            </div> 
+            
+            
             </div>
         )
     }

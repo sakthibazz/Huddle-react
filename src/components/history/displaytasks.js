@@ -13,11 +13,7 @@ class DisplayAssignedTasks extends Component{
           }
       
           axios
-          .post(`${API_URL}/api/assignedTaskData`, Details ,{
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token")
-            }
-          })
+          .post(`${API_URL}/api/assignedTaskData`, Details )
           .then(res =>{
             console.log(res);
             const {success} = res.data;

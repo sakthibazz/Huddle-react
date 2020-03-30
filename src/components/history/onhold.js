@@ -13,7 +13,8 @@ class OnHoldTasks extends Component{
       statusId: '',
       editTaskButton : false,
         onhold:[],
-      display : true
+      display : true,
+      hours:""
     }
 
     componentDidMount(){
@@ -21,11 +22,7 @@ class OnHoldTasks extends Component{
       {
         user_id: localStorage.getItem("userid")
       }
-        axios.post(`${API_URL}/api/onHold` , Details ,{
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token")
-            }
-          })
+        axios.post(`${API_URL}/api/onHold` , Details)
         .then(res=>{
             console.log(res);
             const {success} = res.data
@@ -35,11 +32,7 @@ class OnHoldTasks extends Component{
             })
         })
 
-        axios.get(`${API_URL}/api/onHoldStatus`, {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("token")
-          }
-        })
+        axios.get(`${API_URL}/api/onHoldStatus`)
         .then(res=>{
           console.log(res);
           const {success} = res.data;
@@ -49,31 +42,38 @@ class OnHoldTasks extends Component{
         });
     }
 
+    handleHours = (e) =>{
+      const {value} =e.target
+      this.setState({
+        hours:value
+      })
+    }
+    
+
     statusSave = (e, row, idx) =>{
       console.log("savestatus")
-      const {projId, statusId, addRows,onhold} = this.state
+      const {projId, statusId, addRows,onhold,hours} = this.state
       const taskStatus = 
         {
           status_id:statusId,
-          task_id:row.id,
-          user_id: localStorage.getItem("userid")
+          task_id:row.task_id,
+          user_id: localStorage.getItem("userid"),
+          no_of_hours:hours
         }
     
       axios
-      .post(`${API_URL}/api/statusUpdate` , taskStatus ,{
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
+      .post(`${API_URL}/api/statusUpdate` , taskStatus )
       .then(res =>{
         console.log(res);
         const {onhold} = this.state;
         const {success} = res.data
         onhold[idx]['statusName'] = success[0].status_name
+        onhold[idx]['hours'] = success[0].no_of_hours
         // addRows[index][''] = success[0].task_id
         this.setState({
           editedERow:false,
-          onhold
+          onhold,
+          hours
       })
         
       })
@@ -81,7 +81,7 @@ class OnHoldTasks extends Component{
     }
 
     handleEdit = (e,index,item) =>{
-
+      const {hours} = this.state
     
       console.log("printing edit")
       console.log(index)
@@ -90,7 +90,8 @@ class OnHoldTasks extends Component{
           editedERow:true,
           selectedRow:index,
           desc:item.description,
-          projId:item.project_department_id
+          projId:item.project_department_id,
+          hours:item.no_of_hours
       })
   }
 
@@ -125,18 +126,31 @@ class OnHoldTasks extends Component{
              
               </div>
               <div className="container">
+              
+                   <Loader
+          type="Circles"
+          color="#00BFFF"
+          height={100}
+          width={100}
+          // timeout={3000}
+          visible={this.state.display}
+        />
               {
-                   this.state.onhold.length === 0
+                   
+            
+                   this.state.onhold.length === 0 && !this.state.display
                    ?
                  <h1 className="pt-5">No Data Available</h1>
                    :
-                <table className="table table-bordered mt-5">
+                   !this.state.display &&
+                  <table className="table table-bordered mt-5">
                     <thead>{
                 !this.state.display &&
                     <tr>
                       <th>Date</th>
                       <th>Name</th>
                       <th>Description</th>
+                      <th>No of Hours</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -151,6 +165,15 @@ class OnHoldTasks extends Component{
                      <td width="140">{item.updated_at.slice(0,10)}</td>
                      <td>{item.project_name}</td>
                      <td>{item.description}</td>
+                     <td>
+                      {
+                        this.state.editedERow === true && this.state.selectedRow === index
+                        ?
+                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                        :
+                         item.hours || item.no_of_hours
+                      }
+                    </td>
                      <td>{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
@@ -170,7 +193,9 @@ class OnHoldTasks extends Component{
                           }
                         </select>
                         :
-                        item.statusName || "On Hold"
+                        <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "On Hold"}
+                        </button>
+                        
                         }
                           
                     </td>
@@ -192,16 +217,11 @@ class OnHoldTasks extends Component{
              }
              </tbody>
             </table>
+            
+            
     }
             </div>
-            <Loader
-            type="Circles"
-            color="#00BFFF"
-            height={100}
-            width={100}
-            // timeout={3000}
-            visible={this.state.display}
-          />
+            
             </div>
         )
     }

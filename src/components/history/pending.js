@@ -2,6 +2,8 @@ import React,{Component  } from 'react'
 import axios from 'axios'
 import { API_URL } from "../../utils/const";
 import Loader from 'react-loader-spinner';
+import { pendingColumns } from './columns/column1';
+import Table from './columns/table1'
 
 class PendingTasks extends Component{
     state={
@@ -23,7 +25,8 @@ class PendingTasks extends Component{
     status:[],
     statusName:"",
     statusId: '',
-    editTaskButton : false
+    editTaskButton : false,
+    hours:""
     }
 
     componentDidMount(){
@@ -31,11 +34,7 @@ class PendingTasks extends Component{
         user_id: localStorage.getItem("userid")
       }
         axios
-      .post(`${API_URL}/api/projectsDepartments`, Pdetails, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
+      .post(`${API_URL}/api/projectsDepartments`)
       .then(res => {
         console.log(res);
         const { proj_id, projects } = this.state;
@@ -49,11 +48,7 @@ class PendingTasks extends Component{
         console.log(err);
       });
 
-      axios.get(`${API_URL}/api/status`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
+      axios.get(`${API_URL}/api/status`)
       .then(res=>{
         console.log(res);
         const {success} = res.data;
@@ -67,11 +62,7 @@ class PendingTasks extends Component{
         {
           user_id: localStorage.getItem("userid")
         }
-        axios.post(`${API_URL}/api/pendingTasks` , Details ,{
-            headers: {
-              Authorization: "Bearer " + localStorage.getItem("token")
-            }
-          })
+        axios.post(`${API_URL}/api/pendingTasks` , Details )
         .then(res=>{
             console.log(res);
             const {success} = res.data
@@ -82,32 +73,38 @@ class PendingTasks extends Component{
         })
     }
 
-    
+  
+    handleHours = (e) =>{
+      const {value} =e.target
+      this.setState({
+        hours:value
+      })
+    }
+
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows,pendTasks} = this.state
+    const {projId, statusId, addRows,pendTasks,hours} = this.state
     const taskStatus = 
       {
         status_id:statusId,
-        task_id:row.id,
-        user_id: localStorage.getItem("userid")
+        task_id:row.task_id,
+        user_id: localStorage.getItem("userid"),
+        no_of_hours:hours
       }
   
     axios
-    .post(`${API_URL}/api/statusUpdate` , taskStatus ,{
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
+    .post(`${API_URL}/api/statusUpdate` , taskStatus )
     .then(res =>{
       console.log(res);
       const {pendTasks} = this.state;
       const {success} = res.data
       pendTasks[idx]['statusName'] = success[0].status_name
+      pendTasks[idx]['hours'] = success[0].no_of_hours
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
-        pendTasks
+        pendTasks,
+        hours
     })
       
     })
@@ -124,7 +121,8 @@ class PendingTasks extends Component{
         editedERow:true,
         selectedRow:index,
         desc:item.description,
-        projId:item.project_department_id
+        projId:item.project_department_id,
+        hours:item.no_of_hours
     })
 }
 
@@ -157,11 +155,14 @@ class PendingTasks extends Component{
              
               </div>
               <div className="container">
+                
+              
               {
                this.state.pendTasks == ""
-               ?
-                 <h1 className="pt-5">No Data Available</h1>
+               &&
+                 !this.state.display ? <h1 className="pt-5">No Data Available</h1>
                    :
+                   !this.state.display &&
                 <table className="table table-bordered mt-5">
                 <thead>{
                 !this.state.display &&
@@ -169,6 +170,7 @@ class PendingTasks extends Component{
                     <th>Date</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>No of hours</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -185,7 +187,8 @@ class PendingTasks extends Component{
                         }
                         
                     </td>
-                    <td>{
+                    <td>
+                      {/* {
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?
                           <select value={this.state.projId} onChange={(e) => this.handleTableProject(e)} disabled>
@@ -197,22 +200,31 @@ class PendingTasks extends Component{
                               })
                           }
                           </select>
-                          :
-                          item.project_name
+                          : */}
+                          {item.project_name}
 
-                        }
+                        {/* // } */}
                         
                     </td>
                     <td>
-                        { this.state.editedERow === true  && this.state.selectedRow === index
+                        {/* { this.state.editedERow === true  && this.state.selectedRow === index
                         ?
                         <input type="text" value={this.state.desc}  disabled/>
-                        :
-                        item.description
-              }
+                        : */}
+                        {item.description}
+              {/* } */}
                         
                       
                         
+                    </td>
+                    <td>
+                      {
+                        this.state.editedERow === true && this.state.selectedRow === index
+                        ?
+                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                        :
+                         item.hours || item.no_of_hours
+                      }
                     </td>
                     <td>{
                         
@@ -233,7 +245,8 @@ class PendingTasks extends Component{
                           }
                         </select>
                         :
-                        item.statusName || "Pending"
+                        <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "Pending"}
+                        </button>
                         }
                           
                     </td>
@@ -256,7 +269,69 @@ class PendingTasks extends Component{
              }
             </table>
             
+            
     }
+     {/* <Table 
+             data={this.state.pendTasks}
+             columns={[
+              {
+                  Header: 'Task Created',  
+                  accessor: 'created_at' 
+              },
+              {
+                  Header: 'Name',  
+                  accessor: 'project_name' 
+              },
+              {
+                  Header:'Description',
+                  accessor: 'description'
+              },
+              {
+                  Header:'Status',
+                  accessor: (e,index,item) => (
+                    
+                        
+                      this.state.editedERow === true && this.state.selectedRow === index
+                      ?
+                      <select value={this.state.statusId} onChange={ (e) => this.handleStatus(e)} className="form-control">
+                         <option value={null}>Select Status</option>
+                        {
+                          this.state.status.map((sts,index)=>{
+                              return (
+                                sts.is_active === 1
+                                ?
+                                <option value={sts.id}>{sts.name}</option>
+                                :
+                                ""
+                              )
+                          })
+                        }
+                      </select>
+                      :
+                      item.statusName || "Pending"
+                      
+                  )
+              },
+              {
+                  Header:'Action',
+                  accessor: (item,index) => (
+                    
+                      this.state.editedERow === true && this.state.selectedRow === index
+                      ?
+                      <div>
+                      <button className="btn btn-primary" disabled={this.state.editTaskButton !== true} onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
+                      <button className="btn btn-danger" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
+                      </div>
+                      :
+                      <button className="btn btn-success" onClick={(e)=>this.handleEdit(e,index,item)}><i className="fa fa-edit"></i></button>
+                    
+                  )
+              }
+              
+          ]}
+             
+             /> */}
+        
     </div>  
     <Loader
             type="Circles"
@@ -269,6 +344,7 @@ class PendingTasks extends Component{
             </div>
         )
     }
+    
 }
 
 export default PendingTasks

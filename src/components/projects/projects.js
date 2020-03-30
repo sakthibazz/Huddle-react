@@ -237,7 +237,9 @@ handleEditSave = (e,index) =>{
                                     {
                                                     this.state.editedERow === true && this.state.selectedRow === index
                                                     ?
-                                                    <input type="checkbox"   checked={this.state.statusValue === 1} data-toggle="toggle" onChange={(e)=> this.handleprojectsChange(e,item,index)} />
+                                                   <div className="form-check">
+                                                        <input type="checkbox" className="form-check-input"  checked={this.state.statusValue === 1} data-toggle="toggle" onChange={(e)=> this.handleprojectsChange(e,item,index)} />
+                                                   </div>
                                                     :
                                                         
                                                     item.is_active === 1

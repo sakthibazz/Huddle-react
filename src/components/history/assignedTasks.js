@@ -49,11 +49,7 @@ class AssignedTasks extends Component {
   componentDidMount() {
     
 
-    axios.get(`${API_URL}/api/allusers`,{
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token")
-        }
-      })
+    axios.get(`${API_URL}/api/allusers`)
       .then(res=>{
             console.log(res)
             const {success} = res.data
@@ -64,11 +60,7 @@ class AssignedTasks extends Component {
       })
     
     
-      axios.get(`${API_URL}/api/conStatus`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token")
-      }
-    })
+      axios.get(`${API_URL}/api/conStatus`)
     .then(res=>{
       console.log(res);
       const {success} = res.data;
@@ -82,11 +74,11 @@ class AssignedTasks extends Component {
     }
 
     axios
-    .post(`${API_URL}/api/allNewTasks`, Details ,{
+    .post(`${API_URL}/api/allNewTasks`, Details,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    })
+    } )
     .then(res =>{
       console.log(res);
       const {success} = res.data;
@@ -112,9 +104,11 @@ class AssignedTasks extends Component {
 
   handleUser = (e, index) => {
     const { value } = e.target;
-    const { proj_id } = this.state;
     
     console.log(this.state.users_id);
+    this.setState({
+      users_id:value
+    })
     const Pdetails ={
         user_id: value
        
@@ -184,7 +178,7 @@ class AssignedTasks extends Component {
       }
     ];
     axios
-      .post(`${API_URL}/api/createNewTask`, taskDetails, {
+      .post(`${API_URL}/api/createNewTask`, taskDetails,{
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token")
         }
@@ -245,11 +239,11 @@ class AssignedTasks extends Component {
       }
   
     axios
-    .post(`${API_URL}/api/statusUpdate` , taskStatus ,{
+    .post(`${API_URL}/api/statusUpdate` , taskStatus,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
-    })
+    } )
     .then(res =>{
       console.log(res);
       const {success} = res.data
@@ -275,7 +269,7 @@ class AssignedTasks extends Component {
       }
   console.log(idx)
     axios
-    .post(`${API_URL}/api/deleteTask` , taskStatus ,{
+    .post(`${API_URL}/api/deleteTask` , taskStatus,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
@@ -325,7 +319,7 @@ class AssignedTasks extends Component {
                 <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select Project: </label>
                   { 
-                    this.state.users_id
+                    this.state.users_id 
                     ?
                   <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
                   <option value="select">Select Project</option>

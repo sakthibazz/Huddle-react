@@ -1,0 +1,7 @@
+@media only screen and (max-width: 565px) {
+   .navbar{
+      width:25%;
+      /* overflow-x: hidden; */
+      position: fixed;
+    }
+  }
