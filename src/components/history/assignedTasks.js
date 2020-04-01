@@ -43,7 +43,9 @@ class AssignedTasks extends Component {
     statusId: '',
     fdesc: '',
     saveTaskButton : false,
-    editTaskButton : false
+    editTaskButton : false,
+    type_id:"",
+    types:[],
   };
 
   componentDidMount() {
@@ -68,6 +70,20 @@ class AssignedTasks extends Component {
         status:success
       })
     });
+
+    axios.get(`${API_URL}/api/TaskTypes`,{
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    })
+    .then(res=>{
+      console.log(res);
+      const {success} = res.data;
+      this.setState({
+        types:success
+      })
+    });
+
 
     const Details ={
       user_id: localStorage.getItem("userid")
@@ -155,7 +171,7 @@ class AssignedTasks extends Component {
   };
 
   saveTask = () => {
-    let { addRows, proj_id, desc, projects,users_id,users } = this.state;
+    let { addRows, proj_id, desc, projects,users_id,users,type_id } = this.state;
     if(this.state.proj_id === ""){
       swal( "Select Project",{
         icon: "warning",
@@ -173,7 +189,10 @@ class AssignedTasks extends Component {
         description: desc,
         user_id: users_id,
         project_department_id: proj_id,
-        assigned_by:localStorage.getItem("userid")
+        assigned_by:localStorage.getItem("userid"), 
+        task_type_id:type_id,
+        // created_at:h +':'+x.getMinutes() 
+      //  created_at:x.toLocaleTimeString()
 
       }
     ];
@@ -197,7 +216,8 @@ class AssignedTasks extends Component {
           desc:'',
           fdesc:'',
           users_id:"",
-          proj_id:""
+          proj_id:"",
+          type_id:""
           
         });
       });
@@ -291,6 +311,16 @@ class AssignedTasks extends Component {
     })
   }
 
+  handleType = (e, index) => {
+    const { value } = e.target;
+    const { type_id } = this.state;
+    this.setState({
+      type_id: value
+    });
+    console.log(this.state.type_id);
+  };
+
+
   render() {
     const username = localStorage.getItem('username')
     return (
@@ -350,7 +380,30 @@ class AssignedTasks extends Component {
 
                     }
                 </div>
-                <div className="col-sm-5 text-left">
+                <div className="col-sm-2 text-left">
+                  
+                  <label className="font-weight-bold">Task Type:</label>
+                <select value={this.state.type_id} onChange={(e)=>this.handleType(e)} className="form-control">
+                    <option value="select">Select Type</option>
+                  {this.state.types.length > 0 &&
+                  this.state.types.map((type,index) => {
+                    return (
+                     
+                        <option value={type.id} key={index}>{type.type_name}</option>
+                        
+                      
+                    )
+                    
+                  }
+                  )
+                  }
+                  
+                
+                </select>
+
+                
+              </div>
+                <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
