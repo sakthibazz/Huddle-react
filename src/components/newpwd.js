@@ -76,11 +76,11 @@ class NewPwd extends Component{
                                 New Password
                               </label>
                               <input
-                                type="text"
+                                type="password"
                                 className="form-control col-sm-8"
-                                id="email"
-                                placeholder="Enter Phone Number"
-                                name="email"
+                                id="pswd"
+                                placeholder="Enter password"
+                                name="pswd"
                                 onChange={(e)=>this.handlePwd(e)}
                               />
                             </div>
@@ -97,7 +97,7 @@ class NewPwd extends Component{
                                 type="password"
                                 className="form-control  col-sm-8"
                                 id="pwd"
-                                placeholder="Enter password"
+                                placeholder="Confirm password"
                                 name="pwd"
                                 onChange={(e) =>this.handleNewpwd(e) }
                               />

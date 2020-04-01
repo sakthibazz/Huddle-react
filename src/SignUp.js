@@ -45,6 +45,18 @@ class SignUp extends React.Component {
         }
     }
 
+    character = e => {
+        const char = String.fromCharCode(e.which);
+
+        if(!(/^[A-Za-z]+$/.test(char))) {
+            e.preventDefault();
+            this.setState({
+                firstNameError : 'Enter only Characters',
+                err : true
+            })
+        }
+    }
+
     // handleFname = (e) =>{
     //     const fname = e.target.value
     //     this.setState({
@@ -161,7 +173,7 @@ class SignUp extends React.Component {
                                             </div>
                                             <div className="form-group row mb-0">
                                                 <label for="firstname" className="col-sm-3 mt-2 text-right ">First Name</label>
-                                                <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleChange(e)}/>
+                                                <input type="text" className="form-control col-sm-8" id="firstname" name="firstname" placeholder="First Name"  onChange={(e) => this.handleChange(e)} onKeyPress={e => this.character(e)} />
                                             </div>
                                             
                                             <div className="form-group row mb-0">
@@ -213,7 +225,7 @@ class SignUp extends React.Component {
                                             </div>
 
                                             <div className="mt-4 mb-0 text-center">
-                                                <p className="mb-0">Don't have an account ?
+                                                <p className="mb-0">Already have an account?
                                                  <Link to="login" className="text-danger">Sign in</Link></p>
                                             </div>
                                             </form>
