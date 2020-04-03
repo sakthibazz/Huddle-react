@@ -14,7 +14,8 @@ class OnHoldTasks extends Component{
       editTaskButton : false,
         onhold:[],
       display : true,
-      hours:""
+      hours:"",
+      comments:""
     }
 
     componentDidMount(){
@@ -49,16 +50,23 @@ class OnHoldTasks extends Component{
       })
     }
     
+    handleComment= (e) =>{
+      const {value} =e.target
+      this.setState({
+        comments:value
+      })
+    }
 
     statusSave = (e, row, idx) =>{
       console.log("savestatus")
-      const {projId, statusId, addRows,onhold,hours} = this.state
+      const {projId, statusId, addRows,onhold,hours,comments} = this.state
       const taskStatus = 
         {
           status_id:statusId,
           task_id:row.task_id,
           user_id: localStorage.getItem("userid"),
-          no_of_hours:hours
+          no_of_hours:hours,
+          comments:comments
         }
     
       axios
@@ -69,6 +77,7 @@ class OnHoldTasks extends Component{
         const {success} = res.data
         onhold[idx]['statusName'] = success[0].status_name
         onhold[idx]['hours'] = success[0].no_of_hours
+        onhold[idx]['comments'] = success[0].comments
         // addRows[index][''] = success[0].task_id
         this.setState({
           editedERow:false,
@@ -91,7 +100,8 @@ class OnHoldTasks extends Component{
           selectedRow:index,
           desc:item.description,
           projId:item.project_department_id,
-          hours:item.no_of_hours
+          hours:item.no_of_hours,
+          comments:item.comments
       })
   }
 
@@ -119,12 +129,14 @@ class OnHoldTasks extends Component{
 
 
     render(){
+      // let x=this.state.status.map(item=>{
+      //   return item.color
+      // })
+      // console.log(x,"Hello")
+      console.log(this.state.status)
         return(
             <div>
               
-              <div className="">
-             
-              </div>
               <div className="container">
               
                    <Loader
@@ -151,6 +163,7 @@ class OnHoldTasks extends Component{
                       <th>Name</th>
                       <th>Description</th>
                       <th>No of Hours</th>
+                      <th>Comments</th>
                       <th>Status</th>
                       <th>Action</th>
                     </tr>
@@ -174,6 +187,15 @@ class OnHoldTasks extends Component{
                          item.hours || item.no_of_hours
                       }
                     </td>
+                    <td>
+                        {
+                           this.state.editedERow === true && this.state.selectedRow === index
+                           ?
+                         <input type="text" value={this.state.comments} onChange={(e)=>this.handleComment(e)}/>
+                         :
+                         item.comments || item.comments
+                        }
+                      </td>
                      <td>{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
@@ -193,12 +215,24 @@ class OnHoldTasks extends Component{
                           }
                         </select>
                         :
-                        <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "On Hold"}
-                        </button>
+                        <div>{
+                            this.state.statusId == item.id
+                            ?
+                            <button className="btn" style={{backgroundColor:this.state.status.map((item,idx)=>item[idx].color)}}>{ item.statusName || "On Hold"}</button>
+                         
+                          :
+                          
+                           <button className="btn" style={{backgroundColor:item.status_color,color:"#fff",width:"100%"}}>{ item.statusName || "On Hold"}
+                          </button>
+                          
+                        }
+                          </div>
+                       
                         
                         }
                           
                     </td>
+                   
                     <td>{
                           this.state.editedERow === true && this.state.selectedRow === index
                           ?

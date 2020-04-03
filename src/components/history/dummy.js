@@ -61,6 +61,7 @@ class CompletedTasks extends Component{
                     <th>Task Created</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>Comments</th>
                     <th>Status</th>
                     <th>Task Completed</th>
                   </tr>
@@ -74,6 +75,7 @@ class CompletedTasks extends Component{
                      <td className="">{val.created_at.slice(0,10)}</td>
                      <td >{val.project_name}</td>
                      <td >{val.description}</td>
+                     <td>{val.comments}</td>
                      <td ><button className="btn" style={{backgroundColor:val.status_color,color:"#fff"}}>{val.status_name}</button></td>
                      <td >{val.updated_at.slice(0,10)}</td>
                    </tr>

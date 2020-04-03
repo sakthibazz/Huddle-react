@@ -26,7 +26,8 @@ class PendingTasks extends Component{
     statusName:"",
     statusId: '',
     editTaskButton : false,
-    hours:""
+    hours:"",
+    comments:""
     }
 
     componentDidMount(){
@@ -83,13 +84,14 @@ class PendingTasks extends Component{
 
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows,pendTasks,hours} = this.state
+    const {projId, statusId, addRows,pendTasks,hours,comments} = this.state
     const taskStatus = 
       {
         status_id:statusId,
         task_id:row.task_id,
         user_id: localStorage.getItem("userid"),
-        no_of_hours:hours
+        no_of_hours:hours,
+        comments:comments
       }
   
     axios
@@ -100,11 +102,13 @@ class PendingTasks extends Component{
       const {success} = res.data
       pendTasks[idx]['statusName'] = success[0].status_name
       pendTasks[idx]['hours'] = success[0].no_of_hours
+      pendTasks[idx]['comments'] = success[0].comments
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
         pendTasks,
-        hours
+        hours,
+        comments
     })
       
     })
@@ -122,7 +126,8 @@ class PendingTasks extends Component{
         selectedRow:index,
         desc:item.description,
         projId:item.project_department_id,
-        hours:item.no_of_hours
+        hours:item.no_of_hours,
+        comments:item.comments
     })
 }
 
@@ -148,6 +153,13 @@ class PendingTasks extends Component{
       editTaskButton : true,
     })
   }
+
+  handleComment= (e) =>{
+    const {value} =e.target
+    this.setState({
+      comments:value
+    })
+  }
     render(){
         return(
             <div>
@@ -171,6 +183,7 @@ class PendingTasks extends Component{
                     <th>Name</th>
                     <th>Description</th>
                     <th>No of hours</th>
+                    <th>Comments</th>
                     <th>Status</th>
                     <th>Action</th>
                   </tr>
@@ -226,6 +239,15 @@ class PendingTasks extends Component{
                          item.hours || item.no_of_hours
                       }
                     </td>
+                    <td>
+                        {
+                           this.state.editedERow === true && this.state.selectedRow === index
+                           ?
+                         <input type="text" value={this.state.comments} onChange={(e)=>this.handleComment(e)}/>
+                         :
+                         item.comments || item.comments
+                        }
+                      </td>
                     <td>{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
@@ -245,7 +267,7 @@ class PendingTasks extends Component{
                           }
                         </select>
                         :
-                        <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "Pending"}
+                        <button className="btn" style={{backgroundColor:item.status_color,color:"#fff",width:"100%"}}>{ item.statusName || "Pending"}
                         </button>
                         }
                           

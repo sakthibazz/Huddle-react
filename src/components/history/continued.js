@@ -25,7 +25,8 @@ class ContinuedTasks extends Component{
     statusName:"",
     statusId: '',
     editTaskButton : false,
-    hours:""
+    hours:"",
+    comments:""
     }
 
     componentDidMount(){
@@ -93,13 +94,14 @@ class ContinuedTasks extends Component{
     
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    const {projId, statusId, addRows,contTasks,hours} = this.state
+    const {projId, statusId, addRows,contTasks,hours,comments} = this.state
     const taskStatus = 
       {
         status_id:statusId,
         task_id:row.task_id,
         user_id: localStorage.getItem("userid"),
-        no_of_hours:hours
+        no_of_hours:hours,
+        comments:comments
       }
   
     axios
@@ -113,11 +115,13 @@ class ContinuedTasks extends Component{
       const {success} = res.data
       contTasks[idx]['statusName'] = success[0].status_name
       contTasks[idx]['hours'] = success[0].no_of_hours
+      contTasks[idx]['comments'] = success[0].comments
       // addRows[index][''] = success[0].task_id
       this.setState({
         editedERow:false,
         contTasks,
-        hours
+        hours,
+        comments
     })
       
     })
@@ -135,7 +139,8 @@ class ContinuedTasks extends Component{
         selectedRow:index,
         desc:item.description,
         projId:item.project_department_id,
-        hours:item.no_of_hours
+        hours:item.no_of_hours,
+        comments:item.comments
     })
 }
 
@@ -159,6 +164,13 @@ class ContinuedTasks extends Component{
     this.setState({
       statusId: value,
       editTaskButton : true,
+    })
+  }
+
+  handleComment= (e) =>{
+    const {value} =e.target
+    this.setState({
+      comments:value
     })
   }
     render(){
@@ -191,6 +203,7 @@ class ContinuedTasks extends Component{
                             <th>Name</th>
                             <th>Description</th>
                             <th>No Of Hours</th>
+                            <th>Comments</th>
                             <th>Status</th>
                             <th>Action</th>
                           </tr>
@@ -248,6 +261,15 @@ class ContinuedTasks extends Component{
                         item.hours || item.no_of_hours
                       }
                     </td>
+                    <td>
+                        {
+                           this.state.editedERow === true && this.state.selectedRow === index
+                           ?
+                         <input type="text" value={this.state.comments} onChange={(e)=>this.handleComment(e)}/>
+                         :
+                         item.comments || item.comments
+                        }
+                      </td>
                     <td>{
                         
                         this.state.editedERow === true && this.state.selectedRow === index
@@ -269,7 +291,7 @@ class ContinuedTasks extends Component{
                         :
                         
                            
-                              <button className="btn" style={{backgroundColor:item.status_color,color:"#fff"}}>{ item.statusName || "Continued"}
+                              <button className="btn" style={{backgroundColor:item.status_color,color:"#fff",width:"100%"}}>{ item.statusName || "Continued"}
                           </button>
                            
                             
