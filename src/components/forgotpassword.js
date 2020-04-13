@@ -129,7 +129,7 @@ class ForgotPwd extends Component {
                                 className="btn btn-custom btn-block"
                                 onClick={e => this.saveDetails(e)}
                               >
-                                Save
+                                Verify
                               </button>
                             </div>
                           </form>
