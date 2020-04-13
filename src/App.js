@@ -22,6 +22,7 @@ import OnHoldTasks from './components/history/onhold';
 import  AllUsers  from './components/allusers/allusers';
 import PrivateRoute from './private'
 import Status from './components/status/status';
+import Types from './components/Types/types'
 import Projects from './components/projects/projects';
 import Users from './components/users/users';
 import AssignedTasks from './components/history/assignedTasks';
@@ -57,6 +58,7 @@ function App() {
           <Route path="/users" component={Users}></Route>
           <Route path="/assignedtasks" component={AssignedTasks} />
           <Route path="/forgotpassword" component={ForgotPwd} />
+          <Route path="/types" component={Types} />
           <Route path="/newpwd" component={NewPwd} />
           <PrivateRoute path='/allusers' component={AllUsers} />
         </Switch>

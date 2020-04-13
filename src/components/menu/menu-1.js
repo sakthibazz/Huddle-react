@@ -35,6 +35,7 @@ class Menuone extends Component{
                       <li><a className="dropdown-item" href="/projects">Projects</a></li>
                       <li><a className="dropdown-item" href="/users">Users</a></li>
                       <li><a className="dropdown-item" href="/assignedtasks">Asssign Tasks</a></li>
+                      <li><a className="dropdown-item" href="/types">Types</a></li>
                       </ul>
                   </li>
                   <li className="nav-item">
