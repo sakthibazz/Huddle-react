@@ -76,13 +76,13 @@ class ForgotPwd extends Component {
                     <div className="card account-card">
                       <div className="card-body">
                         <div className="text-center mt-3">
-                          <h3 className="font-weight-bold">
-                            <Link
-                              to="home-one"
-                              className="text-dark text-uppercase account-pages-logo"
-                            >
+                          <h3 className="font-weight-bold text-dark text-uppercase account-pages-logo">
+                            {/* <Link
+                              to="/"
+                              className=""
+                            > */}
                               Huddle Meeting
-                            </Link>
+                            {/* </Link> */}
                           </h3>
                           <h4 className="text-muted">Forgot Password.</h4>
                         </div>

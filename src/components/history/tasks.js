@@ -29,7 +29,7 @@ class Tasks extends Component {
     editedERow:false,
     contTasks:[],
 
-    display: false,
+    display: true,
 
     disabled: false,
     proj_id: "",
@@ -45,7 +45,11 @@ class Tasks extends Component {
     type_id:"",
     types:[],
     hours:"",
-    comments:""
+    comments:"",
+    hourError:"",
+    descError:"",
+    projError:"",
+    projDescError:""
   };
 
   componentDidMount() {
@@ -112,7 +116,7 @@ class Tasks extends Component {
       const {success} = res.data;
       this.setState({
         addRows:success,
-        display : true
+        display : false
       })
     });
 
@@ -132,6 +136,14 @@ class Tasks extends Component {
    
   handleHours = (e) =>{
     const {value} =e.target
+    const num = String.fromCharCode(e.which);
+
+        if(!(/[0-9]/.test(num))) {
+            e.preventDefault();
+            this.setState({
+                hourError : 'Enter only numbers'
+            })
+        }
     this.setState({
       hours:value
     })
@@ -172,21 +184,25 @@ class Tasks extends Component {
   };
 
   saveTask = () => {
-    let { addRows, proj_id, desc, projects,type_id } = this.state;
+    let { addRows, proj_id, desc, projects,type_id,display } = this.state;
     if(this.state.proj_id === ""){
-      swal( "Select Project",{
-        icon: "warning",
-        button: "OK",
-      });
+     this.setState({
+      projError:"Please select Project"
+     })
     }
-    if(this.state.desc === ""){
-      swal( "Add Description",{
-        icon: "warning",
-        button: "OK",
-      });
+    else if(this.state.desc === ""){
+      this.setState({
+        projDescError:"Please Enter Description"
+      })
     }
+    else if(this.state.desc.length<4){
+      this.setState({
+        projDescError:"Description should be minimum of 4 Characters"
+      })
+    }
+    
+   else{
     var x=new Date()
-   
     const taskDetails = [
       {
         description: desc,
@@ -204,13 +220,18 @@ class Tasks extends Component {
         }
       })
       .then(res => {
+        
         console.log("this si success save");
         console.log(res);
         const { success } = res.data;
         // addRows.push({
         //     addRows
         // })
-        addRows.push(success[0]);
+        {!this.state.display && this.state.desc.length >=4 &&
+          
+        addRows.unshift(success[0])
+        
+        }
         this.setState({
           addRows,
           saveTaskButton: false,
@@ -222,7 +243,7 @@ class Tasks extends Component {
         });
       });
   };
-
+  }
   handleDesc = (e) =>{
     const {value} = e.target
     this.setState({
@@ -259,6 +280,12 @@ class Tasks extends Component {
 
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
+    if(this.state.description === ""){
+     this.setState({
+       descError:"Please Enter Description"
+     })
+    }
+    
     const {projId, statusId, addRows,desc,hours,comments} = this.state
     const taskStatus = 
       {
@@ -296,11 +323,24 @@ class Tasks extends Component {
     })
       
     })
+
+    .catch(err =>{
+      const errors = err.response.data.error
+      this.setState({
+              hourError:errors.no_of_hours
+              
+              
+      })
+     
+      console.log(err.response.data.error) ;            
+  })
     
   }
 
   handleDelete = (e, row, idx) =>{
     console.log("deleting",e.target)
+   alert("Do you want to delete")
+   
     const {projId, statusId, addRows} = this.state
     const taskStatus = 
       {
@@ -317,6 +357,7 @@ class Tasks extends Component {
     .then(res =>{
       console.log(res);
       this.setState(prevState =>({
+       
         addRows: prevState.addRows.filter(m => m.task_id !== taskStatus.task_id),
         editedERow:false
       }))
@@ -327,7 +368,9 @@ class Tasks extends Component {
 
   handleCancel = (e) =>{
     this.setState({
-      editedERow:false
+      editedERow:false,
+      descError:"",
+      hourError:""
     })
   }
 
@@ -350,10 +393,11 @@ class Tasks extends Component {
           </TabList>
           <TabPanel>
             <div className="container">
+            
               <div className="row mt-4">
                 <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select Project: </label>
-                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
+                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control mb-0">
                       <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
                       return (
@@ -364,7 +408,9 @@ class Tasks extends Component {
                         ""
                       )
                     })}
+                    
                   </select>
+                  <span className="text-danger col-sm-12">{this.state.projError}</span>
                 </div>
                 <div className="col-sm-3 text-left">
                   
@@ -374,8 +420,11 @@ class Tasks extends Component {
                   {this.state.types.length > 0 &&
                   this.state.types.map((type,index) => {
                     return (
-                     
+                     type.is_active === 1
+                     ?
                         <option value={type.id} key={index}>{type.type_name}</option>
+                        :
+                        ""
                         
                       
                     )
@@ -390,15 +439,17 @@ class Tasks extends Component {
                 
               </div>
                 <div className="col-sm-5 text-left">
-                  <label className="font-weight-bold">Task Description:</label>
+                  <label className="font-weight-bold ">Task Description:</label>
                   <input  
                     type="text"
-                    name="desc" className="form-control" value={this.state.fdesc}
+                    name="desc" className="form-control mb-0" value={this.state.fdesc}
                     placeholder="Task Desc"
                     onChange={e => this.newTaskDesc(e)}
                     autoComplete="off"
                     spellcheck="true"
+                    min={3}
                   />
+                  <span className="text-danger col-sm-12">{this.state.projDescError}</span>
                 </div>
                 <div className="col-sm-1">
                   <button
@@ -412,15 +463,24 @@ class Tasks extends Component {
               </div>
             </div>
             <div className="container-fluid">
+            <Loader
+                 type="Circles"
+                 color="#00BFFF"
+                 height={100}
+                 width={100}
+                 // timeout={3000}
+                 visible={this.state.display}
+               />
              {
-               this.state.addRows == ""
+               this.state.addRows.length == 0 && !this.state.display
                ?
                  <h1 className="pt-5">You Still Not Have Added Any Tasks....</h1>
                    :
-             
-              
+             <div>
+                   {!this.state.display &&
             <table className="table table-bordered mt-5">
               <thead>
+                {!this.state.display &&
                 <tr>
                   <th>Date</th>
                   <th>Name</th>
@@ -432,7 +492,9 @@ class Tasks extends Component {
                   <th>Assigned By</th>
                   <th>Actions</th>
                 </tr>
+  }
               </thead>
+  
               <tbody>
               
                 {this.state.addRows.map((item, index) => {
@@ -458,8 +520,11 @@ class Tasks extends Component {
                           { 
                           this.state.editedERow === true  && this.state.selectedRow === index
                           ?
-                          <input className="form-control" type="text" value={this.state.desc} onChange={(e) => this.handleDesc(e)} />
-                          
+                         <div>
+
+<input className="form-control" type="text" value={this.state.desc} onChange={(e) => this.handleDesc(e)}  />
+                          <div className="text-danger col-sm-12">{this.state.descError}</div>
+                           </div>
                           :
                           
                             item.description
@@ -499,7 +564,12 @@ class Tasks extends Component {
                         {
                            this.state.editedERow === true && this.state.selectedRow === index
                            ?
-                         <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                         <div>
+                           <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)}  onKeyPress={e => this.handleHours(e)} />
+                        
+                                                <div className="text-danger col-sm-12">{this.state.hourError}</div>
+                                            
+                         </div>
                          :
                         item.hours  || "0 Hours"
                   
@@ -524,7 +594,7 @@ class Tasks extends Component {
                             ?
                             <div>
                             <button className="btn btn-primary" disabled={this.state.editTaskButton !== true} onClick={(e)=>this.statusSave(e, item, index)}><i className="fa fa-save" ></i></button>
-                            <button className="btn btn-danger" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
+                            <button className="btn btn-danger ml-1" onClick={(e)=>this.handleCancel(e)}><i className="fa fa-times"></i></button>
                             </div>
                             :
                             <div>
@@ -539,6 +609,8 @@ class Tasks extends Component {
                 })}
               </tbody>
             </table>
+        }
+        </div>
   }
   
             {/* <Loader

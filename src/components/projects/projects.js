@@ -15,7 +15,8 @@ class projects extends Component{
         statusValue:0,
         add: {
             description: ''
-        }
+        },
+        projNameError:""
 
     }
 
@@ -136,6 +137,15 @@ saveProjectdata = (e) =>{
         })
         
     })
+    .catch(err =>{
+        const errors = err.response.data.error
+        this.setState({
+                projNameError:errors.name
+                
+        })
+       
+        console.log(err.response.data.error) ;            
+    })
    
 }
 
@@ -202,6 +212,7 @@ handleEditSave = (e,index) =>{
                                 <tr>
                                     <td>
                                         <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAprojects(e)} />
+                                        <div className="text-danger col-sm-8">{this.state.projNameError}</div>
                                     </td>
                                     <td>
                                     <button className="btn btn-danger btn-small" disabled>InActive</button>     

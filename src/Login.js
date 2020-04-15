@@ -97,7 +97,9 @@ class Login extends React.Component {
                                 <div className="card account-card">
                                     <div className="card-body">
                                         <div className="text-center mt-3">
-                                            <h3 className="font-weight-bold"><Link to="home-one"  className="text-dark text-uppercase account-pages-logo">Huddle Meeting</Link></h3>
+                                            <h3 className="font-weight-bold text-dark text-uppercase account-pages-logo">
+                                                {/* <Link to="/"  className=""></Link> */}
+                                                Huddle Meeting</h3>
                                             <p className="text-muted">Sign in to continue to Huddle Meeting.</p>
                                         </div>
                                         <div className="py-3 px-0">

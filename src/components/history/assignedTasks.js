@@ -46,6 +46,9 @@ class AssignedTasks extends Component {
     editTaskButton : false,
     type_id:"",
     types:[],
+    usersError:"",
+    projError:"",
+    descError:""
   };
 
   componentDidMount() {
@@ -170,20 +173,31 @@ class AssignedTasks extends Component {
     });
   };
 
-  saveTask = () => {
+  saveTask = (e) => {
     let { addRows, proj_id, desc, projects,users_id,users,type_id } = this.state;
+    console.log(desc)
     if(this.state.proj_id === ""){
-      swal( "Select Project",{
-        icon: "warning",
-        button: "OK",
-      });
+      this.setState({
+        projError:"Please Select Project"
+      })
     }
-    if(this.state.desc === ""){
-      swal( "Add Description",{
-        icon: "warning",
-        button: "OK",
-      });
+   else if(this.state.desc === ""){
+      this.setStste({
+        descError:"Please Enter Description"
+      })
     }
+    else if(this.state.desc.length <=3){
+      this.setState({
+        descError:"Description should me minimum of 4 characters"
+      })
+    }
+    
+   else if(this.state.users_id === ""){
+     this.setState({
+       usersError:"Please Select User"
+     })
+    }
+    else{
     const taskDetails = [
       {
         description: desc,
@@ -217,12 +231,15 @@ class AssignedTasks extends Component {
           fdesc:'',
           users_id:"",
           proj_id:"",
-          type_id:""
+          type_id:"",
+          usersError:"",
+          descError:"",
+          projError:""
           
         });
       });
   };
-
+  }
 
   handleStatus = e => {
     const { value } = e.target
@@ -339,19 +356,20 @@ class AssignedTasks extends Component {
               <div className="row mt-4">
               <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select User: </label>
-                  <select value={this.state.users_id} onChange={e => this.handleUser(e)} className="form-control">
+                  <select value={this.state.users_id} onChange={e => this.handleUser(e)} className="form-control mb-0">
                   <option value="select">Select User</option>
                     {this.state.users.map((user,index) => {
                       return  <option value={user.id} key={index}>{user.first_name}</option>
                     })}
                   </select>
+                  <span className="text-danger col-sm-12">{this.state.usersError}</span>
                 </div>
                 <div className="col-sm-3 text-left">
                   <label className="font-weight-bold">Select Project: </label>
                   { 
                     this.state.users_id 
                     ?
-                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control">
+                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control mb-0">
                   <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
                       
@@ -365,7 +383,7 @@ class AssignedTasks extends Component {
                     })}
                   </select>
                   :
-                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control" disabled>
+                  <select value={this.state.proj_id} onChange={e => this.handleProject(e)} className="form-control mb-0" disabled>
                   <option value="select">Select Project</option>
                     {this.state.projects.map((proj,index) => {
                       return (
@@ -379,6 +397,7 @@ class AssignedTasks extends Component {
                   </select>
 
                     }
+                    <span className="text-danger col-sm-12">{this.state.projError}</span>
                 </div>
                 <div className="col-sm-2 text-left">
                   
@@ -407,17 +426,18 @@ class AssignedTasks extends Component {
                   <label className="font-weight-bold">Task Description:</label>
                   <input  
                     type="text"
-                    name="desc" className="form-control" value={this.state.fdesc}
+                    name="desc" className="form-control mb-0" value={this.state.fdesc}
                     placeholder="Task Desc"
                     onChange={e => this.newTaskDesc(e)}
                     autoComplete="off"
                   />
+                  <span className="text-danger col-sm-12">{this.state.descError}</span>
                 </div>
                 <div className="col-sm-1">
                   <button
                     className="btn btn-primary btn-sm btn-add"
                     disabled={this.state.saveTaskButton !== true}
-                    onClick={e => this.saveTask(e)}
+                    onClick={(e) => this.saveTask(e)}
                   >
                     Add
                   </button>

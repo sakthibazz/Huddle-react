@@ -5,7 +5,10 @@ import Loader from 'react-loader-spinner';
 import Menuone from "../menu/menu-1";
 import "react-widgets/dist/css/react-widgets.css";
 import DropdownList from "react-widgets/lib/DropdownList";
-
+// import DatePicker from "react-datepicker";
+// import DatePicker from 'react-date-picker'
+//  import "react-datepicker/dist/react-datepicker.css"
+// import "react-datepicker/dist/react-datepicker.css";
 class AllUsers extends Component{
     state={
         user_id:"",
@@ -51,7 +54,7 @@ class AllUsers extends Component{
    
 
     onSelectedUser = (user) => {
-
+      const {status} = this.state
         const userdetails ={
             user_id: user.id
           }
@@ -62,6 +65,7 @@ class AllUsers extends Component{
             this.setState({
                 tasks:success,
                 display:false
+                
             })
 
         })
@@ -85,6 +89,7 @@ class AllUsers extends Component{
             this.setState({
                 tasks:success,
                 display:false
+                
             })
 
         })
@@ -92,8 +97,51 @@ class AllUsers extends Component{
        
       };
 
+      handleSearch = (e) => {
+        let {tasks} = this.state
+        // oData= this.state.users
+        let {value} = e.target;
+        if(value !== ""){
+            
+         let newData = this.state.tasks.filter(item=>{
+           return item.project_name.toLowerCase().indexOf(value.toLowerCase()) !== -1 || 
+           item.description.toLowerCase().indexOf(value.toLowerCase()) !== -1 || 
+           item.status_name.toLowerCase().indexOf(value.toLowerCase()) !== -1 
+            })
+            this.setState({
+                tasks:newData
+            })
+        }
+        else{
+            axios.get(`${API_URL}/api/displyAllData`,{
+                headers: {
+                  Authorization: "Bearer " + localStorage.getItem("token")
+                }
+              })
+            .then(res=>{
+                  console.log(res)
+                  const {success} = res.data
+                  
+                  this.setState({
+                      tasks:success
+                  })
+            })
+            
+        }
+
+    }
+
+    
+
+    onChange = date => this.setState({ date })
+
+    handleChange = selectedOption => {
+        this.setState({ selectedOption });
+        console.log(`Option selected:`, selectedOption);
+      };
 
     render(){
+      const { selectedOption } = this.state;
         let widget = (
             <DropdownList filter
             onSelect={this.onSelectedUser}
@@ -110,7 +158,7 @@ class AllUsers extends Component{
               data={this.state.status}
               valueField="id"
               textField="name"
-              defaultValue={"select Ststus"}
+              defaultValue={"select Status"}
             />
           );
         return(
@@ -121,10 +169,23 @@ class AllUsers extends Component{
                 <Menuone />
                 <h1 className="mt-5 pt-5">Users Tasks</h1>
                 <div className="container ">
-                        <div>
-                            
-                    </div>
+                {/* <div className="col-sm-12">
+                      <input  class="form-control mt-5" type="search" placeholder="Search: Users/Email" onChange={(e)=>this.handleSearch(e)} /> 
+                      </div> */}
                     <div className="row " >
+                      {/* <div className="col-sm-4">
+                      <label className="pr-5">Select Date:</label>
+                      <DatePicker 
+                        selected={this.state.date}
+                            onChange={this.onChange}
+                            value={this.state.date}
+                            calendarAriaLabel={false}
+                            calendarIcon={false}
+                            minDate={new Date()}
+                            maxDate={new Date()}
+                            disableCalendar={false}
+                        /> 
+                        </div> */}
                         <div className="col-sm-6">
                             <label className="pr-5">Select User:</label>
                             
@@ -174,6 +235,8 @@ class AllUsers extends Component{
                                             <th>Project Name</th>
                                             <th>Description</th>
                                             <th>Status</th>
+                                            <th>No of Hours</th>
+                                            <th>Comments</th>
                                             <th>Task Updated</th>
                                         </tr>
                                 }
@@ -186,7 +249,9 @@ class AllUsers extends Component{
                                                 <td width="140">{item.created_at.slice(0,10)}</td>
                                                 <td width="140">{item.project_name}</td>
                                                 <td>{item.description}</td>
-                                                <td>{item.status_name}</td>
+                                                <td><button className="btn" style={{backgroundColor:item.status_color,color:"#fff",width:"100%"}}>{item.status_name}</button></td>
+                                                <td>{item.no_of_hours}</td>
+                                                <td>{item.comments}</td>
                                                 <td width="140">{item.updated_at.slice(0,10)}</td>
                                             </tr>
                                         )

@@ -34,16 +34,22 @@ class Menuone extends Component{
                       <li><a className="dropdown-item" href="/status">Status</a></li>
                       <li><a className="dropdown-item" href="/projects">Projects</a></li>
                       <li><a className="dropdown-item" href="/users">Users</a></li>
-                      <li><a className="dropdown-item" href="/assignedtasks">Asssign Tasks</a></li>
+                      <li><a className="dropdown-item" href="/assignedtasks">Assign Tasks</a></li>
                       <li><a className="dropdown-item" href="/types">Types</a></li>
                       </ul>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/allusers" >All Users </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
+
+                  <li className="dropdown pt-2">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="/">{username}</a>
+                    <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="/login" onClick={(e) => this.handleLogout(e)}>LogOut</a></li>
+                   
+                      </ul>
                   </li>
+                 
 
                    {/* <li className="nav-item">
                      <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
@@ -59,7 +65,7 @@ class Menuone extends Component{
         <li className="nav-item">
         <Link className="nav-link" to="">My Team</Link>
         </li>
-        <li className="nav-item">
+        <li className="nav-item float-right">
         <Link className="nav-link" to="">{username}</Link>
         </li>
         <li className="nav-item">
@@ -74,11 +80,19 @@ class Menuone extends Component{
                 parseInt(groupId) === 3
                 ?
                 <ul className="nav">
-                  <li className="nav-item">
+                  {/* <li className="nav-item">
                   <Link className="nav-link" to="">{username}</Link>
                   </li>
                   <li className="nav-item">
                     <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
+                  </li> */}
+
+<li className="dropdown pt-2">
+                    <a className="dropdown-toggle" data-toggle="dropdown" href="/">{username}</a>
+                    <ul className="dropdown-menu">
+                    <li><a className="dropdown-item" href="/login" onClick={(e) => this.handleLogout(e)}>LogOut</a></li>
+                   
+                      </ul>
                   </li>
                   
                 </ul>

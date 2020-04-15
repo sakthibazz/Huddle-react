@@ -3,6 +3,7 @@ import axios from 'axios'
 import { API_URL } from "../../utils/const";
 import Select from 'react-select';
 import Menuone from "../menu/menu-1";
+import Loader from 'react-loader-spinner';
 
 
 
@@ -17,7 +18,8 @@ class Users extends Component{
         projDept:[],
         statusValue:0,
         selectedOption: null,
-        oData:[]
+        oData:[],
+        display:true
 
     }
 
@@ -39,8 +41,8 @@ class Users extends Component{
                 //     return val;
                 // })
                 this.setState({
-                    users:success
-                    // users:users
+                    users:success,
+                    display:false
                 })
           })
 
@@ -222,13 +224,21 @@ class Users extends Component{
                       <input  class="form-control mt-5" type="search" placeholder="Search: Users/Email" onChange={(e)=>this.handleSearch(e)} /> 
                       </div>
                       </div>
+                      <Loader
+                 type="Circles"
+                 color="#00BFFF"
+                 height={100}
+                 width={100}
+                 // timeout={3000}
+                 visible={this.state.display}
+               />
                     { 
-                     this.state.users.length == 0
+                     this.state.users.length == 0 && !this.state.display
                      ?
-                     "No data available"
+                     <h1>No Data Available</h1>
                      :
                      <div>
-                    {/* <button className="btn btn-primary mt-4">Add Users</button> */}
+                    {!this.state.display &&
                    <table className="table table-bordered  pt-4">
                        <thead>
                            <tr>
@@ -265,7 +275,6 @@ class Users extends Component{
                                                     <Select
                                                     value={selectedOption}
                                                     isOptionDisabled={this.isOptionDisabled}
-                                                    // hideSelectedOptions={true}
                                                     filterOption={this.filterOption}
                                                     onChange={this.handleChange}
                                                     options={this.state.projDept}
@@ -328,6 +337,7 @@ class Users extends Component{
                        </tbody>
 
                    </table>
+    }
                    </div>
 
     }
