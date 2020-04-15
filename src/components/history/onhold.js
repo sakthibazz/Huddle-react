@@ -23,7 +23,11 @@ class OnHoldTasks extends Component{
       {
         user_id: localStorage.getItem("userid")
       }
-        axios.post(`${API_URL}/api/onHold` , Details)
+        axios.post(`${API_URL}/api/onHold` , Details,{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        })
         .then(res=>{
             console.log(res);
             const {success} = res.data
@@ -59,7 +63,7 @@ class OnHoldTasks extends Component{
 
     statusSave = (e, row, idx) =>{
       console.log("savestatus")
-      const {projId, statusId, addRows,onhold,hours,comments} = this.state
+      const {projId, statusId, addRows,hours,comments} = this.state
       const taskStatus = 
         {
           status_id:statusId,

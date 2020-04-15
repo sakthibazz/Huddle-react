@@ -19,7 +19,11 @@ class CompletedTasks extends Component{
       {
         user_id: localStorage.getItem("userid")
       }
-        axios.post(`${API_URL}/api/completedTasks` , Details )
+        axios.post(`${API_URL}/api/completedTasks` , Details,{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        } )
         .then(res=>{
             console.log(res);
             const {success} = res.data
