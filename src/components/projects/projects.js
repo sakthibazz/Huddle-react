@@ -211,8 +211,8 @@ handleEditSave = (e,index) =>{
                                 this.state.addprojects && 
                                 <tr>
                                     <td>
-                                        <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAprojects(e)} />
-                                        <div className="text-danger col-sm-8">{this.state.projNameError}</div>
+                                        <input type="text"  className="form-control mb-0" value={this.state.add.description} onChange={(e) => this.handleAprojects(e)} />
+                                        <span className="text-danger col-sm-8">{this.state.projNameError}</span>
                                     </td>
                                     <td>
                                     <button className="btn btn-danger btn-small" disabled>InActive</button>     
