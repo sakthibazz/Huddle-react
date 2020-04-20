@@ -141,13 +141,32 @@ class AllUsers extends Component{
       };
 
     render(){
-      const { selectedOption } = this.state;
+      const { selectedOption,allusers,status } = this.state;
+      const userlist=allusers.map(item=>{
+        return(
+          item.is_active === 1
+          ?
+          item.first_name
+          :
+          ""
+        )
+      })
+
+      const stslist=status.map(item=>{
+        return(
+          item.is_active === 1
+          ?
+          item
+          :
+          ""
+        )
+      })
         let widget = (
             <DropdownList filter
             onSelect={this.onSelectedUser}
-              data={this.state.allusers}
+              data={userlist}
               valueField="id"
-              textField="first_name"
+              textField="first_name "
               defaultValue={"Select User"}
             />
           );
@@ -155,7 +174,7 @@ class AllUsers extends Component{
           let widget1 = (
             <DropdownList filter
             onSelect={this.onSelectedStatus}
-              data={this.state.status}
+              data={stslist}
               valueField="id"
               textField="name"
               defaultValue={"select Status"}

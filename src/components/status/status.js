@@ -16,7 +16,9 @@ class Status extends Component{
         add: {
             description: '',
             color:''
-        }
+        },
+        stsError:"",
+        stsErrors:""
 
     }
 
@@ -58,14 +60,18 @@ class Status extends Component{
 
 
   handleEditStatus = (e,index,item) =>{
+      console.log(item)
     let {sname,status, statusValue} = this.state
+    let {color} = this.state.add
     sname=item.name
     statusValue = item.is_active
+    color=item.color
     this.setState({
         editedERow:true,
         selectedRow:index,
         sname,
-        statusValue
+        statusValue,
+        color
     })
   
 }
@@ -83,11 +89,12 @@ handleAsts = (e) =>{
     const {add} = this.state
     add.description = value
     this.setState({
-        add
+        add,
+        stsErrors:""
     })
 } 
 
-handleColor = (e) =>{
+handleColor = (e,) =>{
     const {value} =e.target
     const {add} =this.state
     add.color=value
@@ -113,14 +120,18 @@ savedata = (e,index,item) =>{
          return val.name.toLowerCase() == this.state.add.description.toLowerCase();
          
      })
-     if (x){
-        swal( "Status Already Exists",{
-            icon: "warning",
-            button: "OK",
-          });
-         return
+     if(this.state.add.description === ""){
+        this.setState({
+            stsError:"Please Enter Status Name"
+        })
      }
 
+     if (x){
+        this.setState({
+            stsErrors:"Status Already Exists"
+        })
+     }
+     
      
      
     axios.post(`${API_URL}/api/newstatus`, {name: add.description,
@@ -198,6 +209,7 @@ handleEditSave = (e,index) =>{
                     <Menuone />
                     <div className="container pt-5">
                     <button className="mt-4 btn btn-primary" onClick = {(e) => this.handleAddStatus(e)}>Add status</button>
+                        <h6 className="text-danger mt-3">{this.state.stsErrors}</h6>
                         <table className="mt-2 table table-bordered">
                             <thead>
                                 <tr>
@@ -212,7 +224,10 @@ handleEditSave = (e,index) =>{
                                 this.state.addstatus && 
                                 <tr>
                                     <td>
-                                        <input type="text"  className="form-control" value={this.state.add.description} onChange={(e) => this.handleAsts(e)} />
+                                       <div>
+                                       <input type="text"  className="form-control mb-0" value={this.state.add.description} onChange={(e) => this.handleAsts(e)} />
+                                       <span className="text-danger">{this.state.stsError}</span>
+                                       </div>
                                     </td>
                                     <td>
                                         <input type="color" className="form-control" value={this.state.add.color} onChange={(e)=>this.handleColor(e)}  />

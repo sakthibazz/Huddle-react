@@ -55,10 +55,22 @@ class Users extends Component{
             console.log(res);
             const {success} = res.data;
             const projectName = success.map((item,index)=>{
-                return {
+                return (
+                    item.is_active === 1
+                    ?
+                    
+                    {
+                       
                     value:item.id,
                     label:item.name
                 }
+                :
+                {
+                    value:"",
+                    label:null
+                }
+                
+                )
             })
             this.setState({
               projDept:projectName
