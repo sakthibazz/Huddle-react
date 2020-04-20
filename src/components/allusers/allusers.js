@@ -187,11 +187,11 @@ class AllUsers extends Component{
                 <div>
                 <Menuone />
                 <h1 className="mt-5 pt-5">Users Tasks</h1>
-                <div className="container ">
+                <div className="container" style={{minHeight:"500px"}} >
                 {/* <div className="col-sm-12">
                       <input  class="form-control mt-5" type="search" placeholder="Search: Users/Email" onChange={(e)=>this.handleSearch(e)} /> 
                       </div> */}
-                    <div className="row " >
+                    <div className="row ">
                       {/* <div className="col-sm-4">
                       <label className="pr-5">Select Date:</label>
                       <DatePicker 
@@ -244,7 +244,7 @@ class AllUsers extends Component{
                      {
                        this.state.tasks.length == 0
                        ?
-                       <h1 className="text-center p-5">No Data Available,Please Select User to view tasks</h1>
+                       <h1 className="text-center mt-5">No Data Available,Please Select User to view tasks</h1>
                        :
                         <table className="table table-bordered mt-5 text-left">
                             <thead>{

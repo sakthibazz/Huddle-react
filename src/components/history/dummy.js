@@ -65,6 +65,7 @@ class CompletedTasks extends Component{
                     <th>Task Created</th>
                     <th>Name</th>
                     <th>Description</th>
+                    <th>No of Hours</th>
                     <th>Comments</th>
                     <th>Status</th>
                     <th>Task Completed</th>
