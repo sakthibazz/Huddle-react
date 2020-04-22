@@ -26,7 +26,8 @@ class ContinuedTasks extends Component{
     statusId: '',
     editTaskButton : false,
     hours:"",
-    comments:""
+    comments:"",
+    hourError:""
     }
 
     componentDidMount(){
@@ -69,6 +70,7 @@ class ContinuedTasks extends Component{
         const Details = 
         {
           user_id: localStorage.getItem("userid")
+          
         }
         axios.post(`${API_URL}/api/continuedTasks` , Details ,{
             headers: {
@@ -87,6 +89,14 @@ class ContinuedTasks extends Component{
 
     handleHours = (e) =>{
       const {value} =e.target
+      const num = String.fromCharCode(e.which);
+
+        if(!(/[0-9]/.test(num))) {
+            e.preventDefault();
+            this.setState({
+                hourError : 'Enter only numbers'
+            })
+        }
       this.setState({
         hours:value
       })
@@ -256,7 +266,10 @@ class ContinuedTasks extends Component{
                       {
                         this.state.editedERow === true && this.state.selectedRow === index
                         ?
-                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                        <div>
+                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} onKeyPress={e => this.handleHours(e)} />
+                        <div className="text-danger col-sm-12">{this.state.hourError}</div>
+                        </div>
                         :
                         item.hours || item.no_of_hours
                       }

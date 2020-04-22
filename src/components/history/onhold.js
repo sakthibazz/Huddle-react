@@ -15,7 +15,8 @@ class OnHoldTasks extends Component{
         onhold:[],
       display : true,
       hours:"",
-      comments:""
+      comments:"",
+      hourError:""
     }
 
     componentDidMount(){
@@ -49,6 +50,14 @@ class OnHoldTasks extends Component{
 
     handleHours = (e) =>{
       const {value} =e.target
+      const num = String.fromCharCode(e.which);
+
+        if(!(/[0-9]/.test(num))) {
+            e.preventDefault();
+            this.setState({
+                hourError : 'Enter only numbers'
+            })
+        }
       this.setState({
         hours:value
       })
@@ -186,7 +195,10 @@ class OnHoldTasks extends Component{
                       {
                         this.state.editedERow === true && this.state.selectedRow === index
                         ?
-                        <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} />
+                        <div>
+                          <input type="text" value={this.state.hours} onChange={(e)=>this.handleHours(e)} onKeyPress={e => this.handleHours(e)} />
+                        <div className="text-danger col-sm-12">{this.state.hourError}</div>
+                        </div>
                         :
                          item.hours || item.no_of_hours
                       }
