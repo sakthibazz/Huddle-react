@@ -129,7 +129,8 @@ class Tasks extends Component {
     this.setState({
       desc: value,
       fdesc:value,
-      saveTaskButton : true
+      saveTaskButton : true,
+      projDescError:""
     });
     console.log(desc);
   };
@@ -145,7 +146,8 @@ class Tasks extends Component {
             })
         }
     this.setState({
-      hours:value
+      hours:value,
+      hourError:""
     })
   }
 
@@ -160,7 +162,8 @@ class Tasks extends Component {
     const { value } = e.target;
     const { proj_id } = this.state;
     this.setState({
-      proj_id: value
+      proj_id: value,
+      projError:""
     });
     console.log(this.state.proj_id);
   };
@@ -247,7 +250,8 @@ class Tasks extends Component {
   handleDesc = (e) =>{
     const {value} = e.target
     this.setState({
-      desc:value
+      desc:value,
+      projDescError:""
     })
   }
 
@@ -280,7 +284,7 @@ class Tasks extends Component {
 
   statusSave = (e, row, idx) =>{
     console.log("savestatus")
-    if(this.state.description === ""){
+    if(this.state.desc === ""){
      this.setState({
        descError:"Please Enter Description"
      })
@@ -327,7 +331,7 @@ class Tasks extends Component {
     .catch(err =>{
       const errors = err.response.data.error
       this.setState({
-              hourError:errors.no_of_hours
+              hourError:errors.no_of_hours || this.state.hourError
               
               
       })
@@ -369,8 +373,7 @@ class Tasks extends Component {
   handleCancel = (e) =>{
     this.setState({
       editedERow:false,
-      descError:"",
-      hourError:""
+      descError:""
     })
   }
 
@@ -446,7 +449,7 @@ class Tasks extends Component {
                     placeholder="Task Desc"
                     onChange={e => this.newTaskDesc(e)}
                     autoComplete="off"
-                    spellcheck="true"
+                    spellCheck="true"
                     min={3}
                   />
                   <span className="text-danger col-sm-12">{this.state.projDescError}</span>

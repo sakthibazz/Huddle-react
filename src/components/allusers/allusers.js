@@ -55,6 +55,7 @@ class AllUsers extends Component{
 
     onSelectedUser = (user) => {
       const {status} = this.state
+      console.log(user)
         const userdetails ={
             user_id: user.id
           }
@@ -77,11 +78,12 @@ class AllUsers extends Component{
         });
       };
 
-      onSelectedStatus = (status) => {
+      onSelectedStatus = (sts) => {
         const {userId} = this.state
+        console.log(sts)
         const details ={
             user_id: userId,
-            status_id:status.id
+            status_id:sts.id
           }
         axios.post(`${API_URL}/api/displyAllDataBasedStatus`, details)
         .then(res=>{
@@ -142,17 +144,7 @@ class AllUsers extends Component{
 
     render(){
       const { selectedOption,allusers,status } = this.state;
-      const userlist=allusers.map(item=>{
-        return(
-          item.is_active === 1
-          ?
-          item.first_name
-          :
-          ""
-        )
-      })
-
-      const stslist=status.map(item=>{
+      const userlist=allusers.map((item,idx)=>{
         return(
           item.is_active === 1
           ?
@@ -161,12 +153,22 @@ class AllUsers extends Component{
           ""
         )
       })
+
+      const stslist=status.map(item=>{
+        return(
+          item.is_active === 1.
+          ?
+          item
+          :
+          ""
+        )
+      })
         let widget = (
-            <DropdownList filter
+            <DropdownList  filter
             onSelect={this.onSelectedUser}
               data={userlist}
               valueField="id"
-              textField="first_name "
+              textField="first_name"
               defaultValue={"Select User"}
             />
           );
@@ -177,7 +179,7 @@ class AllUsers extends Component{
               data={stslist}
               valueField="id"
               textField="name"
-              defaultValue={"select Status"}
+              defaultValue={"Select Status"}
             />
           );
         return(
