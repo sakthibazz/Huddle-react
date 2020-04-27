@@ -28,6 +28,7 @@ import Users from './components/users/users';
 import AssignedTasks from './components/history/assignedTasks';
 import ForgotPwd from "./components/forgotpassword";
 import NewPwd from "./components/newpwd";
+import DetailedView from "./components/dashboard/detailview";
 // import { Table } from '@material-ui/core';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -60,6 +61,7 @@ function App() {
           <Route path="/forgotpassword" component={ForgotPwd} />
           <Route path="/types" component={Types} />
           <Route path="/newpwd" component={NewPwd} />
+          <Route path="/detail" component={DetailedView} />
           <PrivateRoute path='/allusers' component={AllUsers} />
         </Switch>
 
