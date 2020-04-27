@@ -6,12 +6,11 @@ import './menu.css'
 class Menuone extends Component{
 
   handleLogout = (e) =>{
+    e.preventDefault()
     localStorage.clear();
     this.props.history.push('/login')
   }
   
-    
-
     render(){
       const username = localStorage.getItem('username')
       const groupId = localStorage.getItem('groupid')
@@ -28,7 +27,7 @@ class Menuone extends Component{
                 parseInt(groupId) === 1
                 ?
                 <ul className="nav">
-                  <li className="dropdown pt-2">
+                  {/* <li className="dropdown pt-2 show">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="/">MasterData</a>
                     <ul className="dropdown-menu">
                       <li><a className="dropdown-item" href="/status">Status</a></li>
@@ -37,12 +36,34 @@ class Menuone extends Component{
                       <li><a className="dropdown-item" href="/assignedtasks">Assign Tasks</a></li>
                       <li><a className="dropdown-item" href="/types">Types</a></li>
                       </ul>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link" to="/allusers" >All Users </Link>
-                  </li>
+                  </li> */}
+                  <li> <Link className="nav-link" to="/dashboard" >Dashboard </Link></li>
+                  <li className="dropdown mt-2 "><Link to='' className='dropdown-toggle' data-toggle="dropdown">MasterData</Link>
+                                    <ul className="dropdown-menu">
+                                        <li><Link to='/status' className="dropdown-item" >Status </Link></li>
+                                        <li ><Link to='/projects' className="dropdown-item" >Projects</Link></li>
+                                        <li><Link to='/users' className="dropdown-item" >Users</Link></li>
+                                        <li><Link to='/assignedtasks' className="dropdown-item" >Assign Tasks</Link></li>
+                                        <li><Link to='/types' className="dropdown-item" > Types</Link></li>
 
-                  <li className="dropdown pt-2">
+                                    </ul>
+
+
+                                </li>
+                                <li className="dropdown mt-2 ml-3"><Link to='' className='dropdown-toggle' data-toggle="dropdown">All Users</Link>
+                                    <ul className="dropdown-menu">
+                                        <li><Link to='/dashboard' className="dropdown-item" >Detailed View </Link></li>
+                                        
+
+                                    </ul>
+
+
+                                </li>
+                  {/* <li className="nav-item">
+                    <Link className="nav-link" to="/allusers" >All Users </Link>
+                  </li> */}
+
+                  <li className="dropdown pt-2 ml-3">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="/">{username}</a>
                     <ul className="dropdown-menu">
                     <li><a className="dropdown-item" href="/login" onClick={(e) => this.handleLogout(e)}>LogOut</a></li>
@@ -87,7 +108,7 @@ class Menuone extends Component{
                     <Link className="nav-link" to="/login" onClick={(e) => this.handleLogout(e)}>Logout </Link>
                   </li> */}
 
-<li className="dropdown pt-2">
+<li className="dropdown pt-2 show">
                     <a className="dropdown-toggle" data-toggle="dropdown" href="/">{username}</a>
                     <ul className="dropdown-menu">
                     <li><a className="dropdown-item" href="/login" onClick={(e) => this.handleLogout(e)}>LogOut</a></li>
