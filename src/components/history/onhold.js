@@ -38,7 +38,11 @@ class OnHoldTasks extends Component{
             })
         })
 
-        axios.get(`${API_URL}/api/onHoldStatus`)
+        axios.get(`${API_URL}/api/onHoldStatus`),{
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("token")
+          }
+        }
         .then(res=>{
           console.log(res);
           const {success} = res.data;
@@ -83,7 +87,11 @@ class OnHoldTasks extends Component{
         }
     
       axios
-      .post(`${API_URL}/api/statusUpdate` , taskStatus )
+      .post(`${API_URL}/api/statusUpdate` , taskStatus,{
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      } )
       .then(res =>{
         console.log(res);
         const {onhold} = this.state;

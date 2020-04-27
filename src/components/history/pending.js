@@ -54,7 +54,11 @@ class PendingTasks extends Component{
         console.log(err);
       });
 
-      axios.get(`${API_URL}/api/status`)
+      axios.get(`${API_URL}/api/status`,{
+      headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        }
+      })
       .then(res=>{
         console.log(res);
         const {success} = res.data;
@@ -68,7 +72,11 @@ class PendingTasks extends Component{
         {
           user_id: localStorage.getItem("userid")
         }
-        axios.post(`${API_URL}/api/pendingTasks` , Details )
+        axios.post(`${API_URL}/api/pendingTasks` , Details,{
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token")
+        } 
+      })
         .then(res=>{
             console.log(res);
             const {success} = res.data
@@ -108,7 +116,11 @@ class PendingTasks extends Component{
       }
   
     axios
-    .post(`${API_URL}/api/statusUpdate` , taskStatus )
+    .post(`${API_URL}/api/statusUpdate` , taskStatus.{
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token")
+      }
+    } )
     .then(res =>{
       console.log(res);
       const {pendTasks} = this.state;
