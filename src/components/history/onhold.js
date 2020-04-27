@@ -38,11 +38,11 @@ class OnHoldTasks extends Component{
             })
         })
 
-        axios.get(`${API_URL}/api/onHoldStatus`),{
+        axios.get(`${API_URL}/api/onHoldStatus`,{
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token")
           }
-        }
+        })
         .then(res=>{
           console.log(res);
           const {success} = res.data;

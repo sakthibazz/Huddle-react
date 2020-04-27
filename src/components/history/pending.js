@@ -116,7 +116,7 @@ class PendingTasks extends Component{
       }
   
     axios
-    .post(`${API_URL}/api/statusUpdate` , taskStatus.{
+    .post(`${API_URL}/api/statusUpdate` , taskStatus,{
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token")
       }
