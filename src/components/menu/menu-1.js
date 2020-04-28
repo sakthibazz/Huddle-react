@@ -37,7 +37,7 @@ class Menuone extends Component{
                       <li><a className="dropdown-item" href="/types">Types</a></li>
                       </ul>
                   </li> */}
-                  <li> <Link className="nav-link" to="/dashboard" >Dashboard </Link></li>
+                  {/* <li> <Link className="nav-link" to="/dashboard" >Dashboard </Link></li> */}
                   <li className="dropdown mt-2 "><Link to='' className='dropdown-toggle' data-toggle="dropdown">MasterData</Link>
                                     <ul className="dropdown-menu">
                                         <li><Link to='/status' className="dropdown-item" >Status </Link></li>
@@ -50,8 +50,9 @@ class Menuone extends Component{
 
 
                                 </li>
-                                <li className="dropdown mt-2 ml-3"><Link to='' className='dropdown-toggle' data-toggle="dropdown">All Users</Link>
+                                <li className="dropdown mt-2 ml-3"><Link to='' className='dropdown-toggle' data-toggle="dropdown">Reports</Link>
                                     <ul className="dropdown-menu">
+                                    <li><Link to='/allusers' className="dropdown-item" >All Users </Link></li>
                                         <li><Link to='/dashboard' className="dropdown-item" >Detailed View </Link></li>
                                         
 
