@@ -11,7 +11,7 @@ services:
       - '.:/app'
       - '/app/node_modules'
     ports:
-      - '3001:3000'
+      - '3002:3000'
     environment:
       - NODE_ENV=production
       - REACT_APP_API_URL=http://api.huddle.aroha.co.in
